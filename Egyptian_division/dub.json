@@ -1,0 +1,10 @@
+{
+    "name": "egyptian_division",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Egyptian division problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT",
+    "targetType":"executable"
+}
