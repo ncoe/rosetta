@@ -1,3 +1,4 @@
+//https://rosettacode.org/wiki/Egyptian_division
 import std.stdio;
 
 version(unittest) {
