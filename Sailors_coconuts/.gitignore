@@ -1,0 +1,14 @@
+.dub
+docs.json
+__dummy.html
+docs/
+sailors_coconuts.so
+sailors_coconuts.dylib
+sailors_coconuts.dll
+sailors_coconuts.a
+sailors_coconuts.lib
+sailors_coconuts-test-*
+*.exe
+*.o
+*.obj
+*.lst
