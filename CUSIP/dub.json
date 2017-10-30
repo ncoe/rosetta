@@ -1,0 +1,12 @@
+{
+	"name": "cusip",
+	"authors": [
+		"Nathan R Coe"
+	],
+	"dependencies": {
+		"tested": "~>0.9.4"
+	},
+	"description": "CUSIP problem as posted on Rosetta Code",
+	"copyright": "Copyright © 2017, Nathan R Coe",
+	"license": "MIT"
+}
