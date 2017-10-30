@@ -1,0 +1,14 @@
+.dub
+docs.json
+__dummy.html
+docs/
+general_fizbuzz.so
+general_fizbuzz.dylib
+general_fizbuzz.dll
+general_fizbuzz.a
+general_fizbuzz.lib
+general_fizbuzz-test-*
+*.exe
+*.o
+*.obj
+*.lst
