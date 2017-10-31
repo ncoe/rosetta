@@ -1,0 +1,14 @@
+.dub
+docs.json
+__dummy.html
+docs/
+i_before_e_except_after_c.so
+i_before_e_except_after_c.dylib
+i_before_e_except_after_c.dll
+i_before_e_except_after_c.a
+i_before_e_except_after_c.lib
+i_before_e_except_after_c-test-*
+*.exe
+*.o
+*.obj
+*.lst
