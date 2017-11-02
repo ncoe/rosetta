@@ -1,0 +1,14 @@
+.dub
+docs.json
+__dummy.html
+docs/
+shoelace_formula.so
+shoelace_formula.dylib
+shoelace_formula.dll
+shoelace_formula.a
+shoelace_formula.lib
+shoelace_formula-test-*
+*.exe
+*.o
+*.obj
+*.lst
