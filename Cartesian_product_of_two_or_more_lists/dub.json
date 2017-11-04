@@ -1,0 +1,9 @@
+{
+    "name": "cartesian_product_of_two_or_more_lists",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Cartesian product of lists problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
