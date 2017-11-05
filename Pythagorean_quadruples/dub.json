@@ -1,0 +1,12 @@
+{
+    "name": "pythagorean_quadruples",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "dependencies": {
+        "tested": "~>0.9.4"
+    },
+    "description": "Pythagorean quadruples problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
