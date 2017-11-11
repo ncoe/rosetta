@@ -1,0 +1,9 @@
+{
+    "name": "water_collected_between_towers",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Water between towers problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
