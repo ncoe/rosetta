@@ -1,0 +1,9 @@
+{
+    "name": "sum_to_100",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Sum to 100 problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
