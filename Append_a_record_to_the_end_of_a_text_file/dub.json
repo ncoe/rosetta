@@ -1,0 +1,9 @@
+{
+    "name": "append_a_record_to_the_end_of_a_text_file",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Append a record to the end of a text file as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}

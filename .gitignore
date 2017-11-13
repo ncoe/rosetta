@@ -23,5 +23,3 @@ dub.selections.json
 
 # Code coverage
 *.lst
-
-Word_search/unixdict.txt
