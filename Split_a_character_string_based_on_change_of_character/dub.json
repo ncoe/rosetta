@@ -1,0 +1,9 @@
+{
+    "name": "split_a_character_string_based_on_change_of_character",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Split a string based on change of character problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
