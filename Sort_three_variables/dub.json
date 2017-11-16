@@ -1,0 +1,9 @@
+{
+    "name": "sort_three_variables",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Sort three variables problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
