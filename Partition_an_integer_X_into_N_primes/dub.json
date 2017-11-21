@@ -1,0 +1,9 @@
+{
+    "name": "partition_an_integer_x_into_n_primes",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Partition an integer X into N primes problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
