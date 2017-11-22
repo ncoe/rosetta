@@ -1,0 +1,9 @@
+{
+    "name": "parallel_brute_force",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Parallel brute force problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
