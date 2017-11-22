@@ -1,5 +1,6 @@
 //https://rosettacode.org/wiki/Parallel_Brute_Force
 import std.digest.sha;
+import std.parallelism;
 import std.range;
 import std.stdio;
 
@@ -9,9 +10,14 @@ immutable p2 = cast(ubyte[32]) x"3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c183
 immutable p3 = cast(ubyte[32]) x"74e1bb62f8dabb8125a58852b63bdf6eaef667cb56ac7f7cdba6d7305c50a22f";
 
 void main() {
-    char[5] psw;
-    foreach(char a; 'a'..'z'+1) {
-        psw[0] = a;
+    import std.datetime.stopwatch;
+
+    auto sw = StopWatch(AutoStart.yes);
+    // Switch these top loops to toggle between non-parallel and parrallel solutions.
+    // foreach(char a; 'a'..'z'+1) {
+    foreach(i, a; taskPool.parallel(iota('a', 'z'+1))) {
+        char[5] psw;
+        psw[0] = cast(char) a;
         foreach(char b; 'a'..'z'+1) {
             psw[1] = b;
             foreach(char c; 'a'..'z'+1) {
@@ -29,6 +35,8 @@ void main() {
             }
         }
     }
+    sw.stop;
+    writeln(sw.peek);
 }
 
 //Specialization that supports static arrays too
