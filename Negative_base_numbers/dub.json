@@ -1,0 +1,9 @@
+{
+    "name": "negative_base_numbers",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Negative base numbers problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
