@@ -1,0 +1,9 @@
+{
+    "name": "lucky_and_even_lucky_numbers",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Lucky and even lucky problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
