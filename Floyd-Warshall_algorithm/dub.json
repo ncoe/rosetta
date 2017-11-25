@@ -1,0 +1,9 @@
+{
+    "name": "floyd-warshall_algorithm",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Floyd-Warshall algorithm as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
