@@ -1,0 +1,10 @@
+{
+    "name": "narcissist",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Narcissist problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT",
+    "postBuildCommands":["copy source/app.d /b narcissist.d /b"]
+}
