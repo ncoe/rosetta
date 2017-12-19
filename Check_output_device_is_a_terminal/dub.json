@@ -1,0 +1,9 @@
+{
+    "name": "check_output_device_is_a_terminal",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Check output device is a terminal problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
