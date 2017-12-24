@@ -1,0 +1,9 @@
+{
+    "name": "snake_and_ladder",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Snake and ladder game as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
