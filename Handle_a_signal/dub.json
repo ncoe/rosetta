@@ -1,0 +1,9 @@
+{
+    "name": "handle_a_signal",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Handle a signal problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
