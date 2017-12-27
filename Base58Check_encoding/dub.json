@@ -1,0 +1,9 @@
+{
+    "name": "base58check_encoding",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Base 58 check encoding problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
