@@ -1,0 +1,9 @@
+{
+    "name": "prime_conspiracy",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Prime conspiracy problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2017, Nathan R Coe",
+    "license": "MIT"
+}
