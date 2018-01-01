@@ -1,0 +1,9 @@
+{
+    "name": "card_shuffles",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Card shuffles problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "MIT"
+}
