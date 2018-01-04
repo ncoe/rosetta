@@ -1,6 +1,5 @@
 //https://rosettacode.org/wiki/Convex_hull
 import std.algorithm.sorting;
-import std.range;
 import std.stdio;
 
 struct Point {
