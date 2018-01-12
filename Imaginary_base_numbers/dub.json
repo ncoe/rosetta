@@ -1,0 +1,9 @@
+{
+    "name": "imaginary_base_numbers",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Imaginary base number problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "proprietary"
+}
