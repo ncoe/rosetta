@@ -1,0 +1,9 @@
+{
+    "name": "markov_chain_text_generator",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Markov chain text generator problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "MIT"
+}
