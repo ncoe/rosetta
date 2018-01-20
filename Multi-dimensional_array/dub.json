@@ -1,0 +1,9 @@
+{
+    "name": "multi-dimensional_array",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Multi-dimensional array problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "MIT"
+}
