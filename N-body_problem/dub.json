@@ -1,0 +1,9 @@
+{
+    "name": "n-body_problem",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "N-body problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "MIT"
+}
