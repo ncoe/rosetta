@@ -1,0 +1,9 @@
+{
+    "name": "particle_swarm_optimization",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Particle swarm optimization problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "MIT"
+}
