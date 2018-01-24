@@ -1,0 +1,9 @@
+{
+    "name": "orbital_elements",
+    "authors": [
+        "Nathan R Coe"
+    ],
+    "description": "Orbital elements problem as posted on Rosetta Code",
+    "copyright": "Copyright © 2018, Nathan R Coe",
+    "license": "MIT"
+}
