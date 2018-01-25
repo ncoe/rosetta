@@ -23,3 +23,7 @@ dub.selections.json
 
 # Code coverage
 *.lst
+
+# Intellij
+.idea
+*.iml
