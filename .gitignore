@@ -27,3 +27,4 @@ dub.selections.json
 # Intellij
 .idea
 *.iml
+*.class
