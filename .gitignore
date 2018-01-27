@@ -28,3 +28,4 @@ dub.selections.json
 .idea
 *.iml
 *.class
+lib/
