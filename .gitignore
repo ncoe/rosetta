@@ -21,11 +21,15 @@ __dummy.html
 docs/
 dub.selections.json
 
+# Java
+*.class
+*.jar
+
 # Code coverage
 *.lst
 
 # Intellij
 .idea
 *.iml
-*.class
 lib/
+out/
