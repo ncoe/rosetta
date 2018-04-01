@@ -33,3 +33,9 @@ dub.selections.json
 *.iml
 lib/
 out/
+
+# Modula
+*.bak
+*.err
+*.sbd
+*.sbp
