@@ -39,3 +39,4 @@ out/
 *.err
 *.sbd
 *.sbp
+*.sym
