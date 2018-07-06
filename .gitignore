@@ -40,3 +40,13 @@ out/
 *.sbd
 *.sbp
 *.sym
+
+# Visual Studio
+obj/
+.vs/
+App.config
+AssemblyInfo.cs
+*.csproj
+*.exe.config
+*.pdb
+*.sln
