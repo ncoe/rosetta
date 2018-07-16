@@ -98,7 +98,7 @@ public class App {
                 bval[j] = v[j];
             } else {
                 bpos[j] = y.bpos[j];
-                bval[j] = bval[j];
+                bval[j] = y.bval[j];
             }
             if (bval[j] < gbval) {
                 gbval = bval[j];
