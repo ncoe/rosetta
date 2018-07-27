@@ -50,3 +50,5 @@ AssemblyInfo.cs
 *.exe.config
 *.pdb
 *.sln
+Bilinear_interpolation/CS/BilinearInterpolation/bin/Debug/Lenna100.jpg
+Bilinear_interpolation/CS/BilinearInterpolation/bin/Debug/Lenna100_larger.jpg
