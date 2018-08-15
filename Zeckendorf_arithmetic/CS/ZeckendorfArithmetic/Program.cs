@@ -3,10 +3,9 @@ using System.Text;
 
 namespace ZeckendorfArithmetic {
     class Zeckendorf : IComparable<Zeckendorf> {
-        private static string[] dig = { "00", "01", "10" };
-        private static string[] dig1 = { "", "1", "10" };
+        private static readonly string[] dig = { "00", "01", "10" };
+        private static readonly string[] dig1 = { "", "1", "10" };
 
-        private string x;
         private int dVal = 0;
         private int dLen = 0;
 
@@ -15,8 +14,6 @@ namespace ZeckendorfArithmetic {
         }
 
         public Zeckendorf(string x) {
-            this.x = x;
-
             int q = 1;
             int i = x.Length - 1;
             dLen = i / 2;
