@@ -72,8 +72,6 @@ namespace JustInTimeProcessing {
         static void Main(string[] args) {
             var uiList = GetUserInput();
             Decode("theraven.txt", uiList);
-
-            Console.ReadLine();
         }
     }
 }
