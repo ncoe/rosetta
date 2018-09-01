@@ -18,7 +18,7 @@
 .dub
 docs.json
 __dummy.html
-docs/
+**/docs/
 dub.selections.json
 
 # Java
@@ -31,8 +31,8 @@ dub.selections.json
 # Intellij
 .idea
 *.iml
-lib/
-out/
+**/lib/
+**/out/
 
 # Modula
 *.bak
@@ -42,14 +42,16 @@ out/
 *.sym
 
 # Visual Studio
-obj/
+**/bin/
+**/obj/
 .vs/
 App.config
 AssemblyInfo.cs
+AssemblyInfo.fs
+packages.config
 *.csproj
 *.exe.config
 *.pdb
 *.sln
-Bilinear_interpolation/CS/BilinearInterpolation/bin/Debug/Lenna100.jpg
-Bilinear_interpolation/CS/BilinearInterpolation/bin/Debug/Lenna100_larger.jpg
-Just_in_time_processing_on_a_character_stream/CS/JustInTimeProcessing/bin/Debug/theRaven.txt
+*.fsproj
+**/packages/
