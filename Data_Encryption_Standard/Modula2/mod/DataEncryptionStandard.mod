@@ -12,6 +12,9 @@ BEGIN
     i := 0;
     WHILE i<limit DO
         v := ORD(str[i]);
+        IF v < 16 THEN
+            WriteString("0")
+        END;
         FormatString("%h", buf, v);
         WriteString(buf);
         INC(i);
@@ -24,13 +27,14 @@ VAR
     key : ARRAY[0..0] OF Key1;
     cipher : DES;
 BEGIN
-    plain := BA{38H, 37H, 38H, 37H, 38H, 37H, 38H, 37H, 38H, 37H, 38H, 37H, 38H, 37H, 38H, 37H};
+    (* Account for the padding *)
+    plain := BA{87H, 87H, 87H, 87H, 87H, 87H, 87H, 87H, 8, 8, 8, 8, 8, 8, 8, 8};
 
     key[0] := Key1{0EH, 32H, 92H, 32H, 0EAH, 6DH, 0DH, 73H};
     cipher := Create(key);
 
-    WriteString("plain: ");
-    WriteString(plain);
+    WriteString("plain:   ");
+    PrintHexBytes(plain, 8);
     WriteLn;
 
     EncryptECB(cipher,ADR(plain),ADR(encrypt),16);
@@ -41,8 +45,8 @@ BEGIN
 
     DecryptECB(cipher,ADR(encrypt),ADR(plain),16);
 
-    WriteString("plain: ");
-    WriteString(plain);
+    WriteString("plain:   ");
+    PrintHexBytes(plain, 8);
     WriteLn;
 
     Destroy(cipher);
