@@ -35,6 +35,7 @@ dub.selections.json
 # Intellij
 .idea
 *.iml
+*.MF
 **/lib/
 **/out/
 
