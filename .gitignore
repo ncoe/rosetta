@@ -49,6 +49,7 @@ dub.selections.json
 # Visual Studio
 **/bin/
 **/obj/
+**/Debug/
 .vs/
 App.config
 AssemblyInfo.cs
@@ -60,3 +61,6 @@ packages.config
 *.sln
 *.fsproj
 **/packages/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
