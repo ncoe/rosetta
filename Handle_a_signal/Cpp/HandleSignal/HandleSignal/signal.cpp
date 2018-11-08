@@ -29,6 +29,5 @@ int main() {
 	double dt = (endTime - startTime) / (double)CLOCKS_PER_SEC;
 	cout << "Program has run for " << dt << " seconds" << endl;
 
-	system("pause"); //translation of c
 	return 0;
 }
