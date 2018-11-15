@@ -1,4 +1,4 @@
-public class LinePLaneIntersection {
+public class LinePlaneIntersection {
     private static class Vector3D {
         private double x, y, z;
 
