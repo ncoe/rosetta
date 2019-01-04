@@ -98,6 +98,9 @@ struct QuaterImaginary {
             prod = invTwoI;
             foreach (j; posLen+1..b2i.length) {
                 auto k = (b2i[j] - '0').to!double;
+                if (k > 0.0) {
+                    sum += prod * k;
+                }
                 prod *= invTwoI;
             }
         }
@@ -135,17 +138,17 @@ void main() {
         c1 = -c1;
         qi = c1.toQuaterImaginary();
         c2 = cast(Complex!double) qi;
-        writefln("%4s -> %8s -> %4s     ", c1.re, qi, c2.re);
+        writefln("%4s -> %8s -> %4s", c1.re, qi, c2.re);
     }
     writeln;
     foreach (i; 1..17) {
         auto c1 = complex(0, i);
         auto qi = c1.toQuaterImaginary;
         auto c2 = qi.to!(Complex!double);
-        writef("%4s -> %8s -> %4s     ", c1.im, qi, c2.im);
+        writef("%3si -> %8s -> %3si     ", c1.im, qi, c2.im);
         c1 = -c1;
         qi = c1.toQuaterImaginary();
         c2 = cast(Complex!double) qi;
-        writefln("%4s -> %8s -> %4s     ", c1.im, qi, c2.im);
+        writefln("%3si -> %8s -> %3si", c1.im, qi, c2.im);
     }
 }
