@@ -149,8 +149,6 @@ ubyte[] encrypt(const ubyte[] key, const ubyte[] message) in {
     return sb;
 }
 
-/* any padding is assumed to be in the form of trailing zeros following 0DOA;
-   only the zeros will be removed */
 ubyte[] decrypt(const ubyte[] key, const ubyte[] encoded) in {
     assert(key.length == 8, "Incorrect key size");
 } body {
@@ -189,17 +187,13 @@ private BitArray[] getSubKeys(const ubyte[] key) in {
 
     // split 'kp' in half and process the resulting series of 'c' and 'd'
     BitArray[] c;
-    foreach (_; 0..18) {
-        c ~= bitArrayOfSize(56);
-    }
     BitArray[] d;
     foreach (_; 0..18) {
+        c ~= bitArrayOfSize(56);
         d ~= bitArrayOfSize(28);
     }
     foreach (i; 0..28) {
         c[0][i] = kp[i];
-    }
-    foreach (i; 0..28) {
         d[0][i] = kp[i + 28];
     }
     foreach (i; 1..17) {
@@ -248,8 +242,6 @@ private ubyte[] processMessage(const ubyte[] message, BitArray[] ks) {
     }
     foreach (i; 0..32) {
         left[0][i] = mp[i];
-    }
-    foreach (i; 0..32) {
         right[0][i] = mp[i + 32];
     }
     foreach (i; 1..17) {
