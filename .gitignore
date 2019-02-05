@@ -47,20 +47,28 @@ dub.selections.json
 *.sym
 
 # Visual Studio
+.vs/
+App.config
+Application.Designer.vb
+Application.myapp
+AssemblyInfo.cs
+AssemblyInfo.fs
+AssemblyInfo.vb
+packages.config
+Resources.Designer.vb
+Resources.resx
+Settings.Designer.vb
+Settings.settings
 **/bin/
 **/obj/
 **/Debug/
-.vs/
-App.config
-AssemblyInfo.cs
-AssemblyInfo.fs
-packages.config
+**/packages/
 *.csproj
 *.exe.config
 *.pdb
 *.sln
 *.fsproj
-**/packages/
+*.vbproj
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
