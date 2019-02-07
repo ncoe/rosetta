@@ -69,6 +69,7 @@ Settings.settings
 *.sln
 *.fsproj
 *.vbproj
+*.vbproj.user
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
