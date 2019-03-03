@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 
-namespace AruthmeticCoding {
+namespace ArithmeticCoding {
     using Freq = Dictionary<char, long>;
     using Triple = Tuple<BigInteger, int, Dictionary<char, long>>;
 

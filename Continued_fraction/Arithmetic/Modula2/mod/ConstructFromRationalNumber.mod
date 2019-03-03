@@ -1,4 +1,4 @@
-MODULE ConstructFromrationalNumber;
+MODULE ConstructFromRationalNumber;
 FROM FormatString IMPORT FormatString;
 FROM Terminal IMPORT WriteString,WriteLn,ReadChar;
 
@@ -73,4 +73,4 @@ BEGIN
     Print(314285714,100000000);
 
     ReadChar;
-END ConstructFromrationalNumber.
+END ConstructFromRationalNumber.
