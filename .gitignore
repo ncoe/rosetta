@@ -1,4 +1,9 @@
+# Common Files
+**/135-0.txt
+**/unixdict.txt
+
 # Misc
+*.jpg
 *.xls
 *.xlsx
 
