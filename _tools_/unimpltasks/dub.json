@@ -1,0 +1,12 @@
+{
+	"name": "unimpltasks",
+	"authors": [
+		"Nathan R Coe"
+	],
+	"dependencies": {
+		"vibe-d": "~>0.8.5"
+	},
+	"description": "Find unimplemented tasks by language",
+	"copyright": "Copyright © 2018, Nathan R Coe",
+	"license": "proprietary"
+}
