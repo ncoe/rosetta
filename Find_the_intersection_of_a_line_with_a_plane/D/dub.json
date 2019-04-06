@@ -1,9 +1,0 @@
-{
-    "name": "find_the_intersection_of_a_line_with_a_plane",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Find the intersection of a line with a plane problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

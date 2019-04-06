@@ -1,9 +1,0 @@
-{
-    "name": "integer_roots",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Integer roots problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

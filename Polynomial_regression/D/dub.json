@@ -1,9 +1,0 @@
-{
-    "name": "polynomial_regression",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Polynomial regression problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

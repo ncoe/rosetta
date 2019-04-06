@@ -1,9 +1,0 @@
-{
-    "name": "safe_addition",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Safe addition problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

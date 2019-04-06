@@ -1,9 +1,0 @@
-{
-    "name": "create_a_file_on_magnetic_tape",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Create file on magnetic tape problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

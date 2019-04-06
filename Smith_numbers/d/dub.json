@@ -1,9 +1,0 @@
-{
-    "name": "smith_numbers",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Smith numbers problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

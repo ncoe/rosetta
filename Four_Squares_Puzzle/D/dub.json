@@ -1,9 +1,0 @@
-{
-    "name": "four_squares_puzzle",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Four rings, or four squares problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

@@ -1,9 +1,0 @@
-{
-    "name": "longest_common_prefix",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Longest common prefix problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

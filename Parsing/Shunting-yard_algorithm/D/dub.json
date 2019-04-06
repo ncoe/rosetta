@@ -1,9 +1,0 @@
-{
-    "name": "shunting-yard_algorithm",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Shunting yard algorithm problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

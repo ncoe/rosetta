@@ -1,9 +1,0 @@
-{
-	"name": "sierpinski_pentagon",
-	"authors": [
-		"Nathan R Coe"
-	],
-	"description": "Sierpinski pentagon problem as posted on Rosetta Code",
-	"copyright": "Copyright © 2017, Nathan R Coe",
-	"license": "MIT"
-}

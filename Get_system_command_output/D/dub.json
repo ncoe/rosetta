@@ -1,9 +1,0 @@
-{
-    "name": "get_system_command_output",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Get system command output problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

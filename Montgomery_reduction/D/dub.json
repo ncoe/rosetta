@@ -1,9 +1,0 @@
-{
-    "name": "montgomery_reduction",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Montgomery reduction problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

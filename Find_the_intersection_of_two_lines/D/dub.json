@@ -1,9 +1,0 @@
-{
-    "name": "find_the_intersection_of_two_lines",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Find the intersection of two lines problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

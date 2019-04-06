@@ -1,9 +1,0 @@
-{
-    "name": "tokenize_a_string_with_escaping",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Tokenize a string with escaping prblem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

@@ -1,9 +1,0 @@
-{
-    "name": "validate_international_securities_identification_number",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "validate international securities identification number problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

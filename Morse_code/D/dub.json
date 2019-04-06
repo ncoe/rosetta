@@ -1,9 +1,0 @@
-{
-	"name": "morse",
-	"authors": [
-		"Nathan R Coe"
-	],
-	"description": "A program that outputs morse code",
-	"copyright": "Copyright © 2016, Nathan R Coe",
-	"license": "proprietary"
-}

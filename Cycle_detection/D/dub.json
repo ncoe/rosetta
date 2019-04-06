@@ -1,9 +1,0 @@
-{
-    "name": "cycle_detection",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Cycle detection problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

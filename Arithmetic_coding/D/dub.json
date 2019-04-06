@@ -1,9 +1,0 @@
-{
-    "name": "arithmetic_coding",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Arithmetic coding as a generalized change of radix problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

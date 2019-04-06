@@ -1,9 +1,0 @@
-{
-    "name": "utf8_encode_and_decode",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "UTF-8 encode and decode problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

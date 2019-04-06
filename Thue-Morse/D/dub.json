@@ -1,9 +1,0 @@
-{
-	"name": "thue-morse",
-	"authors": [
-		"Nathan R Coe"
-	],
-	"description": "Prints the Thue-Morse sequence",
-	"copyright": "Copyright © 2016, Nathan R Coe",
-	"license": "proprietary"
-}

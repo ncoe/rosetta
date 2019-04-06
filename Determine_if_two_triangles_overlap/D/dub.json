@@ -1,9 +1,0 @@
-{
-    "name": "determine_if_two_triangles_overlap",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Determine if two triangles overlap problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

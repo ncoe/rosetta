@@ -1,9 +1,0 @@
-{
-    "name": "apply_a_digital_filter",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Apply a digital filter (direct form II transposed) problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

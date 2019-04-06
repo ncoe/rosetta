@@ -1,9 +1,0 @@
-{
-    "name": "cipollas_algorithm",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Cipolla's algorithm problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

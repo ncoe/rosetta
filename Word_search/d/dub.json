@@ -1,9 +1,0 @@
-{
-    "name": "word_search",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Word search problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

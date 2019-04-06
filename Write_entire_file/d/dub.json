@@ -1,9 +1,0 @@
-{
-    "name": "write_entire_file",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Write entire file problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

@@ -1,9 +1,0 @@
-{
-    "name": "zeckendorf_arithmetic",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Zeckendorf arithmetic problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

@@ -1,9 +1,0 @@
-{
-    "name": "rdp_line_simplification",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Ramer-Douglas-Peucker line simplification problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

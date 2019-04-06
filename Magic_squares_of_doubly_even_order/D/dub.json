@@ -1,9 +1,0 @@
-{
-    "name": "magic_squares_of_doubly_even_order",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Magic squares of doubly even order problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2017, Nathan R Coe",
-    "license": "MIT"
-}

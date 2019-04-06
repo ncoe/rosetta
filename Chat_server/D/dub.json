@@ -1,9 +1,0 @@
-{
-	"name": "chat-server",
-	"authors": [
-		"Nathan R Coe"
-	],
-	"description": "A chat server for a rosetta code task",
-	"copyright": "Copyright © 2016, Nathan R Coe",
-	"license": "proprietary"
-}

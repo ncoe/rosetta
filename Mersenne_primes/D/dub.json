@@ -1,9 +1,0 @@
-{
-    "name": "mersenne_primes",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Mersenne primes problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}

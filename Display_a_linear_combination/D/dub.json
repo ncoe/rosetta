@@ -1,9 +1,0 @@
-{
-    "name": "display_a_linear_combination",
-    "authors": [
-        "Nathan R Coe"
-    ],
-    "description": "Display a linear combination problem as posted on Rosetta Code",
-    "copyright": "Copyright © 2018, Nathan R Coe",
-    "license": "MIT"
-}
