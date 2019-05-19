@@ -52,14 +52,13 @@ namespace SnakeAndLadder {
         }
 
         static void Main(string[] args) {
-            // three players atarting on square one
+            // three players starting on square one
             int[] players = { 1, 1, 1 };
             while (true) {
                 for (int i = 0; i < players.Length; i++) {
                     int ns = Turn(i + 1, players[i]);
                     if (ns == 100) {
                         Console.WriteLine("Player {0} wins!", i + 1);
-                        Console.ReadLine();
                         return;
                     }
                     players[i] = ns;

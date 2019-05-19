@@ -54,8 +54,6 @@
     Sub Main()
         Dim nums() = {7, 14, 21, 29, 32, 42, 64, 47, 79, 191, 382, 379}
         Array.ForEach(nums, Sub(n) FindBrauer(n))
-
-        Console.ReadLine() 'todo remove before submit
     End Sub
 
 End Module

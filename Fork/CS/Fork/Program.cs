@@ -13,8 +13,6 @@ namespace Fork {
 
             Console.WriteLine("Main Thread");
             t.Join();
-
-            Console.ReadLine();
         }
     }
 }

@@ -13,7 +13,7 @@ let div (ax, ay) c =
     (ax/c, ay/c)
 
 [<EntryPoint>]
-let main _ = 
+let main _ =
     let a = (5.0, 7.0)
     let b = (2.0, 3.0)
 
@@ -22,5 +22,4 @@ let main _ =
     printfn "%A" (mul a 11.0)
     printfn "%A" (div a 2.0)
 
-    Console.ReadLine() |> ignore
     0 // return an integer exit code

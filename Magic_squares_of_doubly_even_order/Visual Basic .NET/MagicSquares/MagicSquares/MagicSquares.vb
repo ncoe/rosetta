@@ -42,8 +42,6 @@
         Next
         Console.WriteLine()
         Console.WriteLine("Magic constant: {0} ", (n * n + 1) * n / 2)
-
-        Console.ReadLine()
     End Sub
 
 End Module

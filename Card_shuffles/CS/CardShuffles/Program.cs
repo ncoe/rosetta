@@ -112,8 +112,6 @@ namespace CardShuffles {
             list = overhandShuffle(list, 1);
             Console.WriteLine(list.AsString());
             Console.WriteLine();
-
-            Console.ReadKey();
         }
     }
 }

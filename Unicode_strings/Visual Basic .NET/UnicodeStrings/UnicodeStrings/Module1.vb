@@ -16,7 +16,6 @@
         Console.WriteLine("שלום")
         ' escape sequences
         Console.WriteLine(vbTab + "text" + vbTab + ChrW(&H2708) + """blue")
-        Console.ReadLine()
     End Sub
 
 End Module

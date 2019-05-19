@@ -18,9 +18,9 @@ let damm str =
         if v.Length = 0 then 0 = interim
         else helper (v.Substring(1)) (TABLE.[interim].[(int (v.[0])) - (int '0')])
     helper str 0
- 
+
 [<EntryPoint>]
-let main _ = 
+let main _ =
     let numbers = [|5724; 5727; 112946; 112949|]
     for number in numbers do
         let isValid = damm (number.ToString())
@@ -29,5 +29,4 @@ let main _ =
         else
             printfn "%6d is invalid" number
 
-    Console.ReadLine() |> ignore
     0 // return an integer exit code

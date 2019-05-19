@@ -6,7 +6,6 @@
 
     Sub Main()
         Console.WriteLine(DotProduct({1, 3, -5}, {4, -2, -1}))
-        Console.ReadLine()
     End Sub
 
 End Module

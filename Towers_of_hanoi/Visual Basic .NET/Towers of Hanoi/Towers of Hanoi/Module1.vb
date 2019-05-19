@@ -11,7 +11,6 @@
     Sub Main()
         Move(4, 1, 2, 3)
         Console.WriteLine("Puzzle completed!")
-        Console.ReadLine()
     End Sub
 
 End Module

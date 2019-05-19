@@ -59,7 +59,6 @@ namespace Fivenum {
                 var result = Fivenum(x);
                 Console.WriteLine(result.AsString("{0:F8}"));
             }
-            Console.ReadLine();
         }
     }
 }

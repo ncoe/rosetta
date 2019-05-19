@@ -60,7 +60,7 @@ function make(value, modulo)
             elseif type(lhs) == "string" and type(rhs) == "table" then
                 return lhs.."ModInt("..rhs.value..", "..rhs.modulo..")"
             else
-                return "todo"
+                return "not implemented"
             end
         end
     }
