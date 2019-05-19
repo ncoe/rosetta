@@ -1,0 +1,12 @@
+{
+	"name": "inprogress",
+	"authors": [
+		"Nathan R Coe"
+	],
+	"dependencies": {
+		"vibe-d:http": "~>0.8.5"
+	},
+	"description": "Show work in progress for Rosetta Code solutions",
+	"copyright": "Copyright © 2019, Nathan R Coe",
+	"license": "MIT"
+}
