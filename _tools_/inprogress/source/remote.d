@@ -76,18 +76,6 @@ string[] harvest(string lang) {
                 auto taskMatch = matchFirst(line, taskRegex);
                 if (taskMatch) {
                     string task = taskMatch[1].decodeComponent;
-                    string tl;
-                    switch(language) {
-                        case "C_sharp":
-                            tl = "C#";
-                            break;
-                        case "F_sharp":
-                            tl = "F#";
-                            break;
-                        default:
-                            tl = language;
-                            break;
-                    }
                     tasks ~= task;
                 }
             }

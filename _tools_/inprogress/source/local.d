@@ -173,3 +173,6 @@ string[][string] classifyCurrent() {
     }
     return tasks;
 }
+
+/* git ls-files --others --exclude-standard */
+/* git status --porcelain */
