@@ -260,6 +260,7 @@ public class HtmlWriter {
             writer.write("      <tr>\n");
             writer.write("        <th>Task Type</th>\n");
             writer.write("        <th>Task Name</th>\n");
+            writer.write("        <th>Notes</th>\n");
             writer.write("        <th>Open Languages</th>\n");
             writer.write("      </tr>\n");
 
@@ -299,7 +300,12 @@ public class HtmlWriter {
                 // task name
                 writer.write("  <td>");
                 writer.write(info.getTaskName());
-                writer.write("  </td>\n");
+                writer.write("</td>\n");
+
+                // task note
+                writer.write("  <td>");
+                writer.write(StringUtils.defaultString(info.getNote()));
+                writer.write("</td>\n");
 
                 // build the language listing
                 StringBuilder sb = new StringBuilder();
@@ -317,7 +323,7 @@ public class HtmlWriter {
                 }
                 writer.write("  <td>");
                 writer.write(sb.toString());
-                writer.write("  </td>\n");
+                writer.write("</td>\n");
                 writer.write("</tr>\n");
             }
 

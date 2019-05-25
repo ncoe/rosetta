@@ -22,6 +22,9 @@ import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTChart;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTPieChart;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTPlotArea;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -72,6 +75,10 @@ public class SpreadsheetWriter {
         cell = header.createCell(colNum++);
         cell.setCellValue("Next Step");
 
+        // last modified header
+        cell = header.createCell(colNum++);
+        cell.setCellValue("Last modified");
+
         int maxCol = colNum;
 
         // Fill in the task info as additional rows
@@ -95,13 +102,23 @@ public class SpreadsheetWriter {
             cell = taskRow.createCell(colNum++);
             cell.setCellValue(languageStr);
 
-            // todo task notes (nothing automatic at this time)
-            ++colNum;
+            if (null != info.getNote()) {
+                cell = taskRow.createCell(colNum++);
+                cell.setCellValue(info.getNote());
+            } else {
+                ++colNum;
+            }
 
             // task next steps
             if (null != info.getNext()) {
-                cell = taskRow.createCell(colNum);
+                cell = taskRow.createCell(colNum++);
                 cell.setCellValue("ppr for " + info.getNext());
+            }
+
+            // last modified (for pending solutions)
+            if (null != info.getLastModified()) {
+                cell = taskRow.createCell(colNum);
+                cell.setCellValue(info.getLastModified().toString());
             }
         }
 
@@ -112,7 +129,7 @@ public class SpreadsheetWriter {
     }
 
     /**
-     * @param workbook the workbook to add a sheet for language statistics to
+     * @param workbook    the workbook to add a sheet for language statistics to
      * @param langStatMap the total file sizes by language
      */
     private static void writeLanguageDown(XSSFWorkbook workbook, Map<String, Long> langStatMap) {
@@ -172,7 +189,11 @@ public class SpreadsheetWriter {
         CellRangeAddress valRange = new CellRangeAddress(1, rowNum - 1, 1, 1);
         XDDFNumericalDataSource<Double> val = XDDFDataSourcesFactory.fromNumericCellRange(sheet, valRange);
 
-        XDDFChartData data = new XDDFPieChartData(chart.getCTChart().getPlotArea().addNewPieChart());
+        // connect the data to the pie chart (also showed the missing requirement for command-line building)
+        CTChart ctChart = chart.getCTChart();
+        CTPlotArea plotArea = ctChart.getPlotArea();
+        CTPieChart pieChart = plotArea.addNewPieChart();
+        XDDFChartData data = new XDDFPieChartData(pieChart);
         data.setVaryColors(true);
         data.addSeries(cat, val);
         chart.plot(data);
@@ -180,7 +201,7 @@ public class SpreadsheetWriter {
 
     /**
      * @param taskInfoCollection the tasks which should be considered for inclusion
-     * @param langStatMap statistics to track for each language
+     * @param langStatMap        statistics to track for each language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
         // pre-filter the tasks so only actionable data is written

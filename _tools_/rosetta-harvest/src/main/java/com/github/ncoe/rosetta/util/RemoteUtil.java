@@ -75,7 +75,7 @@ public class RemoteUtil {
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
             System.err.printf("[RemoteUtil] Status code for %s: %d - %s\n", language, statusCode, statusLine.getReasonPhrase());
-            if (statusCode == 301) {
+            if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY) {
                 // todo: currently used to track down the issue with harvesting data about c++ tasks
                 System.err.printf("[RemoteUtil] target uri: %s\n", uri);
                 HeaderIterator it = response.headerIterator();

@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,15 +51,13 @@ public class LocalUtil {
             case "Abbreviations_automatic":
                 name = "Abbreviations,_automatic";
                 break;
-            case "Abundant_deficient_perfect":
-                //todo could match more closely
+            case "Abundant_deficient_and_perfect_number_classifications":
                 name = "Abundant,_deficient_and_perfect_number_classifications";
                 break;
             case "Cipollas_algorithm":
                 name = "Cipolla's_algorithm";
                 break;
-            case "Euler_sum_of_powers":
-                //todo could match more closely
+            case "Eulers_sum_of_powers_conjecture":
                 name = "Euler's_sum_of_powers_conjecture";
                 break;
             case "Faulhabers_formula":
@@ -317,12 +316,10 @@ public class LocalUtil {
     }
 
     /**
-     * todo: add in date last modified for ordering display of pending solutions
-     *
      * @return tasks that have a pending solution, and what language the pending solution is written in
      * @throws IOException if something happens gathering data
      */
-    public static Map<String, String> pendingSolutions() throws IOException {
+    public static Map<String, Pair<String, FileTime>> pendingSolutions() throws IOException {
         Path basePath = Paths.get(getBasePath());
         Path currentPath = Paths.get("").toAbsolutePath();
 
@@ -332,19 +329,24 @@ public class LocalUtil {
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
 
-        Map<String, String> taskMap = new HashMap<>();
+        Map<String, Pair<String, FileTime>> taskMap = new HashMap<>();
         String line;
 
         while (null != (line = br.readLine())) {
-            // todo: also blacklist deleted files
-            if (line.length() > 0 && line.charAt(0) == '\t' && !StringUtils.startsWithAny(line, "\tnew file:", "\tmodified:", "\trenamed:")) {
+            if (line.length() > 0 && line.charAt(0) == '\t' && !StringUtils.startsWithAny(line, "\tnew file:", "\tmodified:", "\trenamed:", "\tdeleted:")) {
                 Path fullPath = currentPath.resolve(line.substring(1)).normalize();
-                if (!"_tools_".equals(fullPath.getRoot().toString())) {
-                    Path relativePath = basePath.relativize(fullPath);
-                    Pair<String, String> solution = extractSolution(relativePath);
-                    if (null != solution) {
-                        taskMap.put(solution.getKey(), solution.getValue());
-                    }
+
+                // ignore changes in tooling for this purpose
+                if ("_tools_".equals(fullPath.getRoot().toString())) {
+                    continue;
+                }
+
+                // check if there is a pending solution
+                Path relativePath = basePath.relativize(fullPath);
+                Pair<String, String> solution = extractSolution(relativePath);
+                if (null != solution) {
+                    FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
+                    taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
                 }
             }
         }
