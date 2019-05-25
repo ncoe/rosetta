@@ -2,8 +2,8 @@ package com.github.ncoe.rosetta;
 
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
-import com.github.ncoe.rosetta.io.ExcelWriter;
 import com.github.ncoe.rosetta.io.HtmlWriter;
+import com.github.ncoe.rosetta.io.SpreadsheetWriter;
 import com.github.ncoe.rosetta.util.LocalUtil;
 import com.github.ncoe.rosetta.util.RemoteUtil;
 
@@ -48,6 +48,7 @@ public class Program {
             "Visual_Basic_.NET"
         );
 
+        // Gather local solutions and statistics
         Map<String, Long> langStatMap;
         Map<String, String> pendingMap;
         Map<String, Set<String>> localTaskMap;
@@ -59,6 +60,7 @@ public class Program {
             throw new UtilException(e);
         }
 
+        // Aggregate local data into task information
         Map<String, TaskInfo> taskInfoMap = new HashMap<>();
         for (Entry<String, Set<String>> entry : localTaskMap.entrySet()) {
             TaskInfo info = taskInfoMap.get(entry.getKey());
@@ -68,15 +70,17 @@ public class Program {
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
             } else {
-                System.err.printf("Unexpected task re-definition: %s\n", entry.getKey());
+                System.err.printf("[Program] Unexpected task re-definition: %s\n", entry.getKey());
             }
         }
 
+        // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
         for (String language : languages) {
             String taskLang = fixLangName(language);
-
             Set<String> langSet = RemoteUtil.harvest(language);
+
+            // Incorporate the tasks that could be implemented with this language
             for (String taskName : langSet) {
                 if (langByTask.containsKey(taskName)) {
                     langSet = langByTask.get(taskName);
@@ -88,6 +92,7 @@ public class Program {
             }
         }
 
+        // Aggregate remote data into task information
         for (Entry<String, Set<String>> entry : langByTask.entrySet()) {
             TaskInfo info = taskInfoMap.get(entry.getKey());
             if (null == info) {
@@ -101,6 +106,7 @@ public class Program {
             }
         }
 
+        // Update task information with in-progress solutions
         for (Entry<String, String> entry : pendingMap.entrySet()) {
             TaskInfo info = taskInfoMap.get(entry.getKey());
             if (null != info) {
@@ -109,7 +115,8 @@ public class Program {
             }
         }
 
-        ExcelWriter.writeReport(taskInfoMap.values(), langStatMap);
+        // Write summary information for manipulation, filtering, and analysis
+        SpreadsheetWriter.writeReport(taskInfoMap.values(), langStatMap);
         HtmlWriter.writeReport(taskInfoMap.values());
     }
 }

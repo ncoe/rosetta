@@ -34,9 +34,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-public class ExcelWriter {
-    private ExcelWriter() {
-        throw new NotImplementedException("No ExcelWriter for you!");
+/**
+ * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics
+ */
+public class SpreadsheetWriter {
+    private SpreadsheetWriter() {
+        throw new NotImplementedException("No SpreadsheetWriter for you!");
     }
 
     private static void writeOpenTasks(Workbook workbook, List<TaskInfo> taskList) {
@@ -46,87 +49,114 @@ public class ExcelWriter {
         int colNum = 0;
         Cell cell;
 
+        // Write a header for the tasks
         Row header = sheet.createRow(rowNum++);
 
+        // category header
         cell = header.createCell(colNum++);
         cell.setCellValue("Category");
 
+        // task name header
         cell = header.createCell(colNum++);
         cell.setCellValue("Task Name");
 
+        // languages header
         cell = header.createCell(colNum++);
         cell.setCellValue("Languages");
 
+        // task notes header
         cell = header.createCell(colNum++);
         cell.setCellValue("Task Notes");
 
-        cell = header.createCell(colNum);
+        // next step header
+        cell = header.createCell(colNum++);
         cell.setCellValue("Next Step");
 
         int maxCol = colNum;
 
+        // Fill in the task info as additional rows
         for (TaskInfo info : taskList) {
             List<String> langList = info.getLanguageSet().stream().sorted().collect(Collectors.toList());
             String languageStr = String.join(", ", langList);
 
+            // prepare a new row
             Row taskRow = sheet.createRow(rowNum++);
             colNum = 0;
 
+            // task category
             cell = taskRow.createCell(colNum++);
             cell.setCellValue(info.getCategory());
 
+            // task name
             cell = taskRow.createCell(colNum++);
             cell.setCellValue(info.getTaskName());
 
+            // task languages
             cell = taskRow.createCell(colNum++);
             cell.setCellValue(languageStr);
 
+            // todo task notes (nothing automatic at this time)
             ++colNum;
 
+            // task next steps
             if (null != info.getNext()) {
                 cell = taskRow.createCell(colNum);
                 cell.setCellValue("ppr for " + info.getNext());
             }
         }
 
+        // have the sheet adjust the column sizes to fit the text
         for (int i = 0; i < maxCol; ++i) {
             sheet.autoSizeColumn(i);
         }
-
     }
 
+    /**
+     * @param workbook the workbook to add a sheet for language statistics to
+     * @param langStatMap the total file sizes by language
+     */
     private static void writeLanguageDown(XSSFWorkbook workbook, Map<String, Long> langStatMap) {
+        // transform the data so it is ordered
         List<Pair<String, Long>> statList = new ArrayList<>();
         for (Entry<String, Long> entry : langStatMap.entrySet()) {
             statList.add(Pair.of(entry.getKey(), entry.getValue()));
         }
         statList.sort(Collections.reverseOrder(Comparator.comparing(Pair::getValue)));
 
+        // create the worksheet
         XSSFSheet sheet = workbook.createSheet("Breakdown");
         int rowNum = 0;
 
+        // create the header
         XSSFRow header = sheet.createRow(rowNum++);
         Cell cell;
 
+        // language header
         cell = header.createCell(0);
         cell.setCellValue("Language");
 
+        // size header
         cell = header.createCell(1);
         cell.setCellValue("Size");
 
+        // process each language
         for (Pair<String, Long> entry : statList) {
             Row row = sheet.createRow(rowNum++);
 
+            // language name
             cell = row.createCell(0);
             cell.setCellValue(entry.getKey());
 
+            // total size
             cell = row.createCell(1);
             cell.setCellValue(entry.getValue());
         }
 
+        // autosize each column to fit contents
         sheet.autoSizeColumn(0);
         sheet.autoSizeColumn(1);
 
+        // add a pie chart for visual comparision
         XSSFDrawing drawing = sheet.createDrawingPatriarch();
         XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 4, 0, 14, 30);
 
@@ -148,16 +178,23 @@ public class ExcelWriter {
         chart.plot(data);
     }
 
+    /**
+     * @param taskInfoCollection the tasks which should be considered for inclusion
+     * @param langStatMap statistics to track for each language
+     */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
+        // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()
             .filter(task -> !task.getLanguageSet().isEmpty())
             .sorted()
             .collect(Collectors.toList());
 
+        // create and populate a workbook
         XSSFWorkbook workbook = new XSSFWorkbook();
         writeOpenTasks(workbook, taskList);
         writeLanguageDown(workbook, langStatMap);
 
+        // Write the workbook out to disk
         try {
             FileOutputStream outputStream = new FileOutputStream("target/rosetta.xlsx");
             workbook.write(outputStream);
@@ -165,7 +202,5 @@ public class ExcelWriter {
         } catch (IOException e) {
             throw new UtilException(e);
         }
-
-        System.out.println("Done");
     }
 }

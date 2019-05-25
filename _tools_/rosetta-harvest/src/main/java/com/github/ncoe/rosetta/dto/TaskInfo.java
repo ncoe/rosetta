@@ -1,8 +1,9 @@
 package com.github.ncoe.rosetta.dto;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.lang3.builder.CompareToBuilder;
 
 public class TaskInfo implements Comparable<TaskInfo> {
     private int category;

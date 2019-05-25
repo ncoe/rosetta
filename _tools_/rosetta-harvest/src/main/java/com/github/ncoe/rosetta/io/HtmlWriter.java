@@ -16,11 +16,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * For generating a web page that can easily be filtered to get a new task to work on
+ */
 public class HtmlWriter {
     private HtmlWriter() {
         throw new NotImplementedException("No HtmlWriter for you!");
     }
 
+    /**
+     * @param languageSet the set of languages that a task could be implemented in
+     * @return the classes to attach to the row for the task to make visible or not
+     */
     private static String buildClasses(Set<String> languageSet) {
         StringBuilder sb = new StringBuilder();
 
@@ -63,7 +70,7 @@ public class HtmlWriter {
                     sb.append(" vbnet");
                     break;
                 default:
-                    System.err.printf("Unknown class for language: %s\n", language);
+                    System.err.printf("[HtmlWriter] Unknown class for language: %s\n", language);
                     break;
             }
         }
@@ -71,6 +78,10 @@ public class HtmlWriter {
         return sb.toString();
     }
 
+    /**
+     * @param writer the sink to write the css to
+     * @throws IOException if something happens writing the styling
+     */
     private static void writeCss(Writer writer) throws IOException {
         writer.write("table, th, td {\n");
         writer.write("    border: 1px solid black;\n");
@@ -108,6 +119,10 @@ public class HtmlWriter {
         writer.write("}\n");
     }
 
+    /**
+     * @param writer the sink to write the java script to that does the filtering
+     * @throws IOException if something happens writing the styling
+     */
     private static void writeJavaScript(Writer writer) throws IOException {
         writer.write("filterTaskSelection(\"all\")\n");
         writer.write("function filterTaskSelection(c) {\n");
@@ -185,14 +200,23 @@ public class HtmlWriter {
         writer.write("}\n");
     }
 
+    /**
+     * @param taskInfoCollection the tasks that could use an implementation for a language
+     */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection) {
+        // pre-filter tasks that are in-progress or that have no language to write an implementation for
         List<TaskInfo> taskList = taskInfoCollection.stream()
-            .filter((task) -> !task.getLanguageSet().isEmpty())
+            .filter(
+                task -> !task.getLanguageSet().isEmpty()
+                    && task.getCategory() > 0
+            )
             .sorted()
             .collect(Collectors.toList());
 
+        // start writing the page
         Path path = Paths.get("target", "rosetta.html");
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            // header information
             writer.write("<!DOCTYPE html>\n");
             writer.write("<html>\n");
             writer.write("  <head>\n");
@@ -202,6 +226,8 @@ public class HtmlWriter {
             writeCss(writer);
             writer.write("    </style>\n");
             writer.write("  </head>\n");
+
+            // task filtering ui elements
             writer.write("  <body>\n");
             writer.write("  <div id=\"taskBtnContainer\">\n");
             writer.write("    <button id=\"allTask\" class=\"btn activeTask\" onclick=\"filterTaskSelection('all')\">Show all</button>\n");
@@ -210,6 +236,8 @@ public class HtmlWriter {
             writer.write("    <button id=\"TaskType3\" class=\"btn\" onclick=\"filterTaskSelection('TaskType3')\">Multiple Options</button>\n");
             writer.write("    <button id=\"TaskType4\" class=\"btn\" onclick=\"filterTaskSelection('TaskType4')\">One Option</button>\n");
             writer.write("  </div>\n");
+
+            // language filtering ui elements
             writer.write("  <div id=\"langBtnContainer\">\n");
             writer.write("    <button id=\"allLang\" class=\"btn activeLang\" onclick=\"filterLangSelection('all')\">Show all</button>\n");
             writer.write("    <button id=\"clang\" class=\"btn\" onclick=\"filterLangSelection('clang')\">C</button>\n");
@@ -225,6 +253,8 @@ public class HtmlWriter {
             writer.write("    <button id=\"python\" class=\"btn\" onclick=\"filterLangSelection('python')\">Python</button>\n");
             writer.write("    <button id=\"vbnet\" class=\"btn\" onclick=\"filterLangSelection('vbnet')\">Visual Basic .NET</button>\n");
             writer.write("  </div>\n");
+
+            // task table header
             writer.write("  <div class=\"container\">");
             writer.write("    <table>\n");
             writer.write("      <tr>\n");
@@ -233,13 +263,11 @@ public class HtmlWriter {
             writer.write("        <th>Open Languages</th>\n");
             writer.write("      </tr>\n");
 
+            // task table
             for (TaskInfo info : taskList) {
+                // task row with all elements needed to support filtering
                 String classStr = buildClasses(info.getLanguageSet());
                 switch (info.getCategory()) {
-                    case 0:
-                        writer.write("<tr>\n");
-                        writer.write("<td>In Progress</td>\n");
-                        break;
                     case 1:
                         writer.write("<tr class=\"taskFilter TaskType1");
                         writer.write(classStr);
@@ -265,15 +293,21 @@ public class HtmlWriter {
                         writer.write("  <td>One Option</td>\n");
                         break;
                     default:
-                        System.err.printf("Unknown category: %d\n", info.getCategory());
+                        System.err.printf("[HtmlWriter] Unknown category: %d\n", info.getCategory());
                 }
 
+                // task name
                 writer.write("  <td>");
                 writer.write(info.getTaskName());
                 writer.write("  </td>\n");
 
+                // build the language listing
                 StringBuilder sb = new StringBuilder();
-                for (String lang : info.getLanguageSet()) {
+                List<String> langList = info.getLanguageSet()
+                    .stream()
+                    .sorted()
+                    .collect(Collectors.toList());
+                for (String lang : langList) {
                     sb.append(" / ");
                     if (StringUtils.equals(lang, info.getNext())) {
                         sb.append("<u>").append(lang).append("</u>");
@@ -281,15 +315,16 @@ public class HtmlWriter {
                         sb.append(lang);
                     }
                 }
-
                 writer.write("  <td>");
                 writer.write(sb.toString());
                 writer.write("  </td>\n");
                 writer.write("</tr>\n");
             }
 
+            // remainder of data needed for the page
             writer.write("      </table>\n");
             writer.write("    </div>\n");
+            // script loaded last to match best practices
             writer.write("<script language=\"JavaScript\" type=\"text/javascript\">\n");
             writeJavaScript(writer);
             writer.write("</script>\n");
