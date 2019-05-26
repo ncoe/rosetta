@@ -37,7 +37,7 @@ public class Program {
     private static void generate() {
         Set<String> languages = Set.of(
             "C",
-//            "C++",
+            "C++",
             "C_sharp",
             "D",
             "F_Sharp",
@@ -151,6 +151,9 @@ public class Program {
 
         info = taskInfoMap.get("Create_a_file_on_magnetic_tape");
         info.setNote("file io");
+
+        info = taskInfoMap.get("Eertree");
+        info.setNote("nested functions");
 
         info = taskInfoMap.get("Egyptian_fractions");
         info.setNote("big integer");

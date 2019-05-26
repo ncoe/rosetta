@@ -4,8 +4,6 @@ import com.github.ncoe.rosetta.exception.UtilException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.NotImplementedException;
-import org.apache.http.Header;
-import org.apache.http.HeaderIterator;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -20,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -66,8 +63,12 @@ public class RemoteUtil {
         String uri = "http://rosettacode.org/wiki/Reports:Tasks_not_implemented_in_" + language;
         HttpUriRequest request = RequestBuilder.get(uri).build();
         HttpClientBuilder builder = HttpClientBuilder.create();
-        RequestConfig config = RequestConfig.custom().setCircularRedirectsAllowed(false).build();
-        CloseableHttpClient client = builder.setDefaultRequestConfig(config).disableRedirectHandling().build();
+        RequestConfig config = RequestConfig.custom()
+            .setCircularRedirectsAllowed(false)
+            .setNormalizeUri(false)
+            .build();
+
+        CloseableHttpClient client = builder.setDefaultRequestConfig(config).build();
 
         // execute and process the request
         Set<String> taskSet = new HashSet<>();
@@ -75,18 +76,6 @@ public class RemoteUtil {
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
             System.err.printf("[RemoteUtil] Status code for %s: %d - %s\n", language, statusCode, statusLine.getReasonPhrase());
-            if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY) {
-                // todo: currently used to track down the issue with harvesting data about c++ tasks
-                System.err.printf("[RemoteUtil] target uri: %s\n", uri);
-                HeaderIterator it = response.headerIterator();
-
-                while (it.hasNext()) {
-                    Header header = it.nextHeader();
-                    System.out.printf("[RemoteUtil] Header: %s\n", header);
-                }
-
-                return Collections.emptySet();
-            }
 
             // prepare to extract the lines from the response
             HttpEntity entity = response.getEntity();
