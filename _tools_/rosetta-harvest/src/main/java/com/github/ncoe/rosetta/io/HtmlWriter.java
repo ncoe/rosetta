@@ -2,6 +2,7 @@ package com.github.ncoe.rosetta.io;
 
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
+import com.github.ncoe.rosetta.util.LanguageUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,53 +31,10 @@ public class HtmlWriter {
      * @return the classes to attach to the row for the task to make visible or not
      */
     private static String buildClasses(Set<String> languageSet) {
-        StringBuilder sb = new StringBuilder();
-
-        for (String language : languageSet) {
-            switch (language) {
-                case "C":
-                    sb.append(" clang");
-                    break;
-                case "C++":
-                    sb.append(" cpp");
-                    break;
-                case "C#":
-                    sb.append(" csharp");
-                    break;
-                case "D":
-                    sb.append(" dlang");
-                    break;
-                case "F#":
-                    sb.append(" fsharp");
-                    break;
-                case "Java":
-                    sb.append(" java");
-                    break;
-                case "Kotlin":
-                    sb.append(" kotlin");
-                    break;
-                case "Lua":
-                    sb.append(" lua");
-                    break;
-                case "Modula-2":
-                    sb.append(" modula2");
-                    break;
-                case "Perl":
-                    sb.append(" perl");
-                    break;
-                case "Python":
-                    sb.append(" python");
-                    break;
-                case "Visual Basic .NET":
-                    sb.append(" vbnet");
-                    break;
-                default:
-                    System.err.printf("[HtmlWriter] Unknown class for language: %s\n", language);
-                    break;
-            }
-        }
-
-        return sb.toString();
+        return languageSet.stream()
+            .map(LanguageUtil::classForLanguage)
+            .filter(Objects::nonNull)
+            .reduce(StringUtils.EMPTY, (a, b) -> a + " " + b);
     }
 
     /**
@@ -86,13 +45,13 @@ public class HtmlWriter {
         writer.write("table, th, td {\n");
         writer.write("    border: 1px solid black;\n");
         writer.write("}\n");
-        writer.write("\n");
+        writer.write("tr:hover {\n");
+        writer.write("    background-color: #ffff99;\n");
+        writer.write("}\n");
         writer.write(".container {\n");
         writer.write("    margin-top: 20px;\n");
         writer.write("    overflow: hidden;\n");
         writer.write("}\n");
-        writer.write("\n");
-        writer.write("/* Style the buttons */\n");
         writer.write(".btn {\n");
         writer.write("    border: none;\n");
         writer.write("    outline: none;\n");
@@ -100,22 +59,21 @@ public class HtmlWriter {
         writer.write("    background-color: #f1f1f1;\n");
         writer.write("    cursor: pointer;\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write(".btn:hover {\n");
         writer.write("    background-color: #ddd;\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write(".btn.activeTask, .btn.activeLang {\n");
         writer.write("    background-color: #666;\n");
         writer.write("    color: white;\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write(".taskFilter {\n");
         writer.write("    display: none;\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write(".show {\n");
         writer.write("    display: table-row;\n");
+        writer.write("}\n");
+        writer.write(".unit {\n");
+        writer.write("    white-space:nowrap;\n");
         writer.write("}\n");
     }
 
@@ -139,7 +97,6 @@ public class HtmlWriter {
         writer.write("        }\n");
         writer.write("    }\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write("filterLangSelection(\"all\")\n");
         writer.write("function filterLangSelection(c) {\n");
         writer.write("    var task = document.getElementsByClassName(\"activeTask\")[0].id;\n");
@@ -155,7 +112,6 @@ public class HtmlWriter {
         writer.write("        }\n");
         writer.write("    }\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write("function w3AddClass(element, name) {\n");
         writer.write("    var i, arr1, arr2;\n");
         writer.write("    arr1 = element.className.split(\" \");\n");
@@ -164,7 +120,6 @@ public class HtmlWriter {
         writer.write("        if (arr1.indexOf(arr2[i]) == -1) {element.className += \" \" + arr2[i];}\n");
         writer.write("    }\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write("function w3RemoveClass(element, name) {\n");
         writer.write("    var i, arr1, arr2;\n");
         writer.write("    arr1 = element.className.split(\" \");\n");
@@ -176,7 +131,6 @@ public class HtmlWriter {
         writer.write("    }\n");
         writer.write("    element.className = arr1.join(\" \");\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write("// Add active class to the current task filter button (highlight it)\n");
         writer.write("var taskBtnContainer = document.getElementById(\"taskBtnContainer\");\n");
         writer.write("var taskBtns = taskBtnContainer.getElementsByClassName(\"btn\");\n");
@@ -187,7 +141,6 @@ public class HtmlWriter {
         writer.write("        this.className += \" activeTask\";\n");
         writer.write("    });\n");
         writer.write("}\n");
-        writer.write("\n");
         writer.write("// Add active class to the current language filter button (highlight it)\n");
         writer.write("var langBtnContainer = document.getElementById(\"langBtnContainer\");\n");
         writer.write("var langBtns = langBtnContainer.getElementsByClassName(\"btn\");\n");
@@ -255,7 +208,7 @@ public class HtmlWriter {
             writer.write("  </div>\n");
 
             // task table header
-            writer.write("  <div class=\"container\">");
+            writer.write("  <div class=\"container\">\n");
             writer.write("    <table>\n");
             writer.write("      <tr>\n");
             writer.write("        <th>Task Type</th>\n");
@@ -268,44 +221,36 @@ public class HtmlWriter {
             for (TaskInfo info : taskList) {
                 // task row with all elements needed to support filtering
                 String classStr = buildClasses(info.getLanguageSet());
+                writer.write(String.format("<tr class=\"taskFilter TaskType%d %s\">\n", info.getCategory(), classStr));
+
+                // descriptive task category
                 switch (info.getCategory()) {
                     case 1:
-                        writer.write("<tr class=\"taskFilter TaskType1");
-                        writer.write(classStr);
-                        writer.write("\">\n");
                         writer.write("  <td>One Solution</td>\n");
                         break;
                     case 2:
-                        writer.write("<tr class=\"taskFilter TaskType2");
-                        writer.write(classStr);
-                        writer.write("\">\n");
                         writer.write("  <td>Multiple Solutions</td>\n");
                         break;
                     case 3:
-                        writer.write("<tr class=\"taskFilter TaskType3");
-                        writer.write(classStr);
-                        writer.write("\">\n");
                         writer.write("  <td>Multiple Options</td>\n");
                         break;
                     case 4:
-                        writer.write("<tr class=\"taskFilter TaskType4");
-                        writer.write(classStr);
-                        writer.write("\">\n");
                         writer.write("  <td>One Option</td>\n");
                         break;
                     default:
+                        // This should never happen
                         System.err.printf("[HtmlWriter] Unknown category: %d\n", info.getCategory());
                 }
 
-                // task name
-                writer.write("  <td>");
-                writer.write(info.getTaskName());
-                writer.write("</td>\n");
+                // task name, with link
+                String taskNameElement = String.format(
+                    "<td><a href=\"http://rosettacode.org/wiki/%s\">%s</a></td>\n",
+                    info.getTaskName(), info.getTaskName()
+                );
+                writer.write(taskNameElement);
 
                 // task note
-                writer.write("  <td>");
-                writer.write(StringUtils.defaultString(info.getNote()));
-                writer.write("</td>\n");
+                writer.write(String.format("  <td>%s</td>\n", StringUtils.defaultString(info.getNote())));
 
                 // build the language listing
                 StringBuilder sb = new StringBuilder();
@@ -314,16 +259,19 @@ public class HtmlWriter {
                     .sorted()
                     .collect(Collectors.toList());
                 for (String lang : langList) {
-                    sb.append(" / ");
+                    if (sb.length() > 0) {
+                        sb.append(" / ");
+                    }
+
+                    sb.append("<span class=\"unit\">");
                     if (StringUtils.equals(lang, info.getNext())) {
                         sb.append("<u>").append(lang).append("</u>");
                     } else {
                         sb.append(lang);
                     }
+                    sb.append("</span>");
                 }
-                writer.write("  <td>");
-                writer.write(sb.toString());
-                writer.write("</td>\n");
+                writer.write(String.format("  <td>%s</td>\n", sb.toString()));
                 writer.write("</tr>\n");
             }
 

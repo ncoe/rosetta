@@ -1,5 +1,6 @@
 package com.github.ncoe.rosetta.util;
 
+import com.github.ncoe.rosetta.exception.UtilException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -96,44 +99,27 @@ public class LocalUtil {
         return name;
     }
 
-    /**
-     * @param language the name of the directory for a language
-     * @return a standard representation of the language name
-     */
-    private static String fixLanguage(String language) {
-        switch (language) {
-            case "Cpp":
-                return "C++";
-            case "CS":
-                return "C#";
-            case "d":
-                System.err.println("[LocalUtil] Case fix needed for D.");
-                return "D";
-            case "FS":
-                return "F#";
-            case "Modula2":
-                System.err.println("[LocalUtil] Name fix needed for Modula-2.");
-                return "Modula-2";
-            default:
-                return language;
-        }
-    }
-
-    /**
-     * @param taskPath a path from which known languages a task has been solved in should be gathered
-     * @return a collections of languages for which the given tasks has been solved
-     */
-    private static Set<String> collectLanguageList(Path taskPath) {
+    private static List<Path> processPathForTasks(Path currentPath) {
+        List<Path> taskList = new ArrayList<>();
         try {
-            return Files.find(taskPath, 1, (path, bfa) -> Files.isDirectory(path))
-                .filter(p -> !Objects.equals(taskPath, p))
-                .map(Path::getFileName)
-                .map(Path::toString)
-                .map(LocalUtil::fixLanguage)
-                .collect(Collectors.toSet());
+            Files.walk(currentPath, 1)
+                .filter(p -> Files.isDirectory(p))
+                .forEach(p -> {
+                    Path fileNamePath = p.getFileName();
+                    String fileName = fileNamePath.toString();
+                    if (LanguageUtil.isLanguageDirectory(fileName)) {
+                        // Found another task to dissect later
+                        taskList.add(p);
+                    } else if (!Objects.equals(currentPath, p)) {
+                        // Do not self recurse
+                        List<Path> innerTaskList = processPathForTasks(p);
+                        taskList.addAll(innerTaskList);
+                    }
+                });
         } catch (IOException e) {
-            return Collections.emptySet();
+            throw new UtilException(e);
         }
+        return taskList;
     }
 
     /**
@@ -142,16 +128,30 @@ public class LocalUtil {
      */
     public static Map<String, Set<String>> classifyCurrent() throws IOException {
         Path basePath = Paths.get(getBasePath());
-        return Files.find(basePath, 1, (path, bfa) -> Files.isDirectory(path))
-            .filter(p -> {
-                String fileName = p.getFileName().toString();
-                return !StringUtils.equalsAny(fileName, "_tools_", ".idea", ".git")
-                    && !Objects.equals(basePath, p);
-            }).collect(
-                Collectors.toMap(pk -> {
-                    String dir = pk.getFileName().toString();
-                    return directoryToTask(dir);
-                }, LocalUtil::collectLanguageList)
+        return processPathForTasks(basePath)
+            .stream()
+            .map(basePath::relativize)
+            .collect(
+                Collectors.toMap(
+                    keyPath -> {
+                        Path taskPath = keyPath.getParent();
+                        String taskDir = taskPath.toString();
+                        return directoryToTask(taskDir);
+                    },
+                    valuePath -> {
+                        Path langPath = valuePath.getFileName();
+                        String dirLang = langPath.toString();
+                        String language = LanguageUtil.directoryToLanguage(dirLang);
+
+                        Set<String> languageSet = new HashSet<>();
+                        languageSet.add(language);
+                        return languageSet;
+                    },
+                    (acc, next) -> {
+                        acc.addAll(next);
+                        return acc;
+                    }
+                )
             );
     }
 
@@ -173,61 +173,12 @@ public class LocalUtil {
         String extension = StringUtils.substringAfterLast(fileNameStr, ".").toUpperCase();
 
         // determine what language the file contributes a solution to
-        String language;
-        switch (extension) {
-            case "C":
-                language = "C";
-                break;
-            case "CPP":
-                language = "C++";
-                break;
-            case "CS":
-                language = "C#";
-                break;
-            case "D":
-                language = "D";
-                break;
-            case "FS":
-                language = "F#";
-                break;
-            case "JAVA":
-                language = "Java";
-                break;
-            case "KT":
-                language = "Kotlin";
-                break;
-            case "LUA":
-                language = "Lua";
-                break;
-            case "MOD":
-                language = "Modula-2";
-                break;
-            case "PL":
-                language = "Perl";
-                break;
-            case "PY":
-                language = "Python";
-                break;
-            case "VB":
-                language = "Visual Basic .NET";
-                break;
-
-            // files that have been added that do not need to be tracked
-            case "":
-            case "JSON":
-            case "MD":
-            case "YML":
-                return;
-
-            // A new language has been added for consideration, or an error has occurred
-            default:
-                System.err.printf("[LocalUtil] Unknown file extension for %s\n", fileNameStr);
-                return;
+        String language = LanguageUtil.extensionToLanguage(extension);
+        if (null != language) {
+            // augment the current metrics
+            long size = Files.size(fullPath);
+            langMap.merge(language, size, Long::sum);
         }
-
-        // augment the current metrics
-        long size = Files.size(fullPath);
-        langMap.merge(language, size, Long::sum);
     }
 
     /**
