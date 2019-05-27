@@ -24,9 +24,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * For gathering data about tasks that could be worked on
+ * For gathering data about tasks that could be worked on.
  */
-public class RemoteUtil {
+public final class RemoteUtil {
     private RemoteUtil() {
         throw new NotImplementedException("No RemoteUtil for you!");
     }

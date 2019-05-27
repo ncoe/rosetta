@@ -38,9 +38,9 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
- * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics
+ * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics.
  */
-public class SpreadsheetWriter {
+public final class SpreadsheetWriter {
     private SpreadsheetWriter() {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
     }

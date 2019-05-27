@@ -19,9 +19,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * For generating a web page that can easily be filtered to get a new task to work on
+ * For generating a web page that can easily be filtered to get a new task to work on.
  */
-public class HtmlWriter {
+public final class HtmlWriter {
     private HtmlWriter() {
         throw new NotImplementedException("No HtmlWriter for you!");
     }

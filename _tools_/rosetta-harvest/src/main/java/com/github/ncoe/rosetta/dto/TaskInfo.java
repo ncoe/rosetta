@@ -4,6 +4,9 @@ import java.nio.file.attribute.FileTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Information gathered regarding a task.
+ */
 public class TaskInfo implements Comparable<TaskInfo> {
     private int category;
     private String taskName;
@@ -12,6 +15,10 @@ public class TaskInfo implements Comparable<TaskInfo> {
     private FileTime lastModified;
     private String note;
 
+    /**
+     * @param category the category to use
+     * @param taskName the name of the task
+     */
     public TaskInfo(int category, String taskName) {
         this.category = category;
         this.taskName = taskName;
@@ -58,13 +65,17 @@ public class TaskInfo implements Comparable<TaskInfo> {
         this.lastModified = lastModified;
     }
 
-    public int compareTo(TaskInfo o2) {
-        int compare = Integer.compare(this.category, o2.category);
+    /**
+     * @param other the task to compare this one to
+     * @return the result of the comparison
+     */
+    public int compareTo(TaskInfo other) {
+        int compare = Integer.compare(this.category, other.category);
         if (compare == 0) {
-            if (this.category == 0 && null != this.lastModified && null != o2.lastModified) {
-                return this.lastModified.compareTo(o2.lastModified);
+            if (this.category == 0 && null != this.lastModified && null != other.lastModified) {
+                return this.lastModified.compareTo(other.lastModified);
             } else {
-                return this.taskName.compareTo(o2.taskName);
+                return this.taskName.compareTo(other.taskName);
             }
         } else {
             return compare;

@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.1//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
+
+<module name="Checker">
+    <module name="Translation"/>
+<!--    <module name="SuppressionCommentFilter"/>-->
+
+    <module name="TreeWalker">
+        <!-- Check use of Spaces and not TABs (4 spaces) -->
+        <property name="tabWidth" value="4" />
+        <module name="GenericWhitespace" />
+        <module name="CyclomaticComplexity">
+            <property name="max" value="15"/>
+        </module>
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName">
+            <property name="format" value="(^serial|^[a-z][a-zA-Z0-9]*$)"/>
+        </module>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName">
+            <property name="format" value="(^serial|^[a-z][a-zA-Z0-9]*$)"/>
+        </module>
+        <module name="TypeName"/>
+        <module name="MutableException"/>
+        <module name="AvoidStarImport"/>
+        <module name="IllegalImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="LineLength">
+            <property name="max" value="130"/>
+        </module>
+        <module name="ParameterNumber">
+            <property name="max" value="8"/>
+        </module>
+        <module name="EmptyForIteratorPad"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <module name="OperatorWrap"/>
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter">
+            <property name="tokens" value="COMMA, SEMI"/>
+        </module>
+        <module name="WhitespaceAround">
+            <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, EQUAL, GE, GT, LAND, LE, LITERAL_ASSERT, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, TYPE_EXTENSION_AND"/>
+        </module>
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+        <module name="AvoidNestedBlocks"/>
+        <module name="EmptyBlock"/>
+        <module name="LeftCurly"/>
+        <module name="NeedBraces">
+            <property name="tokens" value="LITERAL_DO, LITERAL_FOR, LITERAL_WHILE"/>
+        </module>
+        <module name="RightCurly"/>
+
+        <!-- This check has been removed from Checkstyle 5.6 -->
+        <!--<module name="DoubleCheckedLocking"/>-->
+
+        <module name="EmptyStatement"/>
+        <module name="IllegalInstantiation"/>
+        <module name="InnerAssignment"/>
+        <module name="MissingSwitchDefault"/>
+
+        <!-- RedundantThrows was removed with version 6.2 -->
+        <!--<module name="RedundantThrows"/>-->
+
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="SuperClone"/>
+        <module name="FinalClass"/>
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InterfaceIsType"/>
+        <module name="VisibilityModifier">
+            <property name="protectedAllowed" value="true"/>
+        </module>
+        <module name="ArrayTypeStyle"/>
+        <module name="TodoComment"/>
+        <module name="UpperEll"/>
+<!--        <module name="FileContentsHolder"/>-->
+        <!-- Checks correct indentation of Java Code. -->
+        <module name="Indentation">
+            <!-- how many spaces to use for new indentation level -->
+            <property name="basicOffset" value="4" />
+            <!-- how far brace should be indented when on next line -->
+            <property name="braceAdjustment" value="0" />
+            <!-- how much to indent a case label -->
+            <property name="caseIndent" value="4" />
+        </module>
+
+        <!-- Checks for Javadoc comments in public methods/variables only -->
+        <module name="JavadocMethod">
+            <property name="scope" value="public" />
+            <property name="allowMissingPropertyJavadoc" value="true" />
+        </module>
+        <module name="JavadocType">
+            <property name="scope" value="public" />
+            <property name="allowUnknownTags" value="true" />
+        </module>
+        <module name="JavadocVariable">
+            <property name="scope" value="public" />
+        </module>
+        <!-- all JavaDoc must have the right style, regardless of the scope -->
+        <module name="JavadocStyle">
+            <property name="scope" value="public" />
+        </module>
+    </module>
+
+    <!-- No TAB characters in the source code -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true" />
+        <property name="fileExtensions" value="java,properties,xml,wsdl" />
+    </module>
+
+    <module name="RegexpMultiline">
+        <property name="id" value="consoleOutput" />
+        <property name="format" value="System\.(out)|(err)\.print(ln)?\(" />
+        <property name="message" value="Writing to System.out and System.err not allowed - use logger instead" />
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="\.printStackTrace\(\s*\)" />
+        <property name="message" value="Calling printStackTrace on an exception is not allowed - use logger instead" />
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="java\.util\.(Date|Calendar)"/>
+        <property name="message" value="DO NOT USE java.util.Date or java.util.Calendar! Use Joda time instead!"/>
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="(System|Runtime\.getRuntime\(\))\.exit"/>
+        <property name="message" value="Should not exit the JVM."/>
+    </module>
+
+</module>

@@ -24,9 +24,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * For gathering data on the local system about solutions
+ * For gathering data on the local system about solutions.
  */
-public class LocalUtil {
+public final class LocalUtil {
     private LocalUtil() {
         throw new NotImplementedException("No LocalUtil for you!");
     }

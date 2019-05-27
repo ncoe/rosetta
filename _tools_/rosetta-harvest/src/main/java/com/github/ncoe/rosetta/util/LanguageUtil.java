@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Common place to handle manipulation among the various forms of the solution languages
+ * Common place to handle manipulation among the various forms of the solution languages.
  */
-public class LanguageUtil {
-    private static List<LanguageInfo> LANG_INFO = List.of(
+public final class LanguageUtil {
+    private static final List<LanguageInfo> LANG_INFO = List.of(
         LanguageInfo.of("C", "C", "c", "clang"),
         LanguageInfo.of("C++", "Cpp", "cpp", "cpp"),
         LanguageInfo.of("C#", "CS", "cs", "csharp"),

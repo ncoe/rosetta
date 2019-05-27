@@ -6,6 +6,7 @@ import com.github.ncoe.rosetta.io.HtmlWriter;
 import com.github.ncoe.rosetta.io.SpreadsheetWriter;
 import com.github.ncoe.rosetta.util.LocalUtil;
 import com.github.ncoe.rosetta.util.RemoteUtil;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
@@ -16,7 +17,27 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class Program {
+/**
+ * The class that links the others together.
+ */
+public final class Program {
+    private static final String BIG_DECIMAL = "big decimal";
+    private static final String BIG_INTEGER = "big integer";
+    private static final String DYNAMIC_MEMORY = "dynamic memory";
+    private static final String FILE_IO = "file io";
+    private static final String IMAGE_IO = "image io";
+    private static final String NESTED_FUNCTIONS = "nested functions";
+    private static final String NETWORK_IO = "network io";
+
+    private Program() {
+        throw new NotImplementedException("No Program for you!");
+    }
+
+    /**
+     * Entry point.
+     *
+     * @param args Not used
+     */
     public static void main(String[] args) {
         generate();
     }
@@ -132,31 +153,31 @@ public class Program {
         TaskInfo info;
 
         info = taskInfoMap.get("Append_a_record_to_the_end_of_a_text_file");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Arithmetic_coding/As_a_generalized_change_of_radix");
-        info.setNote("big integer");
+        info.setNote(BIG_INTEGER);
 
         info = taskInfoMap.get("Base58Check_encoding");
-        info.setNote("big integer");
+        info.setNote(BIG_INTEGER);
 
         info = taskInfoMap.get("Bilinear_interpolation");
-        info.setNote("image io");
+        info.setNote(IMAGE_IO);
 
         info = taskInfoMap.get("Chat_server");
-        info.setNote("network io");
+        info.setNote(NETWORK_IO);
 
         info = taskInfoMap.get("Cipolla's_algorithm");
-        info.setNote("big integer");
+        info.setNote(BIG_INTEGER);
 
         info = taskInfoMap.get("Create_a_file_on_magnetic_tape");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Eertree");
-        info.setNote("nested functions");
+        info.setNote(NESTED_FUNCTIONS);
 
         info = taskInfoMap.get("Egyptian_fractions");
-        info.setNote("big integer");
+        info.setNote(BIG_INTEGER);
 
         info = taskInfoMap.get("Lucky_and_even_lucky_numbers");
         info.setNote("commandline arguments");
@@ -165,34 +186,40 @@ public class Program {
         info.setNote("process io");
 
         info = taskInfoMap.get("I_before_E_except_after_C");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Knuth's_power_tree");
-        info.setNote("big decimal");
+        info.setNote(BIG_DECIMAL);
 
         info = taskInfoMap.get("Magic_squares_of_doubly_even_order");
-        info.setNote("dynamic memory");
+        info.setNote(DYNAMIC_MEMORY);
 
         info = taskInfoMap.get("Make_directory_path");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Markov_chain_text_generator");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Mersenne_primes");
-        info.setNote("big integer");
+        info.setNote(BIG_INTEGER);
+
+        info = taskInfoMap.get("Montgomery_reduction");
+        info.setNote(BIG_INTEGER);
 
         info = taskInfoMap.get("Narcissist");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Sierpinski_pentagon");
-        info.setNote("image io/file io");
+        info.setNote(IMAGE_IO + " / " + FILE_IO);
+
+        info = taskInfoMap.get("Suffix_tree");
+        info.setNote(NESTED_FUNCTIONS);
 
         info = taskInfoMap.get("Tonelli-Shanks_algorithm");
-        info.setNote("big integer");
+        info.setNote(BIG_INTEGER);
 
         info = taskInfoMap.get("Write_entire_file");
-        info.setNote("file io");
+        info.setNote(FILE_IO);
 
         info = taskInfoMap.get("Write_to_Windows_event_log");
         info.setNote("windows");
