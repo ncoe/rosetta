@@ -3,6 +3,7 @@ package com.github.ncoe.rosetta.io;
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -96,7 +97,12 @@ public final class SpreadsheetWriter {
 
             // task name
             cell = taskRow.createCell(colNum++);
-            cell.setCellValue(info.getTaskName());
+            String taskName = info.getTaskName();
+            if (NumberUtils.isParsable(taskName)) {
+                cell.setCellValue("'" + taskName);
+            } else {
+                cell.setCellValue(taskName);
+            }
 
             // task languages
             cell = taskRow.createCell(colNum++);
