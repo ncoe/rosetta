@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
  * For generating a web page that can easily be filtered to get a new task to work on.
  */
 public final class HtmlWriter {
+    private static final String OUTPUT_DIRECTORY = "out";
+
     private HtmlWriter() {
         throw new NotImplementedException("No HtmlWriter for you!");
     }
@@ -157,6 +159,8 @@ public final class HtmlWriter {
      * @param taskInfoCollection the tasks that could use an implementation for a language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection) {
+        Path path = Paths.get(OUTPUT_DIRECTORY, "rosetta.html");
+
         // pre-filter tasks that are in-progress or that have no language to write an implementation for
         List<TaskInfo> taskList = taskInfoCollection.stream()
             .filter(
@@ -167,7 +171,6 @@ public final class HtmlWriter {
             .collect(Collectors.toList());
 
         // start writing the page
-        Path path = Paths.get("target", "rosetta.html");
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             // header information
             writer.write("<!DOCTYPE html>\n");

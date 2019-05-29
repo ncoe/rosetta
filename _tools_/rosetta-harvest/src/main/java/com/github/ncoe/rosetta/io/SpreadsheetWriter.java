@@ -27,8 +27,11 @@ import org.openxmlformats.schemas.drawingml.x2006.chart.CTChart;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTPieChart;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTPlotArea;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +45,8 @@ import java.util.stream.Collectors;
  * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics.
  */
 public final class SpreadsheetWriter {
+    private static final String OUTPUT_DIRECTORY = "out";
+
     private SpreadsheetWriter() {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
     }
@@ -210,6 +215,8 @@ public final class SpreadsheetWriter {
      * @param langStatMap        statistics to track for each language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
+        Path filePath = Paths.get(OUTPUT_DIRECTORY, "rosetta.xlsx");
+
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()
             .filter(task -> !task.getLanguageSet().isEmpty())
@@ -217,15 +224,14 @@ public final class SpreadsheetWriter {
             .collect(Collectors.toList());
 
         // create and populate a workbook
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        writeOpenTasks(workbook, taskList);
-        writeLanguageDown(workbook, langStatMap);
+        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+            writeOpenTasks(workbook, taskList);
+            writeLanguageDown(workbook, langStatMap);
 
-        // Write the workbook out to disk
-        try {
-            FileOutputStream outputStream = new FileOutputStream("target/rosetta.xlsx");
-            workbook.write(outputStream);
-            workbook.close();
+            // Write the workbook out to disk
+            try (OutputStream writer = Files.newOutputStream(filePath)) {
+                workbook.write(writer);
+            }
         } catch (IOException e) {
             throw new UtilException(e);
         }

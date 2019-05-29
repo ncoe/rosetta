@@ -10,6 +10,9 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,6 +42,15 @@ public final class Program {
      * @param args Not used
      */
     public static void main(String[] args) {
+        Path outPath = Paths.get("out");
+        if (Files.notExists(outPath)) {
+            try {
+                Files.createDirectory(outPath);
+            } catch (IOException e) {
+                throw new UtilException(e);
+            }
+        }
+
         generate();
     }
 
