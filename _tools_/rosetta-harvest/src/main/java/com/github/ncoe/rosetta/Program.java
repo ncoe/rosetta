@@ -12,7 +12,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,7 +41,7 @@ public final class Program {
      * @param args Not used
      */
     public static void main(String[] args) {
-        Path outPath = Paths.get("out");
+        Path outPath = Path.of("out");
         if (Files.notExists(outPath)) {
             try {
                 Files.createDirectory(outPath);
@@ -147,9 +146,13 @@ public final class Program {
             if (null != info) {
                 Pair<String, FileTime> langTime = entry.getValue();
 
-                info.setCategory(0);
-                info.setNext(langTime.getLeft());
-                info.setLastModified(langTime.getRight());
+                if (info.getCategory() == 0) {
+                    System.out.printf("There are multiple solutions for [%s], additionally %s\n", entry.getKey(), langTime.getKey());
+                } else {
+                    info.setCategory(0);
+                    info.setNext(langTime.getLeft());
+                    info.setLastModified(langTime.getRight());
+                }
             }
         }
 
@@ -169,6 +172,9 @@ public final class Program {
 
         info = taskInfoMap.get("Arithmetic_coding/As_a_generalized_change_of_radix");
         info.setNote(BIG_INTEGER);
+
+        info = taskInfoMap.get("Arithmetic-geometric_mean/Calculate_Pi");
+        info.setNote(BIG_INTEGER + " / " + BIG_DECIMAL);
 
         info = taskInfoMap.get("Base58Check_encoding");
         info.setNote(BIG_INTEGER);

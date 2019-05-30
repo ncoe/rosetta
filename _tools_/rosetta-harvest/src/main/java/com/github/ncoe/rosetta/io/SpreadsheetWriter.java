@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -215,7 +214,7 @@ public final class SpreadsheetWriter {
      * @param langStatMap        statistics to track for each language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
-        Path filePath = Paths.get(OUTPUT_DIRECTORY, "rosetta.xlsx");
+        Path filePath = Path.of(OUTPUT_DIRECTORY, "rosetta.xlsx");
 
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()

@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,7 +95,7 @@ public final class LocalUtil {
             RemoteUtil.validateTaskName(name);
         }
 
-        return name;
+        return name.replace("\\", "/");
     }
 
     private static List<Path> processPathForTasks(Path currentPath) {
@@ -127,7 +126,7 @@ public final class LocalUtil {
      * @throws IOException if something happens gathering data
      */
     public static Map<String, Set<String>> classifyCurrent() throws IOException {
-        Path basePath = Paths.get(getBasePath());
+        Path basePath = Path.of(getBasePath());
         return processPathForTasks(basePath)
             .stream()
             .map(basePath::relativize)
@@ -186,7 +185,7 @@ public final class LocalUtil {
      * @throws IOException if something happens gathering data
      */
     public static Map<String, Long> languageStats() throws IOException {
-        Path basePath = Paths.get(getBasePath());
+        Path basePath = Path.of(getBasePath());
 
         ProcessBuilder builder = new ProcessBuilder("git", "ls-tree", "--full-tree", "-r", "--name-only", "HEAD");
         Process process = builder.start();
@@ -256,6 +255,7 @@ public final class LocalUtil {
 
         // This should never happen
         assert null != taskName;
+        assert !taskName.toString().contains("\\");
 
         // A new language has been added, or something is non-standard and needs to be corrected
         if (null == language) {
@@ -271,8 +271,8 @@ public final class LocalUtil {
      * @throws IOException if something happens gathering data
      */
     public static Map<String, Pair<String, FileTime>> pendingSolutions() throws IOException {
-        Path basePath = Paths.get(getBasePath());
-        Path currentPath = Paths.get("").toAbsolutePath();
+        Path basePath = Path.of(getBasePath());
+        Path currentPath = Path.of("").toAbsolutePath();
 
         ProcessBuilder builder = new ProcessBuilder("git", "status", "-u");
         Process process = builder.start();

@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -159,7 +158,7 @@ public final class HtmlWriter {
      * @param taskInfoCollection the tasks that could use an implementation for a language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection) {
-        Path path = Paths.get(OUTPUT_DIRECTORY, "rosetta.html");
+        Path path = Path.of(OUTPUT_DIRECTORY, "rosetta.html");
 
         // pre-filter tasks that are in-progress or that have no language to write an implementation for
         List<TaskInfo> taskList = taskInfoCollection.stream()
