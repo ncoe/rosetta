@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+    <c:chart>
+        <c:title>
+            <c:tx>
+                <c:rich>
+                    <a:bodyPr anchor="t" rtlCol="false"/>
+                    <a:lstStyle/>
+                    <a:p>
+                        <a:pPr algn="l">
+                            <a:defRPr/>
+                        </a:pPr>
+                        <a:r>
+                            <a:rPr lang="en-US"/>
+                            <a:t>Language Breakdown</a:t>
+                        </a:r>
+                        <a:endParaRPr lang="en-US" sz="1100"/>
+                    </a:p>
+                </c:rich>
+            </c:tx>
+            <c:layout/>
+        </c:title>
+        <c:plotArea>
+            <c:layout/>
+            <c:pieChart>
+                <c:varyColors val="true"/>
+                <c:ser>
+                    <c:idx val="0"/>
+                    <c:order val="0"/>
+                    <c:cat>
+                        <c:strRef>
+                            <c:f>Breakdown!$A$2:$A$13</c:f>
+                            <c:strCache>
+                                <c:ptCount val="12"/>
+                                <c:pt idx="0"><c:v>D</c:v></c:pt>
+                                <c:pt idx="1"><c:v>C#</c:v></c:pt>
+                                <c:pt idx="2"><c:v>Java</c:v></c:pt>
+                                <c:pt idx="3"><c:v>C++</c:v></c:pt>
+                                <c:pt idx="4"><c:v>Modula-2</c:v></c:pt>
+                                <c:pt idx="5"><c:v>Visual Basic .NET</c:v></c:pt>
+                                <c:pt idx="6"><c:v>C</c:v></c:pt>
+                                <c:pt idx="7"><c:v>Lua</c:v></c:pt>
+                                <c:pt idx="8"><c:v>Python</c:v></c:pt>
+                                <c:pt idx="9"><c:v>F#</c:v></c:pt>
+                                <c:pt idx="10"><c:v>Perl</c:v></c:pt>
+                                <c:pt idx="11"><c:v>Kotlin</c:v></c:pt>
+                            </c:strCache>
+                        </c:strRef>
+                    </c:cat>
+                    <c:val>
+                        <c:numRef>
+                            <c:f>Breakdown!$B$2:$B$13</c:f>
+                            <c:numCache>
+                                <c:ptCount val="12"/>
+                                <c:pt idx="0"><c:v>209539.0</c:v></c:pt>
+                                <c:pt idx="1"><c:v>205614.0</c:v></c:pt>
+                                <c:pt idx="2"><c:v>197169.0</c:v></c:pt>
+                                <c:pt idx="3"><c:v>151018.0</c:v></c:pt>
+                                <c:pt idx="4"><c:v>148007.0</c:v></c:pt>
+                                <c:pt idx="5"><c:v>111103.0</c:v></c:pt>
+                                <c:pt idx="6"><c:v>47014.0</c:v></c:pt>
+                                <c:pt idx="7"><c:v>42140.0</c:v></c:pt>
+                                <c:pt idx="8"><c:v>28291.0</c:v></c:pt>
+                                <c:pt idx="9"><c:v>17443.0</c:v></c:pt>
+                                <c:pt idx="10"><c:v>7212.0</c:v></c:pt>
+                                <c:pt idx="11"><c:v>5036.0</c:v></c:pt>
+                            </c:numCache>
+                        </c:numRef>
+                    </c:val>
+                </c:ser>
+            </c:pieChart>
+        </c:plotArea>
+        <c:legend>
+            <c:legendPos val="tr"/>
+            <c:overlay val="false"/>
+        </c:legend>
+        <c:plotVisOnly val="true"/>
+    </c:chart>
+    <c:printSettings>
+        <c:headerFooter/>
+        <c:pageMargins b="0.75" l="0.7" r="0.7" t="0.75" header="0.3" footer="0.3"/>
+        <c:pageSetup/>
+    </c:printSettings>
+</c:chartSpace>

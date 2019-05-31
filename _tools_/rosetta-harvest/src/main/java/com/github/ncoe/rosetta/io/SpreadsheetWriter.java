@@ -50,6 +50,10 @@ public final class SpreadsheetWriter {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
     }
 
+    /**
+     * @param workbook the workbook to add a sheet for task info
+     * @param taskList the list of tasks where there is work that could be done
+     */
     private static void writeOpenTasks(Workbook workbook, List<TaskInfo> taskList) {
         Sheet sheet = workbook.createSheet("In Progress");
 
@@ -136,6 +140,16 @@ public final class SpreadsheetWriter {
         for (int i = 0; i < maxCol; ++i) {
             sheet.autoSizeColumn(i);
         }
+
+        sheet.createFreezePane(0, 1);
+
+        /* todo support initial sorting definition (may not be currently accessible with current builds)
+         * <sortState ref="A2:F1087">
+         *     <sortCondition ref="A2:A1087"/>
+         *     <sortCondition ref="F2:F1087"/>
+         *     <sortCondition ref="B2:B1087"/>
+         * </sortState>
+         */
     }
 
     /**
@@ -198,6 +212,14 @@ public final class SpreadsheetWriter {
 
         CellRangeAddress valRange = new CellRangeAddress(1, rowNum - 1, 1, 1);
         XDDFNumericalDataSource<Double> val = XDDFDataSourcesFactory.fromNumericCellRange(sheet, valRange);
+
+        // todo add data labels -> add data callouts (microsoft 2012 is the schema seen locally)
+        /* todo chart type from "pie" to "pipe of pie" or "bar of pie" (min of 5%)(microsoft 2012 is the schema seen locally)
+         * <c:ofPieChart>
+         *      <c:ofPieType val="pie"/>
+         * ...
+         * </c:ofPieChart>
+         */
 
         // connect the data to the pie chart (also showed the missing requirement for command-line building)
         CTChart ctChart = chart.getCTChart();
