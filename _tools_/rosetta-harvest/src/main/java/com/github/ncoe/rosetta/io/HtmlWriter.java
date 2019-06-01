@@ -223,25 +223,25 @@ public final class HtmlWriter {
             for (TaskInfo info : taskList) {
                 // task row with all elements needed to support filtering
                 String classStr = buildClasses(info.getLanguageSet());
-                writer.write(String.format("<tr class=\"taskFilter TaskType%d %s\">\n", info.getCategory(), classStr));
 
                 // descriptive task category
-                switch (info.getCategory()) {
-                    case 1:
-                        writer.write("  <td>One Solution</td>\n");
-                        break;
-                    case 2:
-                        writer.write("  <td>Multiple Solutions</td>\n");
-                        break;
-                    case 3:
-                        writer.write("  <td>Multiple Options</td>\n");
-                        break;
-                    case 4:
-                        writer.write("  <td>One Option</td>\n");
-                        break;
-                    default:
-                        // This should never happen
-                        System.err.printf("[HtmlWriter] Unknown category: %d\n", info.getCategory());
+                if (info.getCategory() == 1.0) {
+                    writer.write(String.format("<tr class=\"taskFilter TaskType1 %s\">\n", classStr));
+                    writer.write("  <td>One Solution</td>\n");
+                } else if (info.getCategory() == 2.0 || info.getCategory() == 1.9) {
+                    writer.write(String.format("<tr class=\"taskFilter TaskType2 %s\">\n", classStr));
+                    writer.write("  <td>Multiple Solutions</td>\n");
+                } else if (info.getCategory() == 3.0 || info.getCategory() == 1.7) {
+                    writer.write(String.format("<tr class=\"taskFilter TaskType3 %s\">\n", classStr));
+                    writer.write("  <td>Multiple Options</td>\n");
+                } else if (info.getCategory() == 4.0 || info.getCategory() == 1.8) {
+                    writer.write(String.format("<tr class=\"taskFilter TaskType4 %s\">\n", classStr));
+                    writer.write("  <td>One Option</td>\n");
+                } else {
+                    // This should never happen
+                    writer.write(String.format("<tr class=\"taskFilter %s\">\n", classStr));
+                    writer.write("  <td><b>UNKNOWN</b></td>\n");
+                    System.err.printf("[HtmlWriter] Unknown category: %f\n", info.getCategory());
                 }
 
                 // task name, with link

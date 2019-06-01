@@ -4,6 +4,7 @@ import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
 import com.github.ncoe.rosetta.io.HtmlWriter;
 import com.github.ncoe.rosetta.io.SpreadsheetWriter;
+import com.github.ncoe.rosetta.util.LanguageUtil;
 import com.github.ncoe.rosetta.util.LocalUtil;
 import com.github.ncoe.rosetta.util.RemoteUtil;
 import org.apache.commons.lang3.NotImplementedException;
@@ -43,7 +44,12 @@ public final class Program {
      */
     public static void main(String[] args) {
         Path outPath = Path.of("out");
-        if (Files.notExists(outPath)) {
+        if (Files.exists(outPath)) {
+            Path openPath = outPath.resolve("~$" + SpreadsheetWriter.FILENAME);
+            if (Files.exists(openPath)) {
+                throw new UtilException("First close " + openPath.toString());
+            }
+        } else {
             try {
                 Files.createDirectory(outPath);
             } catch (IOException e) {
@@ -54,35 +60,7 @@ public final class Program {
         generate();
     }
 
-    private static String fixLangName(String language) {
-        switch (language) {
-            case "C_sharp":
-                return "C#";
-            case "F_Sharp":
-                return "F#";
-            case "Visual_Basic_.NET":
-                return "Visual Basic .NET";
-            default:
-                return language;
-        }
-    }
-
     private static void generate() {
-        Set<String> languages = Set.of(
-            "C",
-            "C++",
-            "C_sharp",
-            "D",
-            "F_Sharp",
-            "Java",
-            "Kotlin",
-            "Lua",
-            "Modula-2",
-            "Perl",
-            "Python",
-            "Visual_Basic_.NET"
-        );
-
         // Gather local solutions and statistics
         Map<String, Long> langStatMap;
         Map<String, Pair<String, FileTime>> pendingMap;
@@ -111,8 +89,8 @@ public final class Program {
 
         // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
-        for (String language : languages) {
-            String taskLang = fixLangName(language);
+        for (String language : LanguageUtil.LANGUAGES) {
+            String taskLang = LanguageUtil.rosettaToLanguage(language);
             Set<String> langSet = RemoteUtil.harvest(language);
 
             // Incorporate the tasks that could be implemented with this language
@@ -243,6 +221,7 @@ public final class Program {
         info = taskInfoMap.get("Write_to_Windows_event_log");
         info.setNote("windows");
 
+        // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
             .stream()
             .filter(entry -> {
@@ -267,14 +246,21 @@ public final class Program {
             .forEach(data -> {
                 if (0 < data.getCategory() && data.getCategory() < 3) {
                     System.err.printf("No longer need to process task [%s]\n", data.getTaskName());
-                } else {
+                } else if (data.getCategory() > 2) {
                     if (data.getCategory() == 3) {
+                        data.setCategory(1.7);
                         data.setNote("Multiple Options :)");
                     } else {
+                        data.setCategory(1.8);
                         data.setNote("Only one option :(");
                     }
-                    data.setCategory(1);
                 }
             });
+
+        // Follow priority with tasks that have one language left to work on
+        taskInfoMap.values()
+            .stream()
+            .filter(data -> data.getCategory() == 2 && data.getLanguageSet().size() == 1)
+            .forEach(data -> data.setCategory(1.9));
     }
 }

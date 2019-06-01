@@ -8,7 +8,7 @@ import java.util.Set;
  * Information gathered regarding a task.
  */
 public class TaskInfo implements Comparable<TaskInfo> {
-    private int category;
+    private double category;
     private String taskName;
     private Set<String> languageSet;
     private String next;
@@ -19,17 +19,17 @@ public class TaskInfo implements Comparable<TaskInfo> {
      * @param category the category to use
      * @param taskName the name of the task
      */
-    public TaskInfo(int category, String taskName) {
+    public TaskInfo(double category, String taskName) {
         this.category = category;
         this.taskName = taskName;
         this.languageSet = new HashSet<>();
     }
 
-    public int getCategory() {
+    public double getCategory() {
         return this.category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(double category) {
         this.category = category;
     }
 
@@ -70,7 +70,7 @@ public class TaskInfo implements Comparable<TaskInfo> {
      * @return the result of the comparison
      */
     public int compareTo(TaskInfo other) {
-        int compare = Integer.compare(this.category, other.category);
+        int compare = Double.compare(this.category, other.category);
         if (compare == 0) {
             if (this.category == 0 && null != this.lastModified && null != other.lastModified) {
                 return this.lastModified.compareTo(other.lastModified);

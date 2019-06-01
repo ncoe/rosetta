@@ -6,11 +6,27 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Common place to handle manipulation among the various forms of the solution languages.
  */
 public final class LanguageUtil {
+    public static final Set<String> LANGUAGES = Set.of(
+        "C",
+        "C++",
+        "C_sharp",
+        "D",
+        "F_Sharp",
+        "Java",
+        "Kotlin",
+        "Lua",
+        "Modula-2",
+        "Perl",
+        "Python",
+        "Visual_Basic_.NET"
+    );
+
     private static final List<LanguageInfo> LANG_INFO = List.of(
         LanguageInfo.of("C", "C", "c", "clang"),
         LanguageInfo.of("C++", "Cpp", "cpp", "cpp"),
@@ -94,6 +110,23 @@ public final class LanguageUtil {
         } else {
             System.err.printf("[LanguageUtil] unknown class name for %s\n", language);
             return null;
+        }
+    }
+
+    /**
+     * @param language the form rosetta code uses for page definitions
+     * @return the standard from of the language name
+     */
+    public static String rosettaToLanguage(String language) {
+        switch (language) {
+            case "C_sharp":
+                return "C#";
+            case "F_Sharp":
+                return "F#";
+            case "Visual_Basic_.NET":
+                return "Visual Basic .NET";
+            default:
+                return language;
         }
     }
 }

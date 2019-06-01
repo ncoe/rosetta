@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
  * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics.
  */
 public final class SpreadsheetWriter {
+    public static final String FILENAME = "rosetta.xlsx";
     private static final String OUTPUT_DIRECTORY = "out";
 
     private SpreadsheetWriter() {
@@ -268,7 +269,7 @@ public final class SpreadsheetWriter {
      * @param langStatMap        statistics to track for each language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
-        Path filePath = Path.of(OUTPUT_DIRECTORY, "rosetta.xlsx");
+        Path filePath = Path.of(OUTPUT_DIRECTORY, FILENAME);
 
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()
