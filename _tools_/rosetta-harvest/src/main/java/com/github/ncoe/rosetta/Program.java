@@ -7,6 +7,7 @@ import com.github.ncoe.rosetta.io.SpreadsheetWriter;
 import com.github.ncoe.rosetta.util.LocalUtil;
 import com.github.ncoe.rosetta.util.RemoteUtil;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
@@ -241,5 +242,39 @@ public final class Program {
 
         info = taskInfoMap.get("Write_to_Windows_event_log");
         info.setNote("windows");
+
+        taskInfoMap.entrySet()
+            .stream()
+            .filter(entry -> {
+                String key = entry.getKey();
+                return StringUtils.startsWithAny(key,
+                    "Arithmetic-geometric_mean",
+                    "Arithmetic_coding",
+                    "Averages",
+                    "Hello_world",
+                    "Parsing",
+                    "Reflection"
+                ) && !StringUtils.equalsAny(key,
+                    "Arithmetic-geometric_mean/Calculate_Pi",
+                    "Arithmetic_coding/As_a_generalized_change_of_radix",
+                    "Averages/Pythagorean_means",
+                    "Hello_world/Newline_omission",
+                    "Parsing/Shunting-yard_algorithm",
+                    "Reflection/List_methods"
+                );
+            })
+            .map(Entry::getValue)
+            .forEach(data -> {
+                if (0 < data.getCategory() && data.getCategory() < 3) {
+                    System.err.printf("No longer need to process task [%s]\n", data.getTaskName());
+                } else {
+                    if (data.getCategory() == 3) {
+                        data.setNote("Multiple Options :)");
+                    } else {
+                        data.setNote("Only one option :(");
+                    }
+                    data.setCategory(1);
+                }
+            });
     }
 }
