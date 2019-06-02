@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
  * For gathering data on the local system about solutions.
  */
 public final class LocalUtil {
+    public static final String OUTPUT_DIRECTORY = "out";
+
     private LocalUtil() {
         throw new NotImplementedException("No LocalUtil for you!");
     }
@@ -284,8 +286,13 @@ public final class LocalUtil {
         String line;
 
         while (null != (line = br.readLine())) {
-            if (line.length() > 0 && line.charAt(0) == '\t' && !StringUtils.startsWithAny(line, "\tnew file:", "\tmodified:", "\trenamed:", "\tdeleted:")) {
-                Path fullPath = currentPath.resolve(line.substring(1)).normalize();
+            if (line.length() > 0 && line.charAt(0) == '\t' && !StringUtils.startsWithAny(line, "\tmodified:", "\trenamed:", "\tdeleted:")) {
+                Path fullPath;
+                if (StringUtils.startsWith(line, "\tnew file:")) {
+                    fullPath = currentPath.resolve(StringUtils.substringAfter(line, "\tnew file:").trim()).normalize();
+                } else {
+                    fullPath = currentPath.resolve(line.substring(1)).normalize();
+                }
 
                 // ignore changes in tooling for this purpose
                 if ("_tools_".equals(fullPath.getRoot().toString())) {
@@ -296,8 +303,13 @@ public final class LocalUtil {
                 Path relativePath = basePath.relativize(fullPath);
                 Pair<String, String> solution = extractSolution(relativePath);
                 if (null != solution) {
-                    FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
-                    taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
+                    Pair<String, FileTime> info = taskMap.get(solution.getKey());
+                    if (null == info) {
+                        FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
+                        taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
+                    } else {
+                        System.out.printf("There are multiple solutions for [%s], additionally %s\n", solution.getKey(), solution.getValue());
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.github.ncoe.rosetta.io;
 
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
+import com.github.ncoe.rosetta.util.LocalUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -10,9 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xddf.usermodel.chart.LegendPosition;
 import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
-import org.apache.poi.xddf.usermodel.chart.XDDFChartLegend;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
 import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
@@ -45,7 +44,6 @@ import java.util.stream.Collectors;
  */
 public final class SpreadsheetWriter {
     public static final String FILENAME = "rosetta.xlsx";
-    private static final String OUTPUT_DIRECTORY = "out";
 
     private SpreadsheetWriter() {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
@@ -93,7 +91,10 @@ public final class SpreadsheetWriter {
 
         // Fill in the task info as additional rows
         for (TaskInfo info : taskList) {
-            List<String> langList = info.getLanguageSet().stream().sorted().collect(Collectors.toList());
+            List<String> langList = info.getLanguageSet()
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
             String languageStr = String.join(", ", langList);
 
             // prepare a new row
@@ -165,7 +166,10 @@ public final class SpreadsheetWriter {
         }
         statList.sort(Collections.reverseOrder(Comparator.comparing(Pair::getValue)));
 
-        Long total = statList.stream().map(Pair::getValue).reduce(Long::sum).orElse(0L);
+        Long total = statList.stream()
+            .map(Pair::getValue)
+            .reduce(Long::sum)
+            .orElse(0L);
         int cutPoint = 0;
 
         // create the worksheet
@@ -213,15 +217,16 @@ public final class SpreadsheetWriter {
          * </c:ofPieChart>
          */
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // add a pie chart for visual comparision of primary languages
         XSSFDrawing primaryDrawing = sheet.createDrawingPatriarch();
         XSSFClientAnchor primaryAnchor = primaryDrawing.createAnchor(0, 0, 0, 0, 4, 0, 14, 30);
 
         XSSFChart primaryChart = primaryDrawing.createChart(primaryAnchor);
-        primaryChart.setTitleText("Primary Language Breakdown");
+//        primaryChart.setTitleText("Primary Language Breakdown");
 
-        XDDFChartLegend primaryLegend = primaryChart.getOrAddLegend();
-        primaryLegend.setPosition(LegendPosition.TOP_RIGHT);
+//        XDDFChartLegend primaryLegend = primaryChart.getOrAddLegend();
+//        primaryLegend.setPosition(LegendPosition.TOP_RIGHT);
 
         CellRangeAddress primaryCatRange = new CellRangeAddress(1, cutPoint - 1, 0, 0);
         XDDFDataSource<String> primaryCat = XDDFDataSourcesFactory.fromStringCellRange(sheet, primaryCatRange);
@@ -235,18 +240,21 @@ public final class SpreadsheetWriter {
         CTPieChart primaryPieChart = primaryPlotArea.addNewPieChart();
         XDDFChartData primaryData = new XDDFPieChartData(primaryPieChart);
         primaryData.setVaryColors(true);
-        primaryData.addSeries(primaryCat, primaryVal);
+        XDDFChartData.Series primarySeries = primaryData.addSeries(primaryCat, primaryVal);
+        primarySeries.setShowLeaderLines(true);
+        primarySeries.setTitle("Primary", null);
         primaryChart.plot(primaryData);
 
-        // add a pie chart for visual comparision of primary languages
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // add a pie chart for visual comparision of secondary languages
         XSSFDrawing secondaryDrawing = sheet.createDrawingPatriarch();
         XSSFClientAnchor secondaryAnchor = secondaryDrawing.createAnchor(0, 0, 0, 0, 15, 0, 25, 30);
 
         XSSFChart secondaryChart = secondaryDrawing.createChart(secondaryAnchor);
-        secondaryChart.setTitleText("Secondary Language Breakdown");
+//        secondaryChart.setTitleText("Secondary Language Breakdown");
 
-        XDDFChartLegend secondaryLegend = secondaryChart.getOrAddLegend();
-        secondaryLegend.setPosition(LegendPosition.TOP_RIGHT);
+//        XDDFChartLegend secondaryLegend = secondaryChart.getOrAddLegend();
+//        secondaryLegend.setPosition(LegendPosition.TOP_RIGHT);
 
         CellRangeAddress secondaryCatRange = new CellRangeAddress(cutPoint, rowNum - 1, 0, 0);
         XDDFDataSource<String> secondaryCat = XDDFDataSourcesFactory.fromStringCellRange(sheet, secondaryCatRange);
@@ -260,7 +268,9 @@ public final class SpreadsheetWriter {
         CTPieChart secondaryPieChart = secondaryPlotArea.addNewPieChart();
         XDDFChartData secondaryData = new XDDFPieChartData(secondaryPieChart);
         secondaryData.setVaryColors(true);
-        secondaryData.addSeries(secondaryCat, secondaryVal);
+        XDDFChartData.Series secondarySeries = secondaryData.addSeries(secondaryCat, secondaryVal);
+        secondarySeries.setShowLeaderLines(true);
+        secondarySeries.setTitle("Secondary", null);
         secondaryChart.plot(secondaryData);
     }
 
@@ -269,7 +279,7 @@ public final class SpreadsheetWriter {
      * @param langStatMap        statistics to track for each language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
-        Path filePath = Path.of(OUTPUT_DIRECTORY, FILENAME);
+        Path filePath = Path.of(LocalUtil.OUTPUT_DIRECTORY, FILENAME);
 
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()

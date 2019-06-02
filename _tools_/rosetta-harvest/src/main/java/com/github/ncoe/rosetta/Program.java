@@ -126,6 +126,7 @@ public final class Program {
                 Pair<String, FileTime> langTime = entry.getValue();
 
                 if (info.getCategory() == 0) {
+                    // No task should come here as zero :P
                     System.out.printf("There are multiple solutions for [%s], additionally %s\n", entry.getKey(), langTime.getKey());
                 } else {
                     info.setCategory(0);

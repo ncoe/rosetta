@@ -3,6 +3,7 @@ package com.github.ncoe.rosetta.io;
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
 import com.github.ncoe.rosetta.util.LanguageUtil;
+import com.github.ncoe.rosetta.util.LocalUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,8 +22,6 @@ import java.util.stream.Collectors;
  * For generating a web page that can easily be filtered to get a new task to work on.
  */
 public final class HtmlWriter {
-    private static final String OUTPUT_DIRECTORY = "out";
-
     private HtmlWriter() {
         throw new NotImplementedException("No HtmlWriter for you!");
     }
@@ -158,7 +157,7 @@ public final class HtmlWriter {
      * @param taskInfoCollection the tasks that could use an implementation for a language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection) {
-        Path path = Path.of(OUTPUT_DIRECTORY, "rosetta.html");
+        Path path = Path.of(LocalUtil.OUTPUT_DIRECTORY, "rosetta.html");
 
         // pre-filter tasks that are in-progress or that have no language to write an implementation for
         List<TaskInfo> taskList = taskInfoCollection.stream()
