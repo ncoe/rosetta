@@ -145,7 +145,7 @@ public final class SpreadsheetWriter {
 
         sheet.createFreezePane(0, 1);
 
-        /* todo support initial sorting definition (may not be currently accessible with current builds)
+        /* support initial sorting definition (may not be currently accessible with current builds)
          * <sortState ref="A2:F1087">
          *     <sortCondition ref="A2:A1087"/>
          *     <sortCondition ref="F2:F1087"/>
@@ -209,13 +209,15 @@ public final class SpreadsheetWriter {
         sheet.autoSizeColumn(0);
         sheet.autoSizeColumn(1);
 
-        // todo add data labels -> add data callouts (microsoft 2012 is the schema seen locally)
-        /* todo chart type from "pie" to "pipe of pie" or "bar of pie" (min of 5%)(microsoft 2012 is the schema seen locally)
+        // add data labels -> add data callouts (microsoft 2012 is the schema seen locally)
+        // ^ a version of this can be accomplished with the setShowLeaderLines property with the available charts
+        /* chart type from "pie" to "pipe of pie" or "bar of pie" (min of 5%)(microsoft 2012 is the schema seen locally)
          * <c:ofPieChart>
          *      <c:ofPieType val="pie"/>
          * ...
          * </c:ofPieChart>
          */
+        // ^ that can be done manually by putting some data in one chart and the rest in another
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // add a pie chart for visual comparision of primary languages

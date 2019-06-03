@@ -294,13 +294,13 @@ public final class LocalUtil {
                     fullPath = currentPath.resolve(line.substring(1)).normalize();
                 }
 
+                // check if there is a pending solution
+                Path relativePath = basePath.relativize(fullPath);
                 // ignore changes in tooling for this purpose
-                if ("_tools_".equals(fullPath.getRoot().toString())) {
+                if (relativePath.toString().startsWith("_tools_")) {
                     continue;
                 }
 
-                // check if there is a pending solution
-                Path relativePath = basePath.relativize(fullPath);
                 Pair<String, String> solution = extractSolution(relativePath);
                 if (null != solution) {
                     Pair<String, FileTime> info = taskMap.get(solution.getKey());

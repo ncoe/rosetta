@@ -230,14 +230,12 @@ public final class Program {
                 return StringUtils.startsWithAny(key,
                     "Arithmetic-geometric_mean",
                     "Arithmetic_coding",
-                    "Averages",
                     "Hello_world",
                     "Parsing",
                     "Reflection"
                 ) && !StringUtils.equalsAny(key,
                     "Arithmetic-geometric_mean/Calculate_Pi",
                     "Arithmetic_coding/As_a_generalized_change_of_radix",
-                    "Averages/Pythagorean_means",
                     "Hello_world/Newline_omission",
                     "Parsing/Shunting-yard_algorithm",
                     "Reflection/List_methods"
