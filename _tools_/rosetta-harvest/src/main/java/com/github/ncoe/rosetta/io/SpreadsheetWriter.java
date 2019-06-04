@@ -6,19 +6,24 @@ import com.github.ncoe.rosetta.util.LocalUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
 import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFPieChartData;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFChart;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -53,7 +58,15 @@ public final class SpreadsheetWriter {
      * @param workbook the workbook to add a sheet for task info
      * @param taskList the list of tasks where there is work that could be done
      */
-    private static void writeOpenTasks(Workbook workbook, List<TaskInfo> taskList) {
+    private static void writeOpenTasks(XSSFWorkbook workbook, List<TaskInfo> taskList) {
+        XSSFCreationHelper helper = new XSSFCreationHelper(workbook);
+
+        XSSFCellStyle hLinkStyle = workbook.createCellStyle();
+        XSSFFont hLinkFont = workbook.createFont();
+        hLinkFont.setUnderline(XSSFFont.U_SINGLE);
+        hLinkFont.setColor(IndexedColors.BLUE.index);
+        hLinkStyle.setFont(hLinkFont);
+
         Sheet sheet = workbook.createSheet("In Progress");
 
         int rowNum = 0;
@@ -108,11 +121,21 @@ public final class SpreadsheetWriter {
             // task name
             cell = taskRow.createCell(colNum++);
             String taskName = info.getTaskName();
+            String taskNameUrl = String.format(
+                "http://rosettacode.org/wiki/%s", info.getTaskName().replace("\"", "%22")
+            );
+
+            XSSFHyperlink link = helper.createHyperlink(HyperlinkType.URL);
+            link.setAddress(taskNameUrl);
+            link.setLabel(taskName);
+
+            cell.setHyperlink(link);
             if (NumberUtils.isParsable(taskName)) {
                 cell.setCellValue("'" + taskName);
             } else {
                 cell.setCellValue(taskName);
             }
+            cell.setCellStyle(hLinkStyle);
 
             // task languages
             cell = taskRow.createCell(colNum++);
