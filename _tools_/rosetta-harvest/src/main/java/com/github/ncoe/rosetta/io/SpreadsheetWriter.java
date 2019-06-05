@@ -48,6 +48,9 @@ import java.util.stream.Collectors;
  * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics.
  */
 public final class SpreadsheetWriter {
+    /**
+     * Output file name.
+     */
     public static final String FILENAME = "rosetta.xlsx";
 
     private SpreadsheetWriter() {

@@ -10,6 +10,8 @@ import com.github.ncoe.rosetta.util.RemoteUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,6 +27,8 @@ import java.util.Set;
  * The class that links the others together.
  */
 public final class Program {
+    private static final Logger LOG = LoggerFactory.getLogger(Program.class);
+
     private static final String BIG_DECIMAL = "big decimal";
     private static final String BIG_INTEGER = "big integer";
     private static final String DYNAMIC_MEMORY = "dynamic memory";
@@ -83,7 +87,7 @@ public final class Program {
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
             } else {
-                System.err.printf("[Program] Unexpected task re-definition: %s\n", entry.getKey());
+                LOG.warn("Unexpected task re-definition: {}", entry.getKey());
             }
         }
 
@@ -127,7 +131,7 @@ public final class Program {
 
                 if (info.getCategory() == 0) {
                     // No task should come here as zero :P
-                    System.out.printf("There are multiple solutions for [%s], additionally %s\n", entry.getKey(), langTime.getKey());
+                    LOG.warn("There are multiple solutions for [{}], additionally {}", entry.getKey(), langTime.getKey());
                 } else {
                     info.setCategory(0);
                     info.setNext(langTime.getLeft());

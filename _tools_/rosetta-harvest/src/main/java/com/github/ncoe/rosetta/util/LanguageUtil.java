@@ -12,6 +12,9 @@ import java.util.Set;
  * Common place to handle manipulation among the various forms of the solution languages.
  */
 public final class LanguageUtil {
+    /**
+     * Languages to use to discover tasks.
+     */
     public static final Set<String> LANGUAGES = Set.of(
         "C",
         "C++",

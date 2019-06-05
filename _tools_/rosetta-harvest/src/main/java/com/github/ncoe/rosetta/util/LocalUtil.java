@@ -5,6 +5,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +28,12 @@ import java.util.stream.Collectors;
  * For gathering data on the local system about solutions.
  */
 public final class LocalUtil {
+    /**
+     * Output directory name.
+     */
     public static final String OUTPUT_DIRECTORY = "out";
+
+    private static final Logger LOG = LoggerFactory.getLogger(LocalUtil.class);
 
     private LocalUtil() {
         throw new NotImplementedException("No LocalUtil for you!");
@@ -261,7 +268,7 @@ public final class LocalUtil {
 
         // A new language has been added, or something is non-standard and needs to be corrected
         if (null == language) {
-            System.err.printf("[LocalUtil] <UNKNOWN language> for %s\n", taskName);
+            LOG.error("Unknown language for {} (was null)", taskName);
             return null;
         }
 
@@ -308,7 +315,7 @@ public final class LocalUtil {
                         FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
                         taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
                     } else {
-                        System.out.printf("There are multiple solutions for [%s], additionally %s\n", solution.getKey(), solution.getValue());
+                        LOG.info("There are multiple solutions for [{}], additionally, {}", solution.getKey(), solution.getValue());
                     }
                 }
             }

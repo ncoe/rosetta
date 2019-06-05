@@ -13,6 +13,8 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +29,8 @@ import java.util.regex.Pattern;
  * For gathering data about tasks that could be worked on.
  */
 public final class RemoteUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteUtil.class);
+
     private RemoteUtil() {
         throw new NotImplementedException("No RemoteUtil for you!");
     }
@@ -34,7 +38,7 @@ public final class RemoteUtil {
     /**
      * @param name the name of the task to validate the existence of
      */
-    public static void validateTaskName(String name) {
+    static void validateTaskName(String name) {
         HttpUriRequest request = RequestBuilder.head("http://rosettacode.org/wiki/" + name).build();
         HttpClientBuilder builder = HttpClientBuilder.create();
         CloseableHttpClient client = builder.build();
@@ -43,7 +47,7 @@ public final class RemoteUtil {
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
             if (HttpStatus.SC_OK != statusCode) {
-                System.err.printf("[RemoteUtil] Unknown status (%d) or task name: %s\n", statusCode, name);
+                LOG.error("Unknown status ({}) or task name: {}", statusCode, name);
             }
         } catch (IOException e) {
             throw new UtilException(e);
@@ -75,7 +79,7 @@ public final class RemoteUtil {
         try (CloseableHttpResponse response = client.execute(request)) {
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
-            System.err.printf("[RemoteUtil] Status code for %s: %d - %s\n", language, statusCode, statusLine.getReasonPhrase());
+            LOG.info("Status code for {}: {} - {}", language, statusCode, statusLine.getReasonPhrase());
 
             // prepare to extract the lines from the response
             HttpEntity entity = response.getEntity();
@@ -107,7 +111,7 @@ public final class RemoteUtil {
                             section = SectionEnum.EndOfList;
                             break;
                         default:
-                            System.err.printf("[RemoteUtil] Unknown section: %s\n", head);
+                            LOG.debug("Unknown section: {}", head);
                         case "Examples":
                         case "Other_pages":
                             section = RemoteUtil.SectionEnum.None;
