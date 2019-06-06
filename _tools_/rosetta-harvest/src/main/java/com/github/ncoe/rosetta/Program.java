@@ -151,6 +151,9 @@ public final class Program {
     private static void addNotes(Map<String, TaskInfo> taskInfoMap) {
         TaskInfo info;
 
+        info = taskInfoMap.get("Abbreviations,_automatic");
+        info.setNote(FILE_IO);
+
         info = taskInfoMap.get("Append_a_record_to_the_end_of_a_text_file");
         info.setNote(FILE_IO);
 
@@ -211,6 +214,9 @@ public final class Program {
         info = taskInfoMap.get("Narcissist");
         info.setNote(FILE_IO);
 
+        info = taskInfoMap.get("N-body_problem");
+        info.setNote(FILE_IO);
+
         info = taskInfoMap.get("Sierpinski_pentagon");
         info.setNote(IMAGE_IO + " / " + FILE_IO);
 
@@ -234,13 +240,11 @@ public final class Program {
                 return StringUtils.startsWithAny(key,
                     "Arithmetic-geometric_mean",
                     "Arithmetic_coding",
-                    "Hello_world",
                     "Parsing",
                     "Reflection"
                 ) && !StringUtils.equalsAny(key,
                     "Arithmetic-geometric_mean/Calculate_Pi",
                     "Arithmetic_coding/As_a_generalized_change_of_radix",
-                    "Hello_world/Newline_omission",
                     "Parsing/Shunting-yard_algorithm",
                     "Reflection/List_methods"
                 );
