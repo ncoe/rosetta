@@ -1,6 +1,9 @@
 # Common Files
 #**/*.txt
 **/135-0.txt
+**/days_of_week.txt
+**/nbody.txt
+**/theRaven.txt
 
 # Misc
 *.jpg
@@ -62,6 +65,7 @@ Application.myapp
 AssemblyInfo.cs
 AssemblyInfo.fs
 AssemblyInfo.vb
+GlobalSuppressions.vb
 packages.config
 Resources.Designer.vb
 Resources.resx
