@@ -5,7 +5,7 @@
 
 <module name="Checker">
     <module name="Translation"/>
-<!--    <module name="SuppressionCommentFilter"/>-->
+    <!--<module name="SuppressionCommentFilter"/>-->
 
     <module name="TreeWalker">
         <!-- Check use of Spaces and not TABs (4 spaces) -->
@@ -83,7 +83,7 @@
         <module name="ArrayTypeStyle"/>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
-<!--        <module name="FileContentsHolder"/>-->
+        <!--<module name="FileContentsHolder"/>-->
         <!-- Checks correct indentation of Java Code. -->
         <module name="Indentation">
             <!-- how many spaces to use for new indentation level -->
@@ -129,7 +129,7 @@
     </module>
     <module name="RegexpMultiline">
         <property name="format" value="java\.util\.(Date|Calendar)"/>
-        <property name="message" value="DO NOT USE java.util.Date or java.util.Calendar! Use Joda time instead!"/>
+        <property name="message" value="DO NOT USE java.util.Date or java.util.Calendar! Use java.time classes instead!"/>
     </module>
     <module name="RegexpMultiline">
         <property name="format" value="(System|Runtime\.getRuntime\(\))\.exit"/>

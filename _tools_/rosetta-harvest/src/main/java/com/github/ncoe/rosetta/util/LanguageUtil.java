@@ -21,12 +21,19 @@ public final class LanguageUtil {
         "C_sharp",
         "D",
         "F_Sharp",
+        "Go",
+        "Groovy",
         "Java",
+        "JavaScript",
         "Kotlin",
         "Lua",
         "Modula-2",
+        "Pascal",
         "Perl",
         "Python",
+        "Ruby",
+        "Rust",
+        "Scala",
         "Visual_Basic_.NET"
     );
 
@@ -36,12 +43,19 @@ public final class LanguageUtil {
         LanguageInfo.of("C#", "CS", "cs", "csharp"),
         LanguageInfo.of("D", "D", "d", "dlang"),
         LanguageInfo.of("F#", "FS", "fs", "fsharp"),
+        LanguageInfo.of("Go", "Go", "go", "go"),
+        LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy"),
         LanguageInfo.of("Java", "Java", "java", "java"),
+        LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript"),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin"),
         LanguageInfo.of("Lua", "Lua", "lua", "lua"),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2"),
+        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal"),
         LanguageInfo.of("Perl", "Perl", "pl", "perl"),
         LanguageInfo.of("Python", "Python", "py", "python"),
+        LanguageInfo.of("Ruby", "Ruby", "ruby", "ruby"),
+        LanguageInfo.of("Rust", "Rust", "rs", "rust"),
+        LanguageInfo.of("Scala", "Scala", "scala", "scala"),
         LanguageInfo.of("Visual Basic .NET", "Visual Basic .NET", "vb", "vbnet")
     );
 

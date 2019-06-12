@@ -1,3 +1,2 @@
 # Known Issues / Tasks
-* Consider a git dependency for harvesting local data instead of system calls
 * The poi dependencies need to define an automatic module name at minimum, etc...

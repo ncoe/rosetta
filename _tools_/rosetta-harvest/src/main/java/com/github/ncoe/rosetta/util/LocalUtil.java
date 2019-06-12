@@ -5,13 +5,21 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.http.util.Asserts;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
@@ -23,6 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * For gathering data on the local system about solutions.
@@ -40,16 +49,14 @@ public final class LocalUtil {
     }
 
     /**
-     * @return The base path of the current repository (based on the current working directory)
-     * @throws IOException if something happens gathering data
+     * @return the git repository for the project
+     * @throws IOException if not repository is found, e.g.
      */
-    private static String getBasePath() throws IOException {
-        ProcessBuilder builder = new ProcessBuilder("git", "rev-parse", "--show-toplevel");
-        Process process = builder.start();
-        InputStream is = process.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-        return br.readLine();
+    public static Repository getRepository() throws IOException {
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        return builder.readEnvironment()
+            .findGitDir()
+            .build();
     }
 
     /**
@@ -107,11 +114,14 @@ public final class LocalUtil {
         return name.replace("\\", "/");
     }
 
+    /**
+     * @param currentPath the path to consider
+     * @return the list of tasks that have been identified
+     */
     private static List<Path> processPathForTasks(Path currentPath) {
         List<Path> taskList = new ArrayList<>();
-        try {
-            Files.walk(currentPath, 1)
-                .filter(p -> Files.isDirectory(p))
+        try (Stream<Path> pathStream = Files.walk(currentPath, 1)) {
+            pathStream.filter(p -> Files.isDirectory(p))
                 .forEach(p -> {
                     Path fileNamePath = p.getFileName();
                     String fileName = fileNamePath.toString();
@@ -131,11 +141,11 @@ public final class LocalUtil {
     }
 
     /**
+     * @param repository the repository to extract current languages from for each task
      * @return a map of the tasks that have current solutions, and what languages there are for solutions to each
-     * @throws IOException if something happens gathering data
      */
-    public static Map<String, Set<String>> classifyCurrent() throws IOException {
-        Path basePath = Path.of(getBasePath());
+    public static Map<String, Set<String>> classifyCurrent(Repository repository) {
+        Path basePath = repository.getWorkTree().toPath();
         return processPathForTasks(basePath)
             .stream()
             .map(basePath::relativize)
@@ -173,6 +183,7 @@ public final class LocalUtil {
 
         // Known directories and files that do not need to be considered for tracking metrics
         if (StringUtils.containsAny(fullPathStr, "/_tools_/", "\\_tools_\\", ".gitignore", ".gitattributes", "LICENSE", "submit.template")) {
+            LOG.debug("Saw the path {} and ignored it", fullPathStr);
             return;
         }
 
@@ -190,28 +201,27 @@ public final class LocalUtil {
     }
 
     /**
+     * @param repository the repository to walk for language statistics
      * @return a map showing by language the amount of code needed for solutions
      * @throws IOException if something happens gathering data
      */
-    public static Map<String, Long> languageStats() throws IOException {
-        Path basePath = Path.of(getBasePath());
-
-        ProcessBuilder builder = new ProcessBuilder("git", "ls-tree", "--full-tree", "-r", "--name-only", "HEAD");
-        Process process = builder.start();
-        InputStream is = process.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
+    public static Map<String, Long> languageStats(Repository repository) throws IOException {
+        Path basePath = repository.getWorkTree().toPath();
+        Ref head = repository.exactRef("HEAD");
 
         Map<String, Long> langMap = new HashMap<>();
-        String line;
-
-        while (null != (line = br.readLine())) {
-            Path fullPath = basePath.resolve(line);
-            if (Files.isRegularFile(fullPath)) {
-                addLanguageStat(langMap, fullPath);
+        try (RevWalk revWalk = new RevWalk(repository)) {
+            RevCommit commit = revWalk.parseCommit(head.getObjectId());
+            RevTree tree = commit.getTree();
+            try (TreeWalk treeWalk = new TreeWalk(repository)) {
+                treeWalk.addTree(tree);
+                treeWalk.setRecursive(true);
+                while (treeWalk.next()) {
+                    Path fullPath = basePath.resolve(treeWalk.getPathString());
+                    addLanguageStat(langMap, fullPath);
+                }
             }
         }
-
         return langMap;
     }
 
@@ -223,8 +233,9 @@ public final class LocalUtil {
         String fileName = path.getFileName().toString();
         String extension = StringUtils.substringAfterLast(fileName, ".");
 
+        // The html files help to demonstrate the javascript submissions
         // The text files either server as input to a program, or hold a submission that is waiting to be submitted.
-        if ("txt".equalsIgnoreCase(extension)) {
+        if (StringUtils.equalsAnyIgnoreCase(extension, "htm", "html", "txt")) {
             return null;
         }
 
@@ -233,24 +244,8 @@ public final class LocalUtil {
 
         for (Path p : path) {
             String str = p.toString();
-
-            // Special cases where a directory name is avoiding special characters
-            if ("Cpp".equals(str)) {
-                language = "C++";
-                break;
-            }
-            if ("CS".equals(str)) {
-                language = "C#";
-                break;
-            }
-            if ("FS".equals(str)) {
-                language = "F#";
-                break;
-            }
-
-            // All other known languages
-            if (StringUtils.equalsAny(str, "C", "D", "Java", "Kotlin", "Lua", "Modula-2", "Perl", "Python", "Visual Basic .NET")) {
-                language = str;
+            if (LanguageUtil.isLanguageDirectory(str)) {
+                language = LanguageUtil.directoryToLanguage(str);
                 break;
             }
 
@@ -263,8 +258,8 @@ public final class LocalUtil {
         }
 
         // This should never happen
-        assert null != taskName;
-        assert !taskName.toString().contains("\\");
+        Objects.requireNonNull(taskName, "This should not have happened.");
+        Asserts.check(!taskName.toString().contains("\\"), "The paths should be normalized for consistent results.");
 
         // A new language has been added, or something is non-standard and needs to be corrected
         if (null == language) {
@@ -276,49 +271,47 @@ public final class LocalUtil {
     }
 
     /**
+     * @param repository the repository to find pending changes in
      * @return tasks that have a pending solution, and what language the pending solution is written in
-     * @throws IOException if something happens gathering data
      */
-    public static Map<String, Pair<String, FileTime>> pendingSolutions() throws IOException {
-        Path basePath = Path.of(getBasePath());
-        Path currentPath = Path.of("").toAbsolutePath();
-
-        ProcessBuilder builder = new ProcessBuilder("git", "status", "-u");
-        Process process = builder.start();
-        InputStream is = process.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-
+    public static Map<String, Pair<String, FileTime>> pendingSolutions(Repository repository) {
+        String baseDirStr = repository.getWorkTree().toString();
+        Path basePath = Path.of(baseDirStr);
         Map<String, Pair<String, FileTime>> taskMap = new HashMap<>();
-        String line;
 
-        while (null != (line = br.readLine())) {
-            if (line.length() > 0 && line.charAt(0) == '\t' && !StringUtils.startsWithAny(line, "\tmodified:", "\trenamed:", "\tdeleted:")) {
-                Path fullPath;
-                if (StringUtils.startsWith(line, "\tnew file:")) {
-                    fullPath = currentPath.resolve(StringUtils.substringAfter(line, "\tnew file:").trim()).normalize();
-                } else {
-                    fullPath = currentPath.resolve(line.substring(1)).normalize();
-                }
+        try (Git git = new Git(repository)) {
+            Status status = git.status().call();
+            Set<String> uncommittedSet = status.getUncommittedChanges()
+                .stream()
+                .filter(p -> !StringUtils.startsWith(p, "_tools_"))
+                .collect(Collectors.toSet());
+            Set<String> untrackedSet = status.getUntracked()
+                .stream()
+                .filter(p -> !StringUtils.startsWith(p, "_tools_"))
+                .collect(Collectors.toSet());
+            uncommittedSet.addAll(untrackedSet);
+            uncommittedSet.removeAll(status.getMissing());
+            uncommittedSet.removeAll(status.getRemoved());
+            uncommittedSet.removeAll(status.getModified());
+
+            for (String changePathStr : uncommittedSet) {
+                Path changePath = Path.of(changePathStr);
 
                 // check if there is a pending solution
-                Path relativePath = basePath.relativize(fullPath);
-                // ignore changes in tooling for this purpose
-                if (relativePath.toString().startsWith("_tools_")) {
-                    continue;
-                }
-
-                Pair<String, String> solution = extractSolution(relativePath);
+                Pair<String, String> solution = extractSolution(changePath);
                 if (null != solution) {
                     Pair<String, FileTime> info = taskMap.get(solution.getKey());
                     if (null == info) {
+                        Path fullPath = basePath.resolve(changePath);
                         FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
                         taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
                     } else {
-                        LOG.info("There are multiple solutions for [{}], additionally, {}", solution.getKey(), solution.getValue());
+                        LOG.info("There are multiple solutions for [{}], additionally, {} (Previously saw {})", solution.getKey(), solution.getValue(), info.getKey());
                     }
                 }
             }
+        } catch (GitAPIException | IOException e) {
+            throw new UtilException(e);
         }
 
         return taskMap;

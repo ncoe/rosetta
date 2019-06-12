@@ -10,6 +10,7 @@ import com.github.ncoe.rosetta.util.RemoteUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,10 +70,10 @@ public final class Program {
         Map<String, Long> langStatMap;
         Map<String, Pair<String, FileTime>> pendingMap;
         Map<String, Set<String>> localTaskMap;
-        try {
-            localTaskMap = LocalUtil.classifyCurrent();
-            pendingMap = LocalUtil.pendingSolutions();
-            langStatMap = LocalUtil.languageStats();
+        try (Repository repository = LocalUtil.getRepository()) {
+            localTaskMap = LocalUtil.classifyCurrent(repository);
+            pendingMap = LocalUtil.pendingSolutions(repository);
+            langStatMap = LocalUtil.languageStats(repository);
         } catch (IOException e) {
             throw new UtilException(e);
         }
@@ -149,88 +150,33 @@ public final class Program {
     }
 
     private static void addNotes(Map<String, TaskInfo> taskInfoMap) {
-        TaskInfo info;
-
-        info = taskInfoMap.get("Abbreviations,_automatic");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Append_a_record_to_the_end_of_a_text_file");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Arithmetic_coding/As_a_generalized_change_of_radix");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Arithmetic-geometric_mean/Calculate_Pi");
-        info.setNote(BIG_INTEGER + " / " + BIG_DECIMAL);
-
-        info = taskInfoMap.get("Base58Check_encoding");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Bilinear_interpolation");
-        info.setNote(IMAGE_IO);
-
-        info = taskInfoMap.get("Chat_server");
-        info.setNote(NETWORK_IO);
-
-        info = taskInfoMap.get("Cipolla's_algorithm");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Create_a_file_on_magnetic_tape");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Eertree");
-        info.setNote(NESTED_FUNCTIONS);
-
-        info = taskInfoMap.get("Egyptian_fractions");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Lucky_and_even_lucky_numbers");
-        info.setNote("commandline arguments");
-
-        info = taskInfoMap.get("Get_system_command_output");
-        info.setNote("process io");
-
-        info = taskInfoMap.get("I_before_E_except_after_C");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Knuth's_power_tree");
-        info.setNote(BIG_DECIMAL);
-
-        info = taskInfoMap.get("Magic_squares_of_doubly_even_order");
-        info.setNote(DYNAMIC_MEMORY);
-
-        info = taskInfoMap.get("Make_directory_path");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Markov_chain_text_generator");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Mersenne_primes");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Montgomery_reduction");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Narcissist");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("N-body_problem");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Sierpinski_pentagon");
-        info.setNote(IMAGE_IO + " / " + FILE_IO);
-
-        info = taskInfoMap.get("Suffix_tree");
-        info.setNote(NESTED_FUNCTIONS);
-
-        info = taskInfoMap.get("Tonelli-Shanks_algorithm");
-        info.setNote(BIG_INTEGER);
-
-        info = taskInfoMap.get("Write_entire_file");
-        info.setNote(FILE_IO);
-
-        info = taskInfoMap.get("Write_to_Windows_event_log");
-        info.setNote("windows");
+        addNote(taskInfoMap, "Abbreviations,_automatic", FILE_IO);
+        addNote(taskInfoMap, "Append_a_record_to_the_end_of_a_text_file", FILE_IO);
+        addNote(taskInfoMap, "Arithmetic_coding/As_a_generalized_change_of_radix", BIG_INTEGER);
+        addNote(taskInfoMap, "Arithmetic-geometric_mean/Calculate_Pi", BIG_INTEGER + " / " + BIG_DECIMAL);
+        addNote(taskInfoMap, "Base58Check_encoding", BIG_INTEGER);
+        addNote(taskInfoMap, "Bilinear_interpolation", IMAGE_IO);
+        addNote(taskInfoMap, "Chat_server", NETWORK_IO);
+        addNote(taskInfoMap, "Cipolla's_algorithm", BIG_INTEGER);
+        addNote(taskInfoMap, "Create_a_file_on_magnetic_tape", FILE_IO);
+        addNote(taskInfoMap, "Eertree", NESTED_FUNCTIONS);
+        addNote(taskInfoMap, "Egyptian_fractions", BIG_INTEGER);
+        addNote(taskInfoMap, "Lucky_and_even_lucky_numbers", "commandline arguments");
+        addNote(taskInfoMap, "Get_system_command_output", "process io");
+        addNote(taskInfoMap, "I_before_E_except_after_C", FILE_IO);
+        addNote(taskInfoMap, "Knuth's_power_tree", BIG_DECIMAL);
+        addNote(taskInfoMap, "Magic_squares_of_doubly_even_order", DYNAMIC_MEMORY);
+        addNote(taskInfoMap, "Make_directory_path", FILE_IO);
+        addNote(taskInfoMap, "Markov_chain_text_generator", FILE_IO);
+        addNote(taskInfoMap, "Mersenne_primes", BIG_INTEGER);
+        addNote(taskInfoMap, "Montgomery_reduction", BIG_INTEGER);
+        addNote(taskInfoMap, "Narcissist", FILE_IO);
+        addNote(taskInfoMap, "N-body_problem", FILE_IO);
+        addNote(taskInfoMap, "Sierpinski_pentagon", IMAGE_IO + " / " + FILE_IO);
+        addNote(taskInfoMap, "Suffix_tree", NESTED_FUNCTIONS);
+        addNote(taskInfoMap, "Tonelli-Shanks_algorithm", BIG_INTEGER);
+        addNote(taskInfoMap, "Write_entire_file", FILE_IO);
+        addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
 
         // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
@@ -238,21 +184,15 @@ public final class Program {
             .filter(entry -> {
                 String key = entry.getKey();
                 return StringUtils.startsWithAny(key,
-                    "Arithmetic-geometric_mean",
-                    "Arithmetic_coding",
-                    "Parsing",
-                    "Reflection"
+                    "Arithmetic_coding"
                 ) && !StringUtils.equalsAny(key,
-                    "Arithmetic-geometric_mean/Calculate_Pi",
-                    "Arithmetic_coding/As_a_generalized_change_of_radix",
-                    "Parsing/Shunting-yard_algorithm",
-                    "Reflection/List_methods"
+                    "Arithmetic_coding/As_a_generalized_change_of_radix"
                 );
             })
             .map(Entry::getValue)
             .forEach(data -> {
                 if (0 < data.getCategory() && data.getCategory() < 3) {
-                    System.err.printf("No longer need to process task [%s]\n", data.getTaskName());
+                    LOG.warn("No longer need to process task [{}]", data.getTaskName());
                 } else if (data.getCategory() > 2) {
                     if (data.getCategory() == 3) {
                         data.setCategory(1.7);
@@ -268,6 +208,18 @@ public final class Program {
         taskInfoMap.values()
             .stream()
             .filter(data -> data.getCategory() == 2 && data.getLanguageSet().size() == 1)
-            .forEach(data -> data.setCategory(1.9));
+            .forEach(data -> {
+                data.setCategory(1.9);
+                data.setNote("Final language for task");
+            });
+    }
+
+    private static void addNote(Map<String, TaskInfo> taskInfoMap, String taskName, String note) {
+        TaskInfo info = taskInfoMap.get(taskName);
+        if (null == info) {
+            LOG.error("Unknown task [{}] for adding a note", taskName);
+        } else {
+            info.setNote(note);
+        }
     }
 }
