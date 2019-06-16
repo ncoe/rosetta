@@ -309,9 +309,14 @@ public final class SpreadsheetWriter {
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
         Path filePath = Path.of(LocalUtil.OUTPUT_DIRECTORY, FILENAME);
 
+        // Make tasks that need a buddy, but not for any chosen language more visible
+        taskInfoCollection.stream()
+            .filter(task -> task.getCategory() == 1.0 && task.getLanguageSet().isEmpty())
+            .forEach(task -> task.setCategory(5.0));
+
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()
-            .filter(task -> !task.getLanguageSet().isEmpty())
+            .filter(task -> !task.getLanguageSet().isEmpty() && task.getCategory() < 5.0)
             .sorted()
             .collect(Collectors.toList());
 

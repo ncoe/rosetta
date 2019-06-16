@@ -1,0 +1,12 @@
+{
+	"name": "learn_lang",
+	"authors": [
+		"Nathan R Coe"
+	],
+	"dependencies": {
+		"vibe-d": "~>0.8.5"
+	},
+	"description": "Find languages where singular tasks can be implemented",
+	"copyright": "Copyright © 2019, Nathan R Coe",
+	"license": "proprietary"
+}

@@ -16,28 +16,34 @@ public final class LanguageUtil {
      * Languages to use to discover tasks.
      */
     public static final Set<String> LANGUAGES = Set.of(
+        "ALGOL",//http://rosettacode.org/wiki/Category:ALGOL_68
+        "Go",//http://rosettacode.org/wiki/Category:Go
+        "LLVM",//http://rosettacode.org/wiki/Category:LLVM
+        "Lisp",//http://rosettacode.org/wiki/Category:Lisp
+        "Pascal",//http://rosettacode.org/wiki/Category:Pascal
+        "Ruby",//http://rosettacode.org/wiki/Category:Ruby
+        "Rust",//http://rosettacode.org/wiki/Category:Rust
+        "TypeScript",//http://rosettacode.org/wiki/Category:TypeScript
+//end of search for languages to consider learning
         "C",
         "C++",
-        "C_sharp",
-        "D",
+//        "C_sharp",//third language
+        "D",//second, want to make top
         "F_Sharp",
-        "Go",
         "Groovy",
-        "Java",
+//        "Java",//top language
         "JavaScript",
         "Kotlin",
         "Lua",
-        "Modula-2",
-        "Pascal",
+//        "Modula-2",//want to make secondary language
         "Perl",
         "Python",
-        "Ruby",
-        "Rust",
         "Scala",
         "Visual_Basic_.NET"
     );
 
     private static final List<LanguageInfo> LANG_INFO = List.of(
+        LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol"),
         LanguageInfo.of("C", "C", "c", "clang"),
         LanguageInfo.of("C++", "Cpp", "cpp", "cpp"),
         LanguageInfo.of("C#", "CS", "cs", "csharp"),
@@ -48,6 +54,8 @@ public final class LanguageUtil {
         LanguageInfo.of("Java", "Java", "java", "java"),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript"),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin"),
+        LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp"),
+        LanguageInfo.of("LLVM", "LLVM", "ll", "llvm"),
         LanguageInfo.of("Lua", "Lua", "lua", "lua"),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2"),
         LanguageInfo.of("Pascal", "Pascal", "pas", "pascal"),
@@ -56,6 +64,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Ruby", "Ruby", "ruby", "ruby"),
         LanguageInfo.of("Rust", "Rust", "rs", "rust"),
         LanguageInfo.of("Scala", "Scala", "scala", "scala"),
+        LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript"),
         LanguageInfo.of("Visual Basic .NET", "Visual Basic .NET", "vb", "vbnet")
     );
 

@@ -48,6 +48,11 @@ public final class Program {
      * @param args Not used
      */
     public static void main(String[] args) {
+        makeOutputDirectory();
+        generate();
+    }
+
+    private static void makeOutputDirectory() {
         Path outPath = Path.of("out");
         if (Files.exists(outPath)) {
             Path openPath = outPath.resolve("~$" + SpreadsheetWriter.FILENAME);
@@ -61,8 +66,6 @@ public final class Program {
                 throw new UtilException(e);
             }
         }
-
-        generate();
     }
 
     private static void generate() {
@@ -178,6 +181,19 @@ public final class Program {
         addNote(taskInfoMap, "Write_entire_file", FILE_IO);
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
 
+        Set<String> topPickSet = Set.of(
+            "Addition-chain_exponentiation",
+            "Burrows–Wheeler_transform",
+            "Chaocipher",
+            "Checksumcolor",
+            "Chemical_Calculator",
+            "Chernick's_Carmichael_numbers",
+            "Cheryl's_Birthday",
+            "Cramer's_rule",
+            "Eban_numbers",
+            "Largest_number_divisible_by_its_digits"
+        );
+
         // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
             .stream()
@@ -187,7 +203,7 @@ public final class Program {
                     "Arithmetic_coding"
                 ) && !StringUtils.equalsAny(key,
                     "Arithmetic_coding/As_a_generalized_change_of_radix"
-                );
+                ) || topPickSet.contains(key);
             })
             .map(Entry::getValue)
             .forEach(data -> {
@@ -195,8 +211,13 @@ public final class Program {
                     LOG.warn("No longer need to process task [{}]", data.getTaskName());
                 } else if (data.getCategory() > 2) {
                     if (data.getCategory() == 3) {
-                        data.setCategory(1.7);
-                        data.setNote("Multiple Options :)");
+                        if (topPickSet.contains(data.getTaskName())) {
+                            data.setCategory(1.5);
+                            data.setNote("Top pick");
+                        } else {
+                            data.setCategory(1.7);
+                            data.setNote("Multiple Options :)");
+                        }
                     } else {
                         data.setCategory(1.8);
                         data.setNote("Only one option :(");

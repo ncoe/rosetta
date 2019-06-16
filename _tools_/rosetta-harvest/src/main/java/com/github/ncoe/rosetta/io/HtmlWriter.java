@@ -230,7 +230,7 @@ public final class HtmlWriter {
                 } else if (info.getCategory() == 2.0 || info.getCategory() == 1.9) {
                     writer.write(String.format("<tr class=\"taskFilter TaskType2 %s\">\n", classStr));
                     writer.write("  <td>Multiple Solutions</td>\n");
-                } else if (info.getCategory() == 3.0 || info.getCategory() == 1.7) {
+                } else if (info.getCategory() == 3.0 || info.getCategory() == 1.7 || info.getCategory() == 1.5) {
                     writer.write(String.format("<tr class=\"taskFilter TaskType3 %s\">\n", classStr));
                     writer.write("  <td>Multiple Options</td>\n");
                 } else if (info.getCategory() == 4.0 || info.getCategory() == 1.8) {
