@@ -25,7 +25,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <commons-io.version>2.6</commons-io.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <httpclient.version>4.5.9</httpclient.version>
+        <jackson-databind.version>2.9.9</jackson-databind.version>
         <logback.contrib.version>0.1.5</logback.contrib.version>
+        <org.eclipse.jgit.version>5.4.0.201906121030-r</org.eclipse.jgit.version>
+        <poi-ooxml.version>4.1.0</poi-ooxml.version>
     </properties>
 
     <build>
@@ -162,6 +168,11 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <allowSnapshots>false</allowSnapshots>
+                    <processPluginDependenciesInPluginManagement>false</processPluginDependenciesInPluginManagement>
+                    <rulesUri>file:///${project.basedir}/maven-version-rules.xml.xml</rulesUri>
+                </configuration>
                 <executions>
                     <execution>
                         <id>display-updates</id>
@@ -170,10 +181,6 @@
                             <goal>display-dependency-updates</goal>
                             <goal>display-plugin-updates</goal>
                         </goals>
-                        <configuration>
-                            <allowSnapshots>false</allowSnapshots>
-                            <processPluginDependenciesInPluginManagement>false</processPluginDependenciesInPluginManagement>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -196,11 +203,15 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <rulesUri>file:///${project.basedir}/maven-version-rules.xml.xml</rulesUri>
+                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>
                             <report>dependency-updates-report</report>
                             <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -222,33 +233,40 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.8</version>
+            <version>${httpclient.version}</version>
             <!-- Classes like DefaultHostnameVerifier (used by HttpClientBuilder) require commons-logging -->
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.1.0</version>
+            <version>${poi-ooxml.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>5.3.1.201904271842-r</version>
+            <version>${org.eclipse.jgit.version}</version>
         </dependency>
+        <!-- Does not have an automatic module name either -->
+<!--        <dependency>-->
+<!--            &lt;!&ndash; Force an update &ndash;&gt;-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>1.7.26</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

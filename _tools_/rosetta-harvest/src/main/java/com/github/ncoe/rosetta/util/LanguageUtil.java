@@ -16,26 +16,26 @@ public final class LanguageUtil {
      * Languages to use to discover tasks.
      */
     public static final Set<String> LANGUAGES = Set.of(
-        "ALGOL",//http://rosettacode.org/wiki/Category:ALGOL_68
-        "Go",//http://rosettacode.org/wiki/Category:Go
-        "LLVM",//http://rosettacode.org/wiki/Category:LLVM
-        "Lisp",//http://rosettacode.org/wiki/Category:Lisp
-        "Pascal",//http://rosettacode.org/wiki/Category:Pascal
-        "Ruby",//http://rosettacode.org/wiki/Category:Ruby
-        "Rust",//http://rosettacode.org/wiki/Category:Rust
-        "TypeScript",//http://rosettacode.org/wiki/Category:TypeScript
+        "ALGOL",        //http://rosettacode.org/wiki/Category:ALGOL_68
+        "Go",           //http://rosettacode.org/wiki/Category:Go
+        "LLVM",         //http://rosettacode.org/wiki/Category:LLVM
+        "Lisp",         //http://rosettacode.org/wiki/Category:Lisp
+        "Pascal",       //http://rosettacode.org/wiki/Category:Pascal
+        "Ruby",         //http://rosettacode.org/wiki/Category:Ruby
+        "Rust",         //http://rosettacode.org/wiki/Category:Rust
+        "TypeScript",   //http://rosettacode.org/wiki/Category:TypeScript
 //end of search for languages to consider learning
         "C",
         "C++",
-//        "C_sharp",//third language
-        "D",//second, want to make top
+//        "C_sharp",      //third language
+        "D",            //second, want to make top
         "F_Sharp",
         "Groovy",
-//        "Java",//top language
+//        "Java",         //top language
         "JavaScript",
         "Kotlin",
         "Lua",
-//        "Modula-2",//want to make secondary language
+//        "Modula-2",     //want to make secondary language
         "Perl",
         "Python",
         "Scala",
