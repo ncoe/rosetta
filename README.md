@@ -28,6 +28,6 @@ Organized by IDE or text editor used.
 * LLVM can be done with
     * `clang -S -emit-llvm foo.c` to output *.ll files
     * `clang -cc1 foo.c -emit-llvm` equivalent to the first method
-    * `llc foo.ll` to produce and assembly file *.s
-    * `clang foo.s` to produce a runnable program
+    * `llc foo.ll` to produce an assembly file *.s. Note that this seems to require a further installation then just clang.
+    * `clang foo.s` or `clang foo.ll` to produce a runnable program
 * [LLVM Language Reference](https://llvm.org/docs/LangRef.html)
