@@ -182,7 +182,10 @@ public final class LocalUtil {
         String fullPathStr = fullPath.toString();
 
         // Known directories and files that do not need to be considered for tracking metrics
-        if (StringUtils.containsAny(fullPathStr, "/_tools_/", "\\_tools_\\", ".gitignore", ".gitattributes", "LICENSE", "submit.template")) {
+        if (StringUtils.containsAny(fullPathStr,
+            "/_tools_/", "\\_tools_\\",
+            ".gitignore", ".gitattributes", "LICENSE", "submit.template")
+        ) {
             LOG.debug("Saw the path {} and ignored it", fullPathStr);
             return;
         }

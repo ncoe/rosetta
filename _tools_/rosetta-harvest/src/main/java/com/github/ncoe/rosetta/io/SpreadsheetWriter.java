@@ -198,6 +198,9 @@ public final class SpreadsheetWriter {
             .orElse(0L);
         int cutPoint = 0;
 
+        XSSFCellStyle numStyle = workbook.createCellStyle();
+        numStyle.setDataFormat(0xa); //BuiltinFormats: 0.00%
+
         // create the worksheet
         XSSFSheet sheet = workbook.createSheet("Breakdown");
         int rowNum = 0;
@@ -218,8 +221,11 @@ public final class SpreadsheetWriter {
         cell = header.createCell(2);
         cell.setCellValue("Percent");
 
+        // per chart header
+        cell = header.createCell(3);
+        cell.setCellValue("Per Chart");
+
         // process each language
-        double totalBytes = 0.0;
         for (Pair<String, Long> entry : statList) {
             Row row = sheet.createRow(rowNum++);
 
@@ -230,28 +236,43 @@ public final class SpreadsheetWriter {
             // total size
             cell = row.createCell(1);
             cell.setCellValue(entry.getValue());
-            totalBytes += entry.getValue();
 
             if (100.0 * entry.getValue() / total > 5.0) {
                 cutPoint = rowNum;
             }
         }
 
-        //=ROUND(100*B8/SUM($B$2:$B$17),1)
+        CellRangeAddress totalRange = new CellRangeAddress(1, rowNum - 1, 1, 1);
+        String totalRangeStr = totalRange.formatAsString(null, true);
+
+        CellRangeAddress primaryRange = new CellRangeAddress(1, cutPoint - 1, 1, 1);
+        CellRangeAddress secondaryRange = new CellRangeAddress(cutPoint, rowNum - 1, 1, 1);
+
         int rn = 1;
         for (Pair<String, Long> entry : statList) {
-            double value = 100.0 * entry.getValue() / totalBytes;
+            String rangeStr;
+            if (rn < cutPoint) {
+                rangeStr = primaryRange.formatAsString(null, true);
+            } else {
+                rangeStr = secondaryRange.formatAsString(null, true);
+            }
 
             Row row = sheet.getRow(rn++);
 
             cell = row.createCell(2);
-            cell.setCellFormula(String.format("ROUND(%f, 1)", value));
+            cell.setCellFormula(String.format("%d / SUM(%s)", entry.getValue(), totalRangeStr));
+            cell.setCellStyle(numStyle);
+
+            cell = row.createCell(3);
+            cell.setCellFormula(String.format("%d / SUM(%s)", entry.getValue(), rangeStr));
+            cell.setCellStyle(numStyle);
         }
 
         // autosize each column to fit contents
         sheet.autoSizeColumn(0);
         sheet.autoSizeColumn(1);
         sheet.autoSizeColumn(2);
+        sheet.autoSizeColumn(3);
 
         // add data labels -> add data callouts (microsoft 2012 is the schema seen locally)
         // ^ a version of this can be accomplished with the setShowLeaderLines property with the available charts
@@ -266,7 +287,7 @@ public final class SpreadsheetWriter {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // add a pie chart for visual comparision of primary languages
         XSSFDrawing primaryDrawing = sheet.createDrawingPatriarch();
-        XSSFClientAnchor primaryAnchor = primaryDrawing.createAnchor(0, 0, 0, 0, 4, 0, 14, 30);
+        XSSFClientAnchor primaryAnchor = primaryDrawing.createAnchor(0, 0, 0, 0, 5, 0, 15, 30);
 
         XSSFChart primaryChart = primaryDrawing.createChart(primaryAnchor);
 //        primaryChart.setTitleText("Primary Language Breakdown");
@@ -294,7 +315,7 @@ public final class SpreadsheetWriter {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // add a pie chart for visual comparision of secondary languages
         XSSFDrawing secondaryDrawing = sheet.createDrawingPatriarch();
-        XSSFClientAnchor secondaryAnchor = secondaryDrawing.createAnchor(0, 0, 0, 0, 15, 0, 25, 30);
+        XSSFClientAnchor secondaryAnchor = secondaryDrawing.createAnchor(0, 0, 0, 0, 16, 0, 26, 30);
 
         XSSFChart secondaryChart = secondaryDrawing.createChart(secondaryAnchor);
 //        secondaryChart.setTitleText("Secondary Language Breakdown");

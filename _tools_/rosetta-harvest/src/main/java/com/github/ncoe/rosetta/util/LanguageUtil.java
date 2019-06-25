@@ -27,15 +27,15 @@ public final class LanguageUtil {
 //end of search for languages to consider learning
         "C",
         "C++",
-//        "C_sharp",      //third language
+        "C_sharp",      //third language
         "D",            //second, want to make top
         "F_Sharp",
         "Groovy",
-//        "Java",         //top language
+        "Java",         //top language
         "JavaScript",
         "Kotlin",
         "Lua",
-//        "Modula-2",     //want to make secondary language
+        "Modula-2",     //want to make secondary language
         "Perl",
         "Python",
         "Scala",
@@ -104,7 +104,9 @@ public final class LanguageUtil {
      * @return the language most associated with the given extension
      */
     public static String extensionToLanguage(String ext) {
-        if (StringUtils.equalsAnyIgnoreCase(ext, "", "htm", "json", "md", "yml")) {
+        if (StringUtils.equalsAnyIgnoreCase(ext,
+            "", "css", "htm", "json", "md", "png", "xml", "yml")
+        ) {
             return null;
         }
 
