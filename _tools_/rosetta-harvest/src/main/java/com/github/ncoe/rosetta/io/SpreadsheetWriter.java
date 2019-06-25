@@ -214,7 +214,12 @@ public final class SpreadsheetWriter {
         cell = header.createCell(1);
         cell.setCellValue("Size");
 
+        // percent header
+        cell = header.createCell(2);
+        cell.setCellValue("Percent");
+
         // process each language
+        double totalBytes = 0.0;
         for (Pair<String, Long> entry : statList) {
             Row row = sheet.createRow(rowNum++);
 
@@ -225,15 +230,28 @@ public final class SpreadsheetWriter {
             // total size
             cell = row.createCell(1);
             cell.setCellValue(entry.getValue());
+            totalBytes += entry.getValue();
 
             if (100.0 * entry.getValue() / total > 5.0) {
                 cutPoint = rowNum;
             }
         }
 
+        //=ROUND(100*B8/SUM($B$2:$B$17),1)
+        int rn = 1;
+        for (Pair<String, Long> entry : statList) {
+            double value = 100.0 * entry.getValue() / totalBytes;
+
+            Row row = sheet.getRow(rn++);
+
+            cell = row.createCell(2);
+            cell.setCellFormula(String.format("ROUND(%f, 1)", value));
+        }
+
         // autosize each column to fit contents
         sheet.autoSizeColumn(0);
         sheet.autoSizeColumn(1);
+        sheet.autoSizeColumn(2);
 
         // add data labels -> add data callouts (microsoft 2012 is the schema seen locally)
         // ^ a version of this can be accomplished with the setShowLeaderLines property with the available charts

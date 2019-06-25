@@ -104,7 +104,7 @@ public final class LanguageUtil {
      * @return the language most associated with the given extension
      */
     public static String extensionToLanguage(String ext) {
-        if (StringUtils.equalsAnyIgnoreCase(ext, "", "json", "md", "yml")) {
+        if (StringUtils.equalsAnyIgnoreCase(ext, "", "htm", "json", "md", "yml")) {
             return null;
         }
 
