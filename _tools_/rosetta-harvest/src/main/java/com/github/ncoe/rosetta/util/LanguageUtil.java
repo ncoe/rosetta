@@ -16,14 +16,17 @@ public final class LanguageUtil {
      * Languages to use to discover tasks.
      */
     public static final Set<String> LANGUAGES = Set.of(
-        "ALGOL",        //http://rosettacode.org/wiki/Category:ALGOL_68
-        "Go",           //http://rosettacode.org/wiki/Category:Go
-        "LLVM",         //http://rosettacode.org/wiki/Category:LLVM
-        "Lisp",         //http://rosettacode.org/wiki/Category:Lisp
-        "Pascal",       //http://rosettacode.org/wiki/Category:Pascal
-        "Ruby",         //http://rosettacode.org/wiki/Category:Ruby
-        "Rust",         //http://rosettacode.org/wiki/Category:Rust
-        "TypeScript",   //http://rosettacode.org/wiki/Category:TypeScript
+        "ALGOL",                    //http://rosettacode.org/wiki/Category:ALGOL_68
+//        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
+//        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
+        "Go",                       //http://rosettacode.org/wiki/Category:Go
+        "Lisp",                     //http://rosettacode.org/wiki/Category:Lisp
+//        "Oxygene",                  //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
+        "Pascal",                   //http://rosettacode.org/wiki/Category:Pascal
+        "Ruby",                     //http://rosettacode.org/wiki/Category:Ruby
+        "Rust",                     //http://rosettacode.org/wiki/Category:Rust
+//        "Microsoft_Small_Basic",    //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
+        "TypeScript",               //http://rosettacode.org/wiki/Category:TypeScript
 //end of search for languages to consider learning
         "C",
         "C++",
@@ -34,6 +37,7 @@ public final class LanguageUtil {
         "Java",         //top language
         "JavaScript",
         "Kotlin",
+        "LLVM",
         "Lua",
         "Modula-2",     //want to make secondary language
         "Perl",

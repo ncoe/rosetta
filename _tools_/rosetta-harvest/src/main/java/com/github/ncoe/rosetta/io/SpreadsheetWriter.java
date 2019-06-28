@@ -170,14 +170,37 @@ public final class SpreadsheetWriter {
         }
 
         sheet.createFreezePane(0, 1);
+    }
 
-        /* support initial sorting definition (may not be currently accessible with current builds)
-         * <sortState ref="A2:F1087">
-         *     <sortCondition ref="A2:A1087"/>
-         *     <sortCondition ref="F2:F1087"/>
-         *     <sortCondition ref="B2:B1087"/>
-         * </sortState>
-         */
+    private static void insertChart(XSSFSheet sheet, String title, int firstRow, int lastRow, int labelCol, int dataCol, int slot, int chartColumn) {
+        int rowNum = 31 * (slot / 2);
+        int colNum = chartColumn + 11 * (slot % 2);
+
+        XSSFDrawing drawing = sheet.createDrawingPatriarch();
+        XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, colNum, rowNum, colNum + 10, rowNum + 30);
+
+        XSSFChart chart = drawing.createChart(anchor);
+//        chart.setTitleText("X Language Breakdown");
+
+//        XDDFChartLegend legend = chart.getOrAddLegend();
+//        legend.setPosition(LegendPosition.TOP_RIGHT);
+
+        CellRangeAddress labelRange = new CellRangeAddress(firstRow, lastRow, labelCol, labelCol);
+        XDDFDataSource<String> labelData = XDDFDataSourcesFactory.fromStringCellRange(sheet, labelRange);
+
+        CellRangeAddress dataRange = new CellRangeAddress(firstRow, lastRow, dataCol, dataCol);
+        XDDFNumericalDataSource<Double> dataData = XDDFDataSourcesFactory.fromNumericCellRange(sheet, dataRange);
+
+        // connect the data to the pie chart
+        CTChart ctChart = chart.getCTChart();
+        CTPlotArea plotArea = ctChart.getPlotArea();
+        CTPieChart pieChart = plotArea.addNewPieChart();
+        XDDFChartData data = new XDDFPieChartData(pieChart);
+        data.setVaryColors(true);
+        XDDFChartData.Series series = data.addSeries(labelData, dataData);
+        series.setShowLeaderLines(true);
+        series.setTitle(title, null);
+        chart.plot(data);
     }
 
     /**
@@ -191,12 +214,6 @@ public final class SpreadsheetWriter {
             statList.add(Pair.of(entry.getKey(), entry.getValue()));
         }
         statList.sort(Collections.reverseOrder(Comparator.comparing(Pair::getValue)));
-
-        Long total = statList.stream()
-            .map(Pair::getValue)
-            .reduce(Long::sum)
-            .orElse(0L);
-        int cutPoint = 0;
 
         XSSFCellStyle numStyle = workbook.createCellStyle();
         numStyle.setDataFormat(0xa); //BuiltinFormats: 0.00%
@@ -225,7 +242,12 @@ public final class SpreadsheetWriter {
         cell = header.createCell(3);
         cell.setCellValue("Per Chart");
 
+        List<Integer> startList = new ArrayList<>();
+        startList.add(0);
+        List<CellRangeAddress> rangeList = new ArrayList<>();
+
         // process each language
+        double cumulative = 0.0;
         for (Pair<String, Long> entry : statList) {
             Row row = sheet.createRow(rowNum++);
 
@@ -237,34 +259,44 @@ public final class SpreadsheetWriter {
             cell = row.createCell(1);
             cell.setCellValue(entry.getValue());
 
-            if (100.0 * entry.getValue() / total > 5.0) {
-                cutPoint = rowNum;
+            cumulative += entry.getValue();
+            Integer startIndex = startList.get(startList.size() - 1);
+            if (entry.getValue() / cumulative < 0.1) {
+                cumulative = 0.0;
+                startList.add(rowNum - 2);
+
+                CellRangeAddress prevRange = new CellRangeAddress(startIndex + 1, rowNum - 2, 1, 1);
+                rangeList.add(prevRange);
             }
         }
+
+        Integer lastIndex = startList.get(startList.size() - 1);
+        CellRangeAddress finalRange = new CellRangeAddress(lastIndex + 1, rowNum - 1, 1, 1);
+        rangeList.add(finalRange);
 
         CellRangeAddress totalRange = new CellRangeAddress(1, rowNum - 1, 1, 1);
         String totalRangeStr = totalRange.formatAsString(null, true);
 
-        CellRangeAddress primaryRange = new CellRangeAddress(1, cutPoint - 1, 1, 1);
-        CellRangeAddress secondaryRange = new CellRangeAddress(cutPoint, rowNum - 1, 1, 1);
+        int rangeIndex = 0;
+        for (int i = 1; i <= statList.size(); i++) {
+            Row row = sheet.getRow(i);
 
-        int rn = 1;
-        for (Pair<String, Long> entry : statList) {
-            String rangeStr;
-            if (rn < cutPoint) {
-                rangeStr = primaryRange.formatAsString(null, true);
-            } else {
-                rangeStr = secondaryRange.formatAsString(null, true);
+            CellRangeAddress subsetRange = rangeList.get(rangeIndex);
+            if (!subsetRange.containsRow(i)) {
+                rangeIndex++;
+                subsetRange = rangeList.get(rangeIndex);
             }
 
-            Row row = sheet.getRow(rn++);
+            CellRangeAddress dataRange = new CellRangeAddress(i, i, 1, 1);
+            String dataRefStr = dataRange.formatAsString(null, true);
+            String rangeStr = subsetRange.formatAsString(null, true);
 
             cell = row.createCell(2);
-            cell.setCellFormula(String.format("%d / SUM(%s)", entry.getValue(), totalRangeStr));
+            cell.setCellFormula(String.format("%s / SUM(%s)", dataRefStr, totalRangeStr));
             cell.setCellStyle(numStyle);
 
             cell = row.createCell(3);
-            cell.setCellFormula(String.format("%d / SUM(%s)", entry.getValue(), rangeStr));
+            cell.setCellFormula(String.format("%s / SUM(%s)", dataRefStr, rangeStr));
             cell.setCellStyle(numStyle);
         }
 
@@ -274,71 +306,10 @@ public final class SpreadsheetWriter {
         sheet.autoSizeColumn(2);
         sheet.autoSizeColumn(3);
 
-        // add data labels -> add data callouts (microsoft 2012 is the schema seen locally)
-        // ^ a version of this can be accomplished with the setShowLeaderLines property with the available charts
-        /* chart type from "pie" to "pipe of pie" or "bar of pie" (min of 5%)(microsoft 2012 is the schema seen locally)
-         * <c:ofPieChart>
-         *      <c:ofPieType val="pie"/>
-         * ...
-         * </c:ofPieChart>
-         */
-        // ^ that can be done manually by putting some data in one chart and the rest in another
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // add a pie chart for visual comparision of primary languages
-        XSSFDrawing primaryDrawing = sheet.createDrawingPatriarch();
-        XSSFClientAnchor primaryAnchor = primaryDrawing.createAnchor(0, 0, 0, 0, 5, 0, 15, 30);
-
-        XSSFChart primaryChart = primaryDrawing.createChart(primaryAnchor);
-//        primaryChart.setTitleText("Primary Language Breakdown");
-
-//        XDDFChartLegend primaryLegend = primaryChart.getOrAddLegend();
-//        primaryLegend.setPosition(LegendPosition.TOP_RIGHT);
-
-        CellRangeAddress primaryCatRange = new CellRangeAddress(1, cutPoint - 1, 0, 0);
-        XDDFDataSource<String> primaryCat = XDDFDataSourcesFactory.fromStringCellRange(sheet, primaryCatRange);
-
-        CellRangeAddress primaryValRange = new CellRangeAddress(1, cutPoint - 1, 1, 1);
-        XDDFNumericalDataSource<Double> primaryVal = XDDFDataSourcesFactory.fromNumericCellRange(sheet, primaryValRange);
-
-        // connect the data to the pie chart (also showed the missing requirement for command-line building)
-        CTChart primaryCtChart = primaryChart.getCTChart();
-        CTPlotArea primaryPlotArea = primaryCtChart.getPlotArea();
-        CTPieChart primaryPieChart = primaryPlotArea.addNewPieChart();
-        XDDFChartData primaryData = new XDDFPieChartData(primaryPieChart);
-        primaryData.setVaryColors(true);
-        XDDFChartData.Series primarySeries = primaryData.addSeries(primaryCat, primaryVal);
-        primarySeries.setShowLeaderLines(true);
-        primarySeries.setTitle("Primary", null);
-        primaryChart.plot(primaryData);
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // add a pie chart for visual comparision of secondary languages
-        XSSFDrawing secondaryDrawing = sheet.createDrawingPatriarch();
-        XSSFClientAnchor secondaryAnchor = secondaryDrawing.createAnchor(0, 0, 0, 0, 16, 0, 26, 30);
-
-        XSSFChart secondaryChart = secondaryDrawing.createChart(secondaryAnchor);
-//        secondaryChart.setTitleText("Secondary Language Breakdown");
-
-//        XDDFChartLegend secondaryLegend = secondaryChart.getOrAddLegend();
-//        secondaryLegend.setPosition(LegendPosition.TOP_RIGHT);
-
-        CellRangeAddress secondaryCatRange = new CellRangeAddress(cutPoint, rowNum - 1, 0, 0);
-        XDDFDataSource<String> secondaryCat = XDDFDataSourcesFactory.fromStringCellRange(sheet, secondaryCatRange);
-
-        CellRangeAddress secondaryValRange = new CellRangeAddress(cutPoint, rowNum - 1, 1, 1);
-        XDDFNumericalDataSource<Double> secondaryVal = XDDFDataSourcesFactory.fromNumericCellRange(sheet, secondaryValRange);
-
-        // connect the data to the pie chart (also showed the missing requirement for command-line building)
-        CTChart secondaryCtChart = secondaryChart.getCTChart();
-        CTPlotArea secondaryPlotArea = secondaryCtChart.getPlotArea();
-        CTPieChart secondaryPieChart = secondaryPlotArea.addNewPieChart();
-        XDDFChartData secondaryData = new XDDFPieChartData(secondaryPieChart);
-        secondaryData.setVaryColors(true);
-        XDDFChartData.Series secondarySeries = secondaryData.addSeries(secondaryCat, secondaryVal);
-        secondarySeries.setShowLeaderLines(true);
-        secondarySeries.setTitle("Secondary", null);
-        secondaryChart.plot(secondaryData);
+        for (int i = 0; i < rangeList.size(); i++) {
+            CellRangeAddress range = rangeList.get(i);
+            insertChart(sheet, "C" + (i + 1), range.getFirstRow(), range.getLastRow(), 0, 1, i, 5);
+        }
     }
 
     /**
