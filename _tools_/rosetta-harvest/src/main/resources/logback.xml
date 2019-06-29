@@ -1,4 +1,6 @@
 <configuration>
+    <contextName>rosetta</contextName>
+
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
@@ -28,7 +30,9 @@
         <append>false</append>
     </appender>
 
-    <root level="info">
+    <logger name="com.github.ncoe.rosetta.io.SpreadsheetWriter" level="INFO"/>
+
+    <root level="INFO">
         <appender-ref ref="stdout"/>
         <appender-ref ref="logfile"/>
     </root>

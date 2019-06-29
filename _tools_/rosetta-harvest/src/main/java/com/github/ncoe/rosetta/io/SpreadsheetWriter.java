@@ -30,6 +30,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTChart;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTPieChart;
 import org.openxmlformats.schemas.drawingml.x2006.chart.CTPlotArea;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -52,6 +54,8 @@ public final class SpreadsheetWriter {
      * Output file name.
      */
     public static final String FILENAME = "rosetta.xlsx";
+
+    private static final Logger LOG = LoggerFactory.getLogger(SpreadsheetWriter.class);
 
     private SpreadsheetWriter() {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
@@ -261,8 +265,11 @@ public final class SpreadsheetWriter {
 
             cumulative += entry.getValue();
             Integer startIndex = startList.get(startList.size() - 1);
-            if (entry.getValue() / cumulative < 0.1) {
-                cumulative = 0.0;
+            double relative = 100.0 * entry.getValue() / cumulative;
+            LOG.debug("Relative abundance of {} is {}", entry.getKey(), relative);
+            if (relative < 6.0) {
+                LOG.debug("Resetting {} to 100%", entry.getKey());
+                cumulative = entry.getValue();
                 startList.add(rowNum - 2);
 
                 CellRangeAddress prevRange = new CellRangeAddress(startIndex + 1, rowNum - 2, 1, 1);

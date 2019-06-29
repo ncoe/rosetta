@@ -16,18 +16,19 @@ public final class LanguageUtil {
      * Languages to use to discover tasks.
      */
     public static final Set<String> LANGUAGES = Set.of(
-        "ALGOL",                    //http://rosettacode.org/wiki/Category:ALGOL_68
-//        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
-//        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
-        "Go",                       //http://rosettacode.org/wiki/Category:Go
-        "Lisp",                     //http://rosettacode.org/wiki/Category:Lisp
-//        "Oxygene",                  //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
-        "Pascal",                   //http://rosettacode.org/wiki/Category:Pascal
-        "Ruby",                     //http://rosettacode.org/wiki/Category:Ruby
-        "Rust",                     //http://rosettacode.org/wiki/Category:Rust
-//        "Microsoft_Small_Basic",    //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
-        "TypeScript",               //http://rosettacode.org/wiki/Category:TypeScript
+//-2        "ALGOL",                    //http://rosettacode.org/wiki/Category:ALGOL_68
+//0        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
+//0        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
+//0        "Go",                       //http://rosettacode.org/wiki/Category:Go
+//0        "Lisp",                     //http://rosettacode.org/wiki/Category:Lisp
+//0        "Oxygene",                  //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
+//0        "Pascal",                   //http://rosettacode.org/wiki/Category:Pascal
+//0        "Ruby",                     //http://rosettacode.org/wiki/Category:Ruby
+//0        "Rust",                     //http://rosettacode.org/wiki/Category:Rust
+//-13        "Microsoft_Small_Basic",    //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
+//-5        "TypeScript",               //http://rosettacode.org/wiki/Category:TypeScript
 //end of search for languages to consider learning
+        //26 with category 4
         "C",
         "C++",
         "C_sharp",      //third language
