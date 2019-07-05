@@ -87,7 +87,7 @@ public final class Program {
             TaskInfo info = taskInfoMap.get(entry.getKey());
             if (null == info) {
                 Set<String> langSet = entry.getValue();
-                int cat = langSet.size() > 1 ? 2 : 1;
+                int cat = langSet.size() > 1 ? 2 : langSet.size();
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
             } else {
@@ -137,6 +137,9 @@ public final class Program {
                     // No task should come here as zero :P
                     LOG.warn("There are multiple solutions for [{}], additionally {}", entry.getKey(), langTime.getKey());
                 } else {
+                    if (info.getCategory() == 1.0) {
+                        info.setNote("--- New Task ---");
+                    }
                     info.setCategory(0);
                     info.setNext(langTime.getLeft());
                     info.setLastModified(langTime.getRight());
@@ -181,12 +184,8 @@ public final class Program {
         addNote(taskInfoMap, "Write_entire_file", FILE_IO);
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
 
+        // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
-            "Addition-chain_exponentiation",
-            "Burrows–Wheeler_transform",
-            "Chaocipher",
-            "Checksumcolor",
-            "Chemical_Calculator",
             "Chernick's_Carmichael_numbers",
             "Cheryl's_Birthday",
             "Cramer's_rule",
@@ -223,15 +222,6 @@ public final class Program {
                         data.setNote("Only one option :(");
                     }
                 }
-            });
-
-        // Follow priority with tasks that have one language left to work on
-        taskInfoMap.values()
-            .stream()
-            .filter(data -> data.getCategory() == 2 && data.getLanguageSet().size() == 1)
-            .forEach(data -> {
-                data.setCategory(1.9);
-                data.setNote("Final language for task");
             });
     }
 

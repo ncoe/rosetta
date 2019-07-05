@@ -19,6 +19,7 @@ public final class LanguageUtil {
 //-2        "ALGOL",                    //http://rosettacode.org/wiki/Category:ALGOL_68
 //0        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
 //0        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
+//0        "Factor",                   //http://rosettacode.org/wiki/Category:Factor (like forth)
 //0        "Go",                       //http://rosettacode.org/wiki/Category:Go
 //0        "Lisp",                     //http://rosettacode.org/wiki/Category:Lisp
 //0        "Oxygene",                  //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
