@@ -7,7 +7,7 @@ module rosetta {
     requires org.eclipse.jgit;
 
     //todo these dependencies need to declare a module name, or add a module info file
-    requires logback.jackson;
+    requires logstash.logback.encoder;
     requires poi;
     requires poi.ooxml;
     requires poi.ooxml.schemas;

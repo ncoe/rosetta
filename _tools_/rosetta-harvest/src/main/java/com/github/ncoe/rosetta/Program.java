@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import static net.logstash.logback.argument.StructuredArguments.value;
+
 /**
  * The class that links the others together.
  */
@@ -68,6 +70,7 @@ public final class Program {
         }
     }
 
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     private static void generate() {
         // Gather local solutions and statistics
         Map<String, Long> langStatMap;
@@ -90,8 +93,8 @@ public final class Program {
                 int cat = langSet.size() > 1 ? 2 : langSet.size();
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
-            } else {
-                LOG.warn("Unexpected task re-definition: {}", entry.getKey());
+            } else if (LOG.isWarnEnabled()) {
+                LOG.warn("Unexpected task re-definition: {}", value("taskName", entry.getKey()));
             }
         }
 
@@ -135,7 +138,13 @@ public final class Program {
 
                 if (info.getCategory() == 0) {
                     // No task should come here as zero :P
-                    LOG.warn("There are multiple solutions for [{}], additionally {}", entry.getKey(), langTime.getKey());
+                    if (LOG.isWarnEnabled()) {
+                        LOG.warn(
+                            "There are multiple solutions for [{}], additionally {}",
+                            value("taskName", entry.getKey()),
+                            value("language", langTime.getKey())
+                        );
+                    }
                 } else {
                     if (info.getCategory() == 1.0) {
                         info.setNote("--- New Task ---");
@@ -207,7 +216,9 @@ public final class Program {
             .map(Entry::getValue)
             .forEach(data -> {
                 if (0 < data.getCategory() && data.getCategory() < 3) {
-                    LOG.warn("No longer need to process task [{}]", data.getTaskName());
+                    if (LOG.isWarnEnabled()) {
+                        LOG.warn("No longer need to process task [{}]", value("taskName", data.getTaskName()));
+                    }
                 } else if (data.getCategory() > 2) {
                     if (data.getCategory() == 3) {
                         if (topPickSet.contains(data.getTaskName())) {
@@ -228,7 +239,9 @@ public final class Program {
     private static void addNote(Map<String, TaskInfo> taskInfoMap, String taskName, String note) {
         TaskInfo info = taskInfoMap.get(taskName);
         if (null == info) {
-            LOG.error("Unknown task [{}] for adding a note", taskName);
+            if (LOG.isErrorEnabled()) {
+                LOG.error("Unknown task [{}] for adding a note", value("taskName", taskName));
+            }
         } else {
             info.setNote(note);
         }

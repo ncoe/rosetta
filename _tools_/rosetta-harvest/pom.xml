@@ -28,8 +28,8 @@
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <httpclient.version>4.5.9</httpclient.version>
-        <jackson-databind.version>2.9.9</jackson-databind.version>
-        <logback.contrib.version>0.1.5</logback.contrib.version>
+        <logback.version>1.2.3</logback.version>
+        <logstash.version>6.1</logstash.version>
         <org.eclipse.jgit.version>5.4.0.201906121030-r</org.eclipse.jgit.version>
         <poi-ooxml.version>4.1.0</poi-ooxml.version>
     </properties>
@@ -221,19 +221,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>ch.qos.logback.contrib</groupId>
-            <artifactId>logback-json-classic</artifactId>
-            <version>${logback.contrib.version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback.contrib</groupId>
-            <artifactId>logback-jackson</artifactId>
-            <version>${logback.contrib.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -261,12 +256,5 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>${org.eclipse.jgit.version}</version>
         </dependency>
-        <!-- Does not have an automatic module name either -->
-<!--        <dependency>-->
-<!--            &lt;!&ndash; Force an update &ndash;&gt;-->
-<!--            <groupId>org.slf4j</groupId>-->
-<!--            <artifactId>slf4j-api</artifactId>-->
-<!--            <version>1.7.26</version>-->
-<!--        </dependency>-->
     </dependencies>
 </project>

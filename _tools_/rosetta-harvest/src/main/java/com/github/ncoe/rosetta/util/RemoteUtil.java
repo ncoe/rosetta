@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static net.logstash.logback.argument.StructuredArguments.value;
+
 /**
  * For gathering data about tasks that could be worked on.
  */
@@ -46,8 +48,13 @@ public final class RemoteUtil {
         try (CloseableHttpResponse response = client.execute(request)) {
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
-            if (HttpStatus.SC_OK != statusCode) {
-                LOG.error("Unknown status ({}) or task name: {}", statusCode, name);
+
+            if (LOG.isErrorEnabled() && HttpStatus.SC_OK != statusCode) {
+                LOG.error(
+                    "Unknown status ({}) or task name: {}",
+                    value("statusCode", statusCode),
+                    value("taskName", name)
+                );
             }
         } catch (IOException e) {
             throw new UtilException(e);
@@ -58,6 +65,7 @@ public final class RemoteUtil {
      * @param language the language to find the unimplemented tasks for
      * @return the collection of unimplemented tasks for the given language
      */
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     public static Set<String> harvest(String language) {
         // prepare patterns for extracting data from the document
         Pattern headPattern = Pattern.compile("<span class=\"mw-headline\" id=\"([^\"]+)\">[^<]+</span>");
@@ -77,9 +85,17 @@ public final class RemoteUtil {
         // execute and process the request
         Set<String> taskSet = new HashSet<>();
         try (CloseableHttpResponse response = client.execute(request)) {
-            StatusLine statusLine = response.getStatusLine();
-            int statusCode = statusLine.getStatusCode();
-            LOG.info("Status code for {}: {} - {}", language, statusCode, statusLine.getReasonPhrase());
+            if (LOG.isInfoEnabled()) {
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+
+                LOG.info(
+                    "Status code for {}: {} - {}",
+                    value("language", language),
+                    value("statusCode", statusCode),
+                    value("reasonPhrase", statusLine.getReasonPhrase())
+                );
+            }
 
             // prepare to extract the lines from the response
             HttpEntity entity = response.getEntity();
@@ -111,7 +127,9 @@ public final class RemoteUtil {
                             section = SectionEnum.EndOfList;
                             break;
                         default:
-                            LOG.debug("Unknown section: {}", head);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Unknown section: {}", value("headline", head));
+                            }
                         case "Examples":
                         case "Other_pages":
                             section = RemoteUtil.SectionEnum.None;

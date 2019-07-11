@@ -46,6 +46,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static net.logstash.logback.argument.StructuredArguments.value;
+
 /**
  * For generating a spreadsheet for easily manipulating open tasks, tracking progress, and viewing gathered statistics.
  */
@@ -265,10 +267,19 @@ public final class SpreadsheetWriter {
 
             cumulative += entry.getValue();
             Integer startIndex = startList.get(startList.size() - 1);
-            double relative = 100.0 * entry.getValue() / cumulative;
-            LOG.debug("Relative abundance of {} is {}", entry.getKey(), relative);
-            if (relative < 6.0) {
-                LOG.debug("Resetting {} to 100%", entry.getKey());
+            double ratio = 100.0 * entry.getValue() / cumulative;
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(
+                    "Relative abundance of {} is {}",
+                    value("language", entry.getKey()),
+                    value("ratio", ratio)
+                );
+            }
+            if (ratio < 5.9) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Resetting {} to 100%", value("language", entry.getKey()));
+                }
+
                 cumulative = entry.getValue();
                 startList.add(rowNum - 2);
 
@@ -313,6 +324,7 @@ public final class SpreadsheetWriter {
         sheet.autoSizeColumn(2);
         sheet.autoSizeColumn(3);
 
+        //todo need to disallow single language charts
         for (int i = 0; i < rangeList.size(); i++) {
             CellRangeAddress range = rangeList.get(i);
             insertChart(sheet, "C" + (i + 1), range.getFirstRow(), range.getLastRow(), 0, 1, i, 5);

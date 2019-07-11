@@ -110,7 +110,11 @@
         <module name="JavadocStyle">
             <property name="scope" value="public" />
         </module>
+
+        <module name="SuppressWarningsHolder"/>
     </module>
+
+    <module name="SuppressWarningsFilter"/>
 
     <!-- No TAB characters in the source code -->
     <module name="FileTabCharacter">

@@ -33,6 +33,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.logstash.logback.argument.StructuredArguments.value;
+
 /**
  * For gathering data on the local system about solutions.
  */
@@ -186,7 +188,9 @@ public final class LocalUtil {
             "/_tools_/", "\\_tools_\\",
             ".gitignore", ".gitattributes", "LICENSE", "submit.template")
         ) {
-            LOG.debug("Saw the path {} and ignored it", fullPathStr);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Saw the path {} and ignored it", value("filePath", fullPathStr));
+            }
             return;
         }
 
@@ -266,7 +270,9 @@ public final class LocalUtil {
 
         // A new language has been added, or something is non-standard and needs to be corrected
         if (null == language) {
-            LOG.error("Unknown language for {} (was null)", taskName);
+            if (LOG.isErrorEnabled()) {
+                LOG.error("Unknown language for {} (was null)", value("taskName", taskName));
+            }
             return null;
         }
 
@@ -308,8 +314,13 @@ public final class LocalUtil {
                         Path fullPath = basePath.resolve(changePath);
                         FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
                         taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
-                    } else {
-                        LOG.info("There are multiple solutions for [{}], additionally, {} (Previously saw {})", solution.getKey(), solution.getValue(), info.getKey());
+                    } else if (LOG.isInfoEnabled()) {
+                        LOG.info(
+                            "There are multiple solutions for [{}], additionally, {} (Previously saw {})",
+                            value("taskName", solution.getKey()),
+                            value("language", solution.getValue()),
+                            value("language", info.getKey())
+                        );
                     }
                 }
             }
