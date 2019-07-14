@@ -55,7 +55,7 @@ public final class SpreadsheetWriter {
     /**
      * Output file name.
      */
-    public static final String FILENAME = "alt-rosetta.xlsx";
+    public static final String FILENAME = "rosetta.xlsx";
 
     private static final Logger LOG = LoggerFactory.getLogger(SpreadsheetWriter.class);
     private static final int TOOL_SIZE_DIFF = 37296;  //(true)-10267|(false)-10267

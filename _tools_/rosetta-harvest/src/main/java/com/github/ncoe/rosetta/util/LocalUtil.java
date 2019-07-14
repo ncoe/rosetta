@@ -44,7 +44,7 @@ public final class LocalUtil {
      * Output directory name.
      */
     public static final String OUTPUT_DIRECTORY = "out";
-    public static final boolean EXCLUDE_TOOLS = false;
+    public static final boolean EXCLUDE_TOOLS = true;
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalUtil.class);
 
