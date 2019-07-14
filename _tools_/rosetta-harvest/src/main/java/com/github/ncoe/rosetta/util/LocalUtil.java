@@ -1,6 +1,7 @@
 package com.github.ncoe.rosetta.util;
 
 import com.github.ncoe.rosetta.exception.UtilException;
+import net.logstash.logback.marker.Markers;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +44,7 @@ public final class LocalUtil {
      * Output directory name.
      */
     public static final String OUTPUT_DIRECTORY = "out";
+    public static final boolean EXCLUDE_TOOLS = false;
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalUtil.class);
 
@@ -74,8 +76,14 @@ public final class LocalUtil {
             case "Abundant_deficient_and_perfect_number_classifications":
                 name = "Abundant,_deficient_and_perfect_number_classifications";
                 break;
+            case "Cheryls_Birthday":
+                name = "Cheryl's_Birthday";
+                break;
             case "Cipollas_algorithm":
                 name = "Cipolla's_algorithm";
+                break;
+            case "Cramers_rule":
+                name = "Cramer's_rule";
                 break;
             case "Eulers_sum_of_powers_conjecture":
                 name = "Euler's_sum_of_powers_conjecture";
@@ -184,8 +192,8 @@ public final class LocalUtil {
         String fullPathStr = fullPath.toString();
 
         // Known directories and files that do not need to be considered for tracking metrics
-        if (StringUtils.containsAny(fullPathStr,
-            "/_tools_/", "\\_tools_\\",
+        if (EXCLUDE_TOOLS && StringUtils.containsAny(fullPathStr, "/_tools_/", "\\_tools_\\")
+            || StringUtils.containsAny(fullPathStr,
             ".gitignore", ".gitattributes", "LICENSE", "submit.template")
         ) {
             if (LOG.isDebugEnabled()) {
@@ -276,7 +284,8 @@ public final class LocalUtil {
             return null;
         }
 
-        return Pair.of(taskName.toString(), language);
+        String taskNameCorrected = directoryToTask(taskName.toString());
+        return Pair.of(taskNameCorrected, language);
     }
 
     /**
@@ -302,6 +311,10 @@ public final class LocalUtil {
             uncommittedSet.removeAll(status.getMissing());
             uncommittedSet.removeAll(status.getRemoved());
             uncommittedSet.removeAll(status.getModified());
+            if (LOG.isDebugEnabled()) {
+                String setStr = StringUtils.join(uncommittedSet, ", ");
+                LOG.debug(Markers.append("finalSet", uncommittedSet), "The final set considered is: [{}]", setStr);
+            }
 
             for (String changePathStr : uncommittedSet) {
                 Path changePath = Path.of(changePathStr);
@@ -328,6 +341,7 @@ public final class LocalUtil {
             throw new UtilException(e);
         }
 
+        //todo should the size be included as well to try and track if the languages positions will change?
         return taskMap;
     }
 }

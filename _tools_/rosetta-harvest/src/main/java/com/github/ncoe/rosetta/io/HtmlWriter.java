@@ -1,5 +1,6 @@
 package com.github.ncoe.rosetta.io;
 
+import com.github.ncoe.rosetta.dto.LanguageInfo;
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
 import com.github.ncoe.rosetta.util.LanguageUtil;
@@ -194,18 +195,12 @@ public final class HtmlWriter {
             // language filtering ui elements
             writer.write("  <div id=\"langBtnContainer\">\n");
             writer.write("    <button id=\"allLang\" class=\"btn activeLang\" onclick=\"filterLangSelection('all')\">Show all</button>\n");
-            writer.write("    <button id=\"clang\" class=\"btn\" onclick=\"filterLangSelection('clang')\">C</button>\n");
-            writer.write("    <button id=\"cpp\" class=\"btn\" onclick=\"filterLangSelection('cpp')\">C++</button>\n");
-            writer.write("    <button id=\"csharp\" class=\"btn\" onclick=\"filterLangSelection('csharp')\">C#</button>\n");
-            writer.write("    <button id=\"dlang\" class=\"btn\" onclick=\"filterLangSelection('dlang')\">D</button>\n");
-            writer.write("    <button id=\"fsharp\" class=\"btn\" onclick=\"filterLangSelection('fsharp')\">F#</button>\n");
-            writer.write("    <button id=\"java\" class=\"btn\" onclick=\"filterLangSelection('java')\">Java</button>\n");
-            writer.write("    <button id=\"kotlin\" class=\"btn\" onclick=\"filterLangSelection('kotlin')\">Kotlin</button>\n");
-            writer.write("    <button id=\"lua\" class=\"btn\" onclick=\"filterLangSelection('lua')\">Lua</button>\n");
-            writer.write("    <button id=\"modula2\" class=\"btn\" onclick=\"filterLangSelection('modula2')\">Modula-2</button>\n");
-            writer.write("    <button id=\"perl\" class=\"btn\" onclick=\"filterLangSelection('perl')\">Perl</button>\n");
-            writer.write("    <button id=\"python\" class=\"btn\" onclick=\"filterLangSelection('python')\">Python</button>\n");
-            writer.write("    <button id=\"vbnet\" class=\"btn\" onclick=\"filterLangSelection('vbnet')\">Visual Basic .NET</button>\n");
+            for (LanguageInfo langInfo : LanguageUtil.LANG_INFO) {
+                writer.write(String.format(
+                    "    <button id=\"%s\" class=\"btn\" onclick=\"filterLangSelection('%s')\">%s</button>\n",
+                    langInfo.getClassName(), langInfo.getClassName(), langInfo.getLanguage()
+                ));
+            }
             writer.write("  </div>\n");
 
             // task table header

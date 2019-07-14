@@ -7,75 +7,54 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Common place to handle manipulation among the various forms of the solution languages.
  */
 public final class LanguageUtil {
-    /**
-     * Languages to use to discover tasks.
-     */
-    public static final Set<String> LANGUAGES = Set.of(
-//-2        "ALGOL",                    //http://rosettacode.org/wiki/Category:ALGOL_68
-//0        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
-//0        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
-//0        "Factor",                   //http://rosettacode.org/wiki/Category:Factor (like forth)
-//0        "Go",                       //http://rosettacode.org/wiki/Category:Go
-//0        "Lisp",                     //http://rosettacode.org/wiki/Category:Lisp
-//0        "Oxygene",                  //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
-//0        "Pascal",                   //http://rosettacode.org/wiki/Category:Pascal
-//0        "Ruby",                     //http://rosettacode.org/wiki/Category:Ruby
-//0        "Rust",                     //http://rosettacode.org/wiki/Category:Rust
-//-13        "Microsoft_Small_Basic",    //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
-//-5        "TypeScript",               //http://rosettacode.org/wiki/Category:TypeScript
-//end of search for languages to consider learning
-        //26 with category 4
-        "C",
-        "C++",
-        "C_sharp",      //third language
-        "D",            //second, want to make top
-        "F_Sharp",
-        "Groovy",
-        "Java",         //top language
-        "JavaScript",
-        "Kotlin",
-        "LLVM",
-        "Lua",
-        "Modula-2",     //want to make secondary language
-        "Perl",
-        "Python",
-        "Scala",
-        "Visual_Basic_.NET"
-    );
-
-    private static final List<LanguageInfo> LANG_INFO = List.of(
-        LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol"),
+    public static final List<LanguageInfo> LANG_INFO = List.of(
+//        LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol"),    //http://rosettacode.org/wiki/Category:ALGOL_68
         LanguageInfo.of("C", "C", "c", "clang"),
         LanguageInfo.of("C++", "Cpp", "cpp", "cpp"),
-        LanguageInfo.of("C#", "CS", "cs", "csharp"),
+        LanguageInfo.of("C#", "C_sharp", "CS", "cs", "csharp"),
+//0        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
         LanguageInfo.of("D", "D", "d", "dlang"),
-        LanguageInfo.of("F#", "FS", "fs", "fsharp"),
-        LanguageInfo.of("Go", "Go", "go", "go"),
+//0        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
+        LanguageInfo.of("F#", "F_Sharp", "FS", "fs", "fsharp"),
+//0        "Factor",                   //http://rosettacode.org/wiki/Category:Factor (like forth)
+//        LanguageInfo.of("Go", "Go", "go", "go"),              //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy"),
         LanguageInfo.of("Java", "Java", "java", "java"),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript"),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin"),
-        LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp"),
+//        LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp"),      //http://rosettacode.org/wiki/Category:Lisp
         LanguageInfo.of("LLVM", "LLVM", "ll", "llvm"),
         LanguageInfo.of("Lua", "Lua", "lua", "lua"),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2"),
-        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal"),
+//0        "Oxygene",                                           //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
+//        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal"), //http://rosettacode.org/wiki/Category:Pascal
         LanguageInfo.of("Perl", "Perl", "pl", "perl"),
         LanguageInfo.of("Python", "Python", "py", "python"),
-        LanguageInfo.of("Ruby", "Ruby", "ruby", "ruby"),
-        LanguageInfo.of("Rust", "Rust", "rs", "rust"),
+//        LanguageInfo.of("Ruby", "Ruby", "ruby", "ruby"),      //http://rosettacode.org/wiki/Category:Ruby
+//        LanguageInfo.of("Rust", "Rust", "rs", "rust"),        //http://rosettacode.org/wiki/Category:Rust
         LanguageInfo.of("Scala", "Scala", "scala", "scala"),
-        LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript"),
-        LanguageInfo.of("Visual Basic .NET", "Visual Basic .NET", "vb", "vbnet")
+//-13        "Microsoft_Small_Basic",                           //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
+//        LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript"),  //http://rosettacode.org/wiki/Category:TypeScript
+        LanguageInfo.of("Visual Basic .NET", "Visual_Basic_.NET", "Visual Basic .NET", "vb", "vbnet")
     );
 
     private LanguageUtil() {
         throw new NotImplementedException("No LanguageUtil for you!");
+    }
+
+    /**
+     * @return the set of languages and understood by rosetta code for articles
+     */
+    public static Set<String> rosettaSet() {
+        return LANG_INFO.stream()
+            .map(LanguageInfo::getRosetta)
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -152,15 +131,10 @@ public final class LanguageUtil {
      * @return the standard from of the language name
      */
     public static String rosettaToLanguage(String language) {
-        switch (language) {
-            case "C_sharp":
-                return "C#";
-            case "F_Sharp":
-                return "F#";
-            case "Visual_Basic_.NET":
-                return "Visual Basic .NET";
-            default:
-                return language;
-        }
+        return LANG_INFO.stream()
+            .filter(li -> StringUtils.equals(li.getRosetta(), language))
+            .map(LanguageInfo::getLanguage)
+            .findFirst()
+            .orElse(language);
     }
 }

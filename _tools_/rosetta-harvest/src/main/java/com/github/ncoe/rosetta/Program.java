@@ -100,7 +100,7 @@ public final class Program {
 
         // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
-        for (String language : LanguageUtil.LANGUAGES) {
+        for (String language : LanguageUtil.rosettaSet()) {
             String taskLang = LanguageUtil.rosettaToLanguage(language);
             Set<String> langSet = RemoteUtil.harvest(language);
 
@@ -153,6 +153,8 @@ public final class Program {
                     info.setNext(langTime.getLeft());
                     info.setLastModified(langTime.getRight());
                 }
+            } else if (LOG.isErrorEnabled()) {
+                LOG.error("Failed to retrieve data about pending task: {}", value("task", entry.getKey()));
             }
         }
 
@@ -195,11 +197,17 @@ public final class Program {
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
-            "Chernick's_Carmichael_numbers",
-            "Cheryl's_Birthday",
-            "Cramer's_rule",
-            "Eban_numbers",
-            "Largest_number_divisible_by_its_digits"
+            "Bell_numbers",
+            "Chowla_numbers",
+            "Church_Numerals",
+            "Hilbert_curve",
+            "Kernighans_large_earthquake_problem",
+            "Largest_number_divisible_by_its_digits",
+            "Latin_Squares_in_reduced_form",
+            "Peaceful_chess_queen_armies",
+            "Pell's_equation",
+            "Square_but_not_cube",
+            "Weird_numbers"
         );
 
         // Prioritize some tasks so that there is more than one task with the same prefix

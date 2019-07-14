@@ -25,6 +25,10 @@
         <append>false</append>
     </appender>
 
+    <logger name="com.github.ncoe.rosetta.util.LanguageUtil" level="INFO"/>
+    <logger name="com.github.ncoe.rosetta.util.LocalUtil" level="INFO"/>
+    <logger name="com.github.ncoe.rosetta.util.RemoteUtil" level="INFO"/>
+    <logger name="com.github.ncoe.rosetta.io.HtmlWriter" level="INFO"/>
     <logger name="com.github.ncoe.rosetta.io.SpreadsheetWriter" level="INFO"/>
 
     <root level="INFO">
