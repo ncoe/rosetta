@@ -102,6 +102,7 @@ public final class Program {
         Map<String, Set<String>> langByTask = new HashMap<>();
         for (String language : LanguageUtil.rosettaSet()) {
             String taskLang = LanguageUtil.rosettaToLanguage(language);
+            //todo can this be reframed to be parallel?
             Set<String> langSet = RemoteUtil.harvest(language);
 
             // Incorporate the tasks that could be implemented with this language

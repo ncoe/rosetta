@@ -58,7 +58,6 @@ public final class SpreadsheetWriter {
     public static final String FILENAME = "rosetta.xlsx";
 
     private static final Logger LOG = LoggerFactory.getLogger(SpreadsheetWriter.class);
-    private static final int TOOL_SIZE_DIFF = 37296;  //(true)-10267|(false)-10267
 
     private SpreadsheetWriter() {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
@@ -289,23 +288,7 @@ public final class SpreadsheetWriter {
             }
         }
 
-        // Balance the inflation difference shown online because of the tooling
-        Long dSize = statList.stream().filter(s -> "D".equals(s.getKey())).map(Pair::getValue).findFirst().orElse(0L);
-        Long javaSize = statList.stream().filter(s -> "Java".equals(s.getKey())).map(Pair::getValue).findFirst().orElse(0L);
-        long diffSize = dSize - javaSize - 100; // calculate the difference and add a margin
-        if (LocalUtil.EXCLUDE_TOOLS) {
-            diffSize -= TOOL_SIZE_DIFF;
-        }
-
-        // custom header
-        cell = header.createCell(4);
-        cell.setCellValue("Custom");
-
-        Row customRow = sheet.getRow(1);
-        cell = customRow.createCell(4);
-        cell.setCellValue(diffSize);
-
-        // Calculate charge ranges
+        // Calculate chart ranges
         Integer lastIndex = startList.get(startList.size() - 1);
         CellRangeAddress finalRange = new CellRangeAddress(lastIndex + 1, rowNum - 1, 1, 1);
         rangeList.add(finalRange);
@@ -342,7 +325,7 @@ public final class SpreadsheetWriter {
         sheet.autoSizeColumn(2);
         sheet.autoSizeColumn(3);
 
-        //todo need to disallow single language charts
+        //there may be a chart with a single range if other languages are relatively too dominant
         for (int i = 0; i < rangeList.size(); i++) {
             CellRangeAddress range = rangeList.get(i);
             insertChart(sheet, "C" + (i + 1), range.getFirstRow(), range.getLastRow(), 0, 1, i, 6);
