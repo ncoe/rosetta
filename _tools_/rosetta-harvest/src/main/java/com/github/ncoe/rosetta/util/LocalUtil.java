@@ -49,6 +49,7 @@ public final class LocalUtil {
     private static final boolean EXCLUDE_TOOLS = true;
     private static final String D_KEY = "D";
     private static final String J_KEY = "Java";
+    private static final String JS_KEY = "JavaScript";
 
     private LocalUtil() {
         throw new NotImplementedException("No LocalUtil for you!");
@@ -243,7 +244,8 @@ public final class LocalUtil {
         // pre-handle exclusion of tool (may also need to adjust scala and javascript)
         if (EXCLUDE_TOOLS) {
             langMap.merge(D_KEY, 37037L, Long::sum);
-            langMap.merge(J_KEY, 75024L, Long::sum);
+            langMap.merge(J_KEY, 74228L, Long::sum);
+            langMap.merge(JS_KEY, 2651L, Long::sum);
         }
         return langMap;
     }

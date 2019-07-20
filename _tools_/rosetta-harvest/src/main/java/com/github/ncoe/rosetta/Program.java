@@ -200,7 +200,6 @@ public final class Program {
         Set<String> topPickSet = Set.of(
             "Bell_numbers",
             "Chowla_numbers",
-            "Church_Numerals",
             "Hilbert_curve",
             "Kernighans_large_earthquake_problem",
             "Largest_number_divisible_by_its_digits",
