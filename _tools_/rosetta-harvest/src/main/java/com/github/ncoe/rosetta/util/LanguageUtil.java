@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
  * Common place to handle manipulation among the various forms of the solution languages.
  */
 public final class LanguageUtil {
+    /**
+     * List of languages to do solutions for, or to consider solutions for.
+     */
     public static final List<LanguageInfo> LANG_INFO = List.of(
 //        LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol"),    //http://rosettacode.org/wiki/Category:ALGOL_68
         LanguageInfo.of("C", "C", "c", "clang"),

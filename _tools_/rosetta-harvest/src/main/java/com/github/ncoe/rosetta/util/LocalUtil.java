@@ -70,6 +70,7 @@ public final class LocalUtil {
      * @param directory the directory name for the solution
      * @return the task name according to rosetta code
      */
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     private static String directoryToTask(String directory) {
         String name;
         switch (directory) {

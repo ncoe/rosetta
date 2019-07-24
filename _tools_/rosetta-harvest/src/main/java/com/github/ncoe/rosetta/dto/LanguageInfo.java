@@ -3,7 +3,7 @@ package com.github.ncoe.rosetta.dto;
 /**
  * Holds related forms of a language.
  */
-public class LanguageInfo {
+public final class LanguageInfo {
     private String language;
     private String rosetta;
     private String directoryName;
@@ -43,7 +43,7 @@ public class LanguageInfo {
      * @param fileExtension the typical file extension
      * @param className     the css class name to use
      */
-    public LanguageInfo(String language, String rosetta, String directoryName, String fileExtension, String className) {
+    private LanguageInfo(String language, String rosetta, String directoryName, String fileExtension, String className) {
         this.language = language;
         this.rosetta = rosetta;
         this.directoryName = directoryName;

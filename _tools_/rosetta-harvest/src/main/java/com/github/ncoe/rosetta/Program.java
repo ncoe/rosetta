@@ -100,22 +100,23 @@ public final class Program {
 
         // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
-        for (String language : LanguageUtil.rosettaSet()) {
+        LanguageUtil.rosettaSet().parallelStream().forEach(language -> {
             String taskLang = LanguageUtil.rosettaToLanguage(language);
-            //todo can this be reframed to be parallel?
             Set<String> langSet = RemoteUtil.harvest(language);
 
             // Incorporate the tasks that could be implemented with this language
             for (String taskName : langSet) {
-                if (langByTask.containsKey(taskName)) {
-                    langSet = langByTask.get(taskName);
-                } else {
-                    langSet = new HashSet<>();
-                    langByTask.put(taskName, langSet);
+                synchronized (langByTask) {
+                    if (langByTask.containsKey(taskName)) {
+                        langSet = langByTask.get(taskName);
+                    } else {
+                        langSet = new HashSet<>();
+                        langByTask.put(taskName, langSet);
+                    }
+                    langSet.add(taskLang);
                 }
-                langSet.add(taskLang);
             }
-        }
+        });
 
         // Aggregate remote data into task information
         for (Entry<String, Set<String>> entry : langByTask.entrySet()) {
@@ -137,16 +138,9 @@ public final class Program {
             if (null != info) {
                 Pair<String, FileTime> langTime = entry.getValue();
 
-                if (info.getCategory() == 0) {
-                    // No task should come here as zero :P
-                    if (LOG.isWarnEnabled()) {
-                        LOG.warn(
-                            "There are multiple solutions for [{}], additionally {}",
-                            value("taskName", entry.getKey()),
-                            value("language", langTime.getKey())
-                        );
-                    }
-                } else {
+                // A task could be zero if we saw it already, or if it is the final implementation,
+                // but that can be handled with the next re-sync
+                if (info.getCategory() != 0) {
                     if (info.getCategory() == 1.0) {
                         info.setNote("--- New Task ---");
                     }
@@ -173,6 +167,7 @@ public final class Program {
         addNote(taskInfoMap, "Arithmetic_coding/As_a_generalized_change_of_radix", BIG_INTEGER);
         addNote(taskInfoMap, "Arithmetic-geometric_mean/Calculate_Pi", BIG_INTEGER + " / " + BIG_DECIMAL);
         addNote(taskInfoMap, "Base58Check_encoding", BIG_INTEGER);
+        addNote(taskInfoMap, "Bell_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Bilinear_interpolation", IMAGE_IO);
         addNote(taskInfoMap, "Chat_server", NETWORK_IO);
         addNote(taskInfoMap, "Cipolla's_algorithm", BIG_INTEGER);
@@ -198,8 +193,6 @@ public final class Program {
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
-            "Bell_numbers",
-            "Chowla_numbers",
             "Hilbert_curve",
             "Kernighans_large_earthquake_problem",
             "Largest_number_divisible_by_its_digits",
