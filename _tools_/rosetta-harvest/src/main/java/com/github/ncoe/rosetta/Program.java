@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.logstash.logback.argument.StructuredArguments.value;
 
@@ -39,6 +41,7 @@ public final class Program {
     private static final String IMAGE_IO = "image io";
     private static final String NESTED_FUNCTIONS = "nested functions";
     private static final String NETWORK_IO = "network io";
+    private static final boolean COMBINE = false;
 
     private Program() {
         throw new NotImplementedException("No Program for you!");
@@ -78,8 +81,17 @@ public final class Program {
         Map<String, Set<String>> localTaskMap;
         try (Repository repository = LocalUtil.getRepository()) {
             localTaskMap = LocalUtil.classifyCurrent(repository);
-            pendingMap = LocalUtil.pendingSolutions(repository);
+
+            Pair<Map<String, Pair<String, FileTime>>, Map<String, Long>> taskSizePair
+                = LocalUtil.pendingSolutions(repository);
+            pendingMap = taskSizePair.getKey();
+
             langStatMap = LocalUtil.languageStats(repository);
+            if (COMBINE) {
+                Map<String, Long> langSizeMap = taskSizePair.getValue();
+                langStatMap = Stream.concat(langStatMap.entrySet().stream(), langSizeMap.entrySet().stream())
+                    .collect(Collectors.toMap(Entry::getKey, Entry::getValue, Long::sum));
+            }
         } catch (IOException e) {
             throw new UtilException(e);
         }

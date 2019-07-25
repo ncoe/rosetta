@@ -46,10 +46,6 @@ public final class LocalUtil {
     public static final String OUTPUT_DIRECTORY = "out";
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalUtil.class);
-    private static final boolean EXCLUDE_TOOLS = true;
-    private static final String D_KEY = "D";
-    private static final String J_KEY = "Java";
-    private static final String JS_KEY = "JavaScript";
 
     private LocalUtil() {
         throw new NotImplementedException("No LocalUtil for you!");
@@ -196,9 +192,8 @@ public final class LocalUtil {
         String fullPathStr = fullPath.toString();
 
         // Known directories and files that do not need to be considered for tracking metrics
-        if (EXCLUDE_TOOLS && StringUtils.containsAny(fullPathStr, "/_tools_/", "\\_tools_\\")
-            || StringUtils.containsAny(fullPathStr,
-            ".gitignore", ".gitattributes", "LICENSE", "submit.template")
+        if (StringUtils.containsAny(fullPathStr,
+            ".gitignore", ".gitattributes", "LICENSE", "submit.template", "template.fthl")
         ) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Saw the path {} and ignored it", value("filePath", fullPathStr));
@@ -242,12 +237,6 @@ public final class LocalUtil {
             }
         }
 
-        // pre-handle exclusion of tool (may also need to adjust scala and javascript)
-        if (EXCLUDE_TOOLS) {
-            langMap.merge(D_KEY, 37037L, Long::sum);
-            langMap.merge(J_KEY, 74228L, Long::sum);
-            langMap.merge(JS_KEY, 2651L, Long::sum);
-        }
         return langMap;
     }
 
@@ -261,7 +250,7 @@ public final class LocalUtil {
 
         // The html files help to demonstrate the javascript submissions
         // The text files either server as input to a program, or hold a submission that is waiting to be submitted.
-        if (StringUtils.equalsAnyIgnoreCase(extension, "htm", "html", "txt")) {
+        if (StringUtils.equalsAnyIgnoreCase(extension, "fthl", "htm", "html", "txt")) {
             return null;
         }
 
@@ -303,10 +292,11 @@ public final class LocalUtil {
      * @param repository the repository to find pending changes in
      * @return tasks that have a pending solution, and what language the pending solution is written in
      */
-    public static Map<String, Pair<String, FileTime>> pendingSolutions(Repository repository) {
+    public static Pair<Map<String, Pair<String, FileTime>>, Map<String, Long>> pendingSolutions(Repository repository) {
         String baseDirStr = repository.getWorkTree().toString();
         Path basePath = Path.of(baseDirStr);
         Map<String, Pair<String, FileTime>> taskMap = new HashMap<>();
+        Map<String, Long> langSizeMap = new HashMap<>();
 
         try (Git git = new Git(repository)) {
             Status status = git.status().call();
@@ -330,13 +320,16 @@ public final class LocalUtil {
             for (String changePathStr : uncommittedSet) {
                 Path changePath = Path.of(changePathStr);
 
-                // check if there is a pending solution
+                // check if there is a pending solution (taskName, language)
                 Pair<String, String> solution = extractSolution(changePath);
                 if (null != solution) {
                     Pair<String, FileTime> info = taskMap.get(solution.getKey());
                     if (null == info) {
                         Path fullPath = basePath.resolve(changePath);
                         FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
+                        long fileSize = Files.size(fullPath);
+                        langSizeMap.merge(solution.getValue(), fileSize, Long::sum);
+                        // taskName -> (language, modificationTime)
                         taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
                     } else if (LOG.isInfoEnabled()) {
                         LOG.info(
@@ -352,7 +345,6 @@ public final class LocalUtil {
             throw new UtilException(e);
         }
 
-        //todo should the size be included as well to try and track if the languages positions will change?
-        return taskMap;
+        return Pair.of(taskMap, langSizeMap);
     }
 }
