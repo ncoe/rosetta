@@ -41,7 +41,7 @@ public final class Program {
     private static final String IMAGE_IO = "image io";
     private static final String NESTED_FUNCTIONS = "nested functions";
     private static final String NETWORK_IO = "network io";
-    private static final boolean COMBINE = false;
+    private static final boolean COMBINE = true;
 
     private Program() {
         throw new NotImplementedException("No Program for you!");
@@ -205,8 +205,6 @@ public final class Program {
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
-            "Hilbert_curve",
-            "Kernighans_large_earthquake_problem",
             "Largest_number_divisible_by_its_digits",
             "Latin_Squares_in_reduced_form",
             "Peaceful_chess_queen_armies",

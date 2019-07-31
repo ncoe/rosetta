@@ -106,6 +106,9 @@ public final class LocalUtil {
             case "Pascals_triangle":
                 name = "Pascal's_triangle";
                 break;
+            case "Pells_equation":
+                name = "Pell's_equation";
+                break;
             case "Recamans_sequence":
                 name = "Recaman's_sequence";
                 break;
