@@ -205,7 +205,6 @@ public final class Program {
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
-            "Largest_number_divisible_by_its_digits",
             "Latin_Squares_in_reduced_form",
             "Peaceful_chess_queen_armies",
             "Pell's_equation",
