@@ -207,9 +207,7 @@ public final class Program {
         Set<String> topPickSet = Set.of(
             "Latin_Squares_in_reduced_form",
             "Peaceful_chess_queen_armies",
-            "Pell's_equation",
-            "Square_but_not_cube",
-            "Weird_numbers"
+            "Square_but_not_cube"
         );
 
         // Prioritize some tasks so that there is more than one task with the same prefix
