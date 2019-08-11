@@ -206,8 +206,7 @@ public final class Program {
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
             "Latin_Squares_in_reduced_form",
-            "Peaceful_chess_queen_armies",
-            "Square_but_not_cube"
+            "Peaceful_chess_queen_armies"
         );
 
         // Prioritize some tasks so that there is more than one task with the same prefix
