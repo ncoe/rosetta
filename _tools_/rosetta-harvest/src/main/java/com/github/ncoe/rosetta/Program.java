@@ -197,6 +197,7 @@ public final class Program {
         addNote(taskInfoMap, "Montgomery_reduction", BIG_INTEGER);
         addNote(taskInfoMap, "Narcissist", FILE_IO);
         addNote(taskInfoMap, "N-body_problem", FILE_IO);
+        addNote(taskInfoMap, "Pell's_equation", BIG_INTEGER);
         addNote(taskInfoMap, "Sierpinski_pentagon", IMAGE_IO + " / " + FILE_IO);
         addNote(taskInfoMap, "Suffix_tree", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Tonelli-Shanks_algorithm", BIG_INTEGER);
@@ -205,7 +206,6 @@ public final class Program {
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> topPickSet = Set.of(
-            "Latin_Squares_in_reduced_form",
             "Peaceful_chess_queen_armies"
         );
 
