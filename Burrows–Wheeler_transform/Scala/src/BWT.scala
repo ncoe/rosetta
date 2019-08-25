@@ -9,13 +9,11 @@ object BWT {
       throw new RuntimeException("String can't contain STX or ETX")
     }
     var ss = STX + s + ETX
-    //    val table = Array<String>(ss.length) { ss.substring(it) + ss.substring(0, it) }
     var table = new ArrayBuffer[String]()
     (0 until ss.length).foreach(_ => {
       table += ss
       ss = ss.substring(1) + ss.charAt(0)
     })
-    //    return String(table.map { it[it.lastIndex] }.toCharArray())
     table.sorted.map(a => a.last).mkString
   }
 
