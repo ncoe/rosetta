@@ -74,6 +74,7 @@ Settings.settings
 **/bin/
 **/obj/
 **/Debug/
+**/Release/
 **/packages/
 *.csproj
 *.exe.config
