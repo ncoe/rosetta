@@ -190,6 +190,7 @@ public final class Program {
         addNote(taskInfoMap, "Get_system_command_output", "process io");
         addNote(taskInfoMap, "I_before_E_except_after_C", FILE_IO);
         addNote(taskInfoMap, "Knuth's_power_tree", BIG_DECIMAL);
+        addNote(taskInfoMap, "Lah_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Magic_squares_of_doubly_even_order", DYNAMIC_MEMORY);
         addNote(taskInfoMap, "Make_directory_path", FILE_IO);
         addNote(taskInfoMap, "Markov_chain_text_generator", FILE_IO);
@@ -205,8 +206,7 @@ public final class Program {
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
-        Set<String> topPickSet = Set.of(
-        );
+        Set<String> topPickSet = Set.of();
 
         // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
