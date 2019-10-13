@@ -190,6 +190,7 @@ public final class Program {
         addNote(taskInfoMap, "Get_system_command_output", "process io");
         addNote(taskInfoMap, "I_before_E_except_after_C", FILE_IO);
         addNote(taskInfoMap, "Knuth's_power_tree", BIG_DECIMAL);
+        addNote(taskInfoMap, "Kosaraju", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Lah_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Magic_squares_of_doubly_even_order", DYNAMIC_MEMORY);
         addNote(taskInfoMap, "Make_directory_path", FILE_IO);
