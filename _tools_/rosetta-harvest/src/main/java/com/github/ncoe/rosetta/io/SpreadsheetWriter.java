@@ -186,10 +186,10 @@ public final class SpreadsheetWriter {
         XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, colNum, rowNum, colNum + 10, rowNum + 30);
 
         XSSFChart chart = drawing.createChart(anchor);
-//        chart.setTitleText("X Language Breakdown");
+        //chart.setTitleText("X Language Breakdown")
 
-//        XDDFChartLegend legend = chart.getOrAddLegend();
-//        legend.setPosition(LegendPosition.TOP_RIGHT);
+        //XDDFChartLegend legend = chart.getOrAddLegend()
+        //legend.setPosition(LegendPosition.TOP_RIGHT)
 
         CellRangeAddress labelRange = new CellRangeAddress(firstRow, lastRow, labelCol, labelCol);
         XDDFDataSource<String> labelData = XDDFDataSourcesFactory.fromStringCellRange(sheet, labelRange);
@@ -230,23 +230,18 @@ public final class SpreadsheetWriter {
 
         // create the header
         XSSFRow header = sheet.createRow(rowNum++);
-        Cell cell;
 
         // language header
-        cell = header.createCell(0);
-        cell.setCellValue("Language");
+        header.createCell(0).setCellValue("Language");
 
         // size header
-        cell = header.createCell(1);
-        cell.setCellValue("Size");
+        header.createCell(1).setCellValue("Size");
 
         // percent header
-        cell = header.createCell(2);
-        cell.setCellValue("Percent");
+        header.createCell(2).setCellValue("Percent");
 
         // per chart header
-        cell = header.createCell(3);
-        cell.setCellValue("Per Chart");
+        header.createCell(3).setCellValue("Per Chart");
 
         List<Integer> startList = new ArrayList<>();
         startList.add(0);
@@ -258,12 +253,10 @@ public final class SpreadsheetWriter {
             Row row = sheet.createRow(rowNum++);
 
             // language name
-            cell = row.createCell(0);
-            cell.setCellValue(entry.getKey());
+            row.createCell(0).setCellValue(entry.getKey());
 
             // total size
-            cell = row.createCell(1);
-            cell.setCellValue(entry.getValue());
+            row.createCell(1).setCellValue(entry.getValue());
 
             cumulative += entry.getValue();
             Integer startIndex = startList.get(startList.size() - 1);
@@ -309,6 +302,8 @@ public final class SpreadsheetWriter {
             CellRangeAddress dataRange = new CellRangeAddress(i, i, 1, 1);
             String dataRefStr = dataRange.formatAsString(null, true);
             String rangeStr = subsetRange.formatAsString(null, true);
+
+            Cell cell;
 
             cell = row.createCell(2);
             cell.setCellFormula(String.format("%s / SUM(%s)", dataRefStr, totalRangeStr));

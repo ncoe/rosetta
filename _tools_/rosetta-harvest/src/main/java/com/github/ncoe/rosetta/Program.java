@@ -6,6 +6,7 @@ import com.github.ncoe.rosetta.io.HtmlWriter;
 import com.github.ncoe.rosetta.io.SpreadsheetWriter;
 import com.github.ncoe.rosetta.util.LanguageUtil;
 import com.github.ncoe.rosetta.util.LocalUtil;
+import com.github.ncoe.rosetta.util.MiscUtil;
 import com.github.ncoe.rosetta.util.RemoteUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -102,7 +103,7 @@ public final class Program {
             TaskInfo info = taskInfoMap.get(entry.getKey());
             if (null == info) {
                 Set<String> langSet = entry.getValue();
-                int cat = langSet.size() > 1 ? 2 : langSet.size();
+                int cat = MiscUtil.choice(langSet.size() > 1, 2, langSet.size());
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
             } else if (LOG.isWarnEnabled()) {
@@ -135,7 +136,7 @@ public final class Program {
             TaskInfo info = taskInfoMap.get(entry.getKey());
             if (null == info) {
                 Set<String> langSet = entry.getValue();
-                int cat = langSet.size() > 1 ? 3 : 4;
+                int cat = MiscUtil.choice(langSet.size() > 1, 3, 4);
                 info = new TaskInfo(cat, entry.getKey());
                 info.getLanguageSet().addAll(entry.getValue());
                 taskInfoMap.put(entry.getKey(), info);
@@ -207,7 +208,9 @@ public final class Program {
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
 
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
-        Set<String> topPickSet = Set.of();
+        Set<String> topPickSet = Set.of(
+            "Untitled_task"
+        );
 
         // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
