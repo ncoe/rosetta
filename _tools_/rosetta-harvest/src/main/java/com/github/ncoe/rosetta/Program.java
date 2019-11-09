@@ -42,6 +42,7 @@ public final class Program {
     private static final String IMAGE_IO = "image io";
     private static final String NESTED_FUNCTIONS = "nested functions";
     private static final String NETWORK_IO = "network io";
+    private static final String SLASH = " / ";
     private static final boolean COMBINE = true;
 
     private Program() {
@@ -178,7 +179,7 @@ public final class Program {
         addNote(taskInfoMap, "Abbreviations,_automatic", FILE_IO);
         addNote(taskInfoMap, "Append_a_record_to_the_end_of_a_text_file", FILE_IO);
         addNote(taskInfoMap, "Arithmetic_coding/As_a_generalized_change_of_radix", BIG_INTEGER);
-        addNote(taskInfoMap, "Arithmetic-geometric_mean/Calculate_Pi", BIG_INTEGER + " / " + BIG_DECIMAL);
+        addNote(taskInfoMap, "Arithmetic-geometric_mean/Calculate_Pi", BIG_INTEGER + SLASH + BIG_DECIMAL);
         addNote(taskInfoMap, "Base58Check_encoding", BIG_INTEGER);
         addNote(taskInfoMap, "Bell_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Bilinear_interpolation", IMAGE_IO);
@@ -200,8 +201,10 @@ public final class Program {
         addNote(taskInfoMap, "Montgomery_reduction", BIG_INTEGER);
         addNote(taskInfoMap, "Narcissist", FILE_IO);
         addNote(taskInfoMap, "N-body_problem", FILE_IO);
+        addNote(taskInfoMap, "N-smooth_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Pell's_equation", BIG_INTEGER);
-        addNote(taskInfoMap, "Sierpinski_pentagon", IMAGE_IO + " / " + FILE_IO);
+        addNote(taskInfoMap, "Pierpont_primes", BIG_INTEGER + SLASH + "prime test");
+        addNote(taskInfoMap, "Sierpinski_pentagon", IMAGE_IO + SLASH + FILE_IO);
         addNote(taskInfoMap, "Suffix_tree", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Tonelli-Shanks_algorithm", BIG_INTEGER);
         addNote(taskInfoMap, "Write_entire_file", FILE_IO);
