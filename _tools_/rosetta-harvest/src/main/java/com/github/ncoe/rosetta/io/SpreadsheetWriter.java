@@ -12,11 +12,11 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xddf.usermodel.chart.ChartTypes;
 import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
 import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
-import org.apache.poi.xddf.usermodel.chart.XDDFPieChartData;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFChart;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
@@ -27,9 +27,6 @@ import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.drawingml.x2006.chart.CTChart;
-import org.openxmlformats.schemas.drawingml.x2006.chart.CTPieChart;
-import org.openxmlformats.schemas.drawingml.x2006.chart.CTPlotArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +37,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -198,10 +194,7 @@ public final class SpreadsheetWriter {
         XDDFNumericalDataSource<Double> dataData = XDDFDataSourcesFactory.fromNumericCellRange(sheet, dataRange);
 
         // connect the data to the pie chart
-        CTChart ctChart = chart.getCTChart();
-        CTPlotArea plotArea = ctChart.getPlotArea();
-        CTPieChart pieChart = plotArea.addNewPieChart();
-        XDDFChartData data = new XDDFPieChartData(pieChart);
+        XDDFChartData data = chart.createData(ChartTypes.PIE, null, null);
         data.setVaryColors(true);
         XDDFChartData.Series series = data.addSeries(labelData, dataData);
         series.setShowLeaderLines(true);
@@ -219,7 +212,7 @@ public final class SpreadsheetWriter {
         for (Entry<String, Long> entry : langStatMap.entrySet()) {
             statList.add(Pair.of(entry.getKey(), entry.getValue()));
         }
-        statList.sort(Collections.reverseOrder(Comparator.comparing(Pair::getValue)));
+        statList.sort(Collections.reverseOrder(Entry.comparingByValue()));
 
         XSSFCellStyle numStyle = workbook.createCellStyle();
         numStyle.setDataFormat(0xa); //BuiltinFormats: 0.00%

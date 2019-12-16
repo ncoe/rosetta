@@ -27,11 +27,12 @@
 
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
-        <httpclient.version>4.5.9</httpclient.version>
+        <freemarker.version>2.3.29</freemarker.version>
+        <httpclient.version>4.5.10</httpclient.version>
         <logback.version>1.2.3</logback.version>
-        <logstash.version>6.1</logstash.version>
-        <org.eclipse.jgit.version>5.4.0.201906121030-r</org.eclipse.jgit.version>
-        <poi-ooxml.version>4.1.0</poi-ooxml.version>
+        <logstash.version>6.3</logstash.version>
+        <org.eclipse.jgit.version>5.6.0.201912101111-r</org.eclipse.jgit.version>
+        <poi-ooxml.version>4.1.1</poi-ooxml.version>
     </properties>
 
     <build>
@@ -243,7 +244,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.28</version>
+            <version>${freemarker.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
