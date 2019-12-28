@@ -198,6 +198,7 @@ public final class Program {
         addNote(taskInfoMap, "Make_directory_path", FILE_IO);
         addNote(taskInfoMap, "Markov_chain_text_generator", FILE_IO);
         addNote(taskInfoMap, "Mersenne_primes", BIG_INTEGER);
+        addNote(taskInfoMap, "Metallic_ratios", BIG_INTEGER + SLASH + BIG_DECIMAL);
         addNote(taskInfoMap, "Montgomery_reduction", BIG_INTEGER);
         addNote(taskInfoMap, "Narcissist", FILE_IO);
         addNote(taskInfoMap, "N-body_problem", FILE_IO);
