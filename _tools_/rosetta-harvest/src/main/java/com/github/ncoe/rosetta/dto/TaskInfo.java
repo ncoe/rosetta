@@ -1,8 +1,8 @@
 package com.github.ncoe.rosetta.dto;
 
 import java.nio.file.attribute.FileTime;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Information gathered regarding a task.
@@ -22,7 +22,7 @@ public class TaskInfo implements Comparable<TaskInfo> {
     public TaskInfo(double category, String taskName) {
         this.category = category;
         this.taskName = taskName;
-        this.languageSet = new HashSet<>();
+        this.languageSet = new TreeSet<>();
     }
 
     public double getCategory() {

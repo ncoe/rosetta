@@ -108,6 +108,7 @@ function filterTaskSelection(c) {
     for (i = 0; i < x.length; i++) {
         w3RemoveClass(x[i], "show");
         if (x[i].className.indexOf(c) > -1) {
+            // todo find a replacement for indexOf that is not susceptible to substring error like with java and javascript
             if (lang === "allLang" || x[i].className.indexOf(lang) > -1) {
                 w3AddClass(x[i], "show");
             }
@@ -124,6 +125,7 @@ function filterLangSelection(c) {
     for (i = 0; i < x.length; i++) {
         w3RemoveClass(x[i], "show");
         if (x[i].className.indexOf(c) > -1) {
+            // todo find a replacement for indexOf that is not susceptible to substring error like with java and javascript
             if (task === "allTask" || x[i].className.indexOf(task) > -1) {
                 w3AddClass(x[i], "show");
             }

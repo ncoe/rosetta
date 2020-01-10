@@ -28,7 +28,7 @@ public final class LanguageUtil {
 //0        "Factor",                   //http://rosettacode.org/wiki/Category:Factor (like forth)
 //        LanguageInfo.of("Go", "Go", "go", "go"),              //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy"),
-        LanguageInfo.of("Java", "Java", "java", "java"),
+        LanguageInfo.of("Java", "Java", "java", "java_"),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript"),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin"),
 //        LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp"),      //http://rosettacode.org/wiki/Category:Lisp
