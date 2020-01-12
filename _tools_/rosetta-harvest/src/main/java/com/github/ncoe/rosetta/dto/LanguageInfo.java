@@ -9,6 +9,7 @@ public final class LanguageInfo {
     private String directoryName;
     private String fileExtension;
     private String className;
+    private boolean harvest;
 
     /**
      * Builder method.
@@ -27,6 +28,20 @@ public final class LanguageInfo {
      * Builder method.
      *
      * @param language      the language name
+     * @param directoryName the directory representation
+     * @param fileExtension the typical file extension
+     * @param className     the css class name to use
+     * @param harvest       true if the language should be harvested for new tasks
+     * @return the new info
+     */
+    public static LanguageInfo of(String language, String directoryName, String fileExtension, String className, boolean harvest) {
+        return of(language, language, directoryName, fileExtension, className, harvest);
+    }
+
+    /**
+     * Builder method.
+     *
+     * @param language      the language name
      * @param rosetta       the name used to link to the rosetta code articles
      * @param directoryName the directory representation
      * @param fileExtension the typical file extension
@@ -34,7 +49,22 @@ public final class LanguageInfo {
      * @return the new info
      */
     public static LanguageInfo of(String language, String rosetta, String directoryName, String fileExtension, String className) {
-        return new LanguageInfo(language, rosetta, directoryName, fileExtension, className);
+        return of(language, rosetta, directoryName, fileExtension, className, true);
+    }
+
+    /**
+     * Builder method.
+     *
+     * @param language      the language name
+     * @param rosetta       the name used to link to the rosetta code articles
+     * @param directoryName the directory representation
+     * @param fileExtension the typical file extension
+     * @param className     the css class name to use
+     * @param harvest       true if the language should be harvested for new tasks
+     * @return the new info
+     */
+    public static LanguageInfo of(String language, String rosetta, String directoryName, String fileExtension, String className, boolean harvest) {
+        return new LanguageInfo(language, rosetta, directoryName, fileExtension, className, harvest);
     }
 
     /**
@@ -42,13 +72,15 @@ public final class LanguageInfo {
      * @param directoryName the directory representation
      * @param fileExtension the typical file extension
      * @param className     the css class name to use
+     * @param harvest       true if the language should be harvested for new tasks
      */
-    private LanguageInfo(String language, String rosetta, String directoryName, String fileExtension, String className) {
+    private LanguageInfo(String language, String rosetta, String directoryName, String fileExtension, String className, boolean harvest) {
         this.language = language;
         this.rosetta = rosetta;
         this.directoryName = directoryName;
         this.fileExtension = fileExtension;
         this.className = className;
+        this.harvest = harvest;
     }
 
     public String getLanguage() {
@@ -69,5 +101,9 @@ public final class LanguageInfo {
 
     public String getClassName() {
         return className;
+    }
+
+    public boolean getHarvest() {
+        return harvest;
     }
 }

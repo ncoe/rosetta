@@ -186,6 +186,7 @@ public final class Program {
         addNote(taskInfoMap, "Chat_server", NETWORK_IO);
         addNote(taskInfoMap, "Cipolla's_algorithm", BIG_INTEGER);
         addNote(taskInfoMap, "Create_a_file_on_magnetic_tape", FILE_IO);
+        addNote(taskInfoMap, "De_Bruijn_sequences", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Eertree", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Egyptian_fractions", BIG_INTEGER);
         addNote(taskInfoMap, "Lucky_and_even_lucky_numbers", "commandline arguments");
