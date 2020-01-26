@@ -28,7 +28,7 @@
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <freemarker.version>2.3.29</freemarker.version>
-        <httpclient.version>4.5.10</httpclient.version>
+        <httpclient.version>4.5.11</httpclient.version>
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.3</logstash.version>
         <org.eclipse.jgit.version>5.6.0.201912101111-r</org.eclipse.jgit.version>

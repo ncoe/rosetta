@@ -208,6 +208,7 @@ public final class Program {
         addNote(taskInfoMap, "Pierpont_primes", BIG_INTEGER + SLASH + "prime test");
         addNote(taskInfoMap, "Sierpinski_pentagon", IMAGE_IO + SLASH + FILE_IO);
         addNote(taskInfoMap, "Suffix_tree", NESTED_FUNCTIONS);
+        addNote(taskInfoMap, "Super-d_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Tonelli-Shanks_algorithm", BIG_INTEGER);
         addNote(taskInfoMap, "Write_entire_file", FILE_IO);
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");

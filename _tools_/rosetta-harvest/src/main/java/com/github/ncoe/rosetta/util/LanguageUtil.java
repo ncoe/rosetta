@@ -17,34 +17,41 @@ public final class LanguageUtil {
      * List of languages to do solutions for, or to consider solutions for.
      */
     public static final List<LanguageInfo> LANG_INFO = List.of(
-//        LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol"),    //http://rosettacode.org/wiki/Category:ALGOL_68
+//        LanguageInfo.of("", "", "", ""),
+        LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol", false),   //http://rosettacode.org/wiki/Category:ALGOL_68
+        LanguageInfo.of("Batch_File", "Batch", "bat", "batch", true),
         LanguageInfo.of("C", "C", "c", "clang"),
         LanguageInfo.of("C++", "Cpp", "cpp", "cpp"),
-        LanguageInfo.of("C#", "C_sharp", "CS", "cs", "csharp"),
-//0        "Clojure",                  //http://rosettacode.org/wiki/Category:Clojure (JVM language)
+        LanguageInfo.of("C#", "C_sharp", "CS", "cs", "csharp", false),
+//      "Clojure",                //http://rosettacode.org/wiki/Category:Clojure (JVM language)
+        LanguageInfo.of("COBOL", "COBOL", "cob", "cobol", false),
         LanguageInfo.of("D", "D", "d", "dlang"),
-//0        "Eiffel",                   //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
+//      "Eiffel",                 //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
         LanguageInfo.of("F#", "F_Sharp", "FS", "fs", "fsharp", false),
-//0        "Factor",                   //http://rosettacode.org/wiki/Category:Factor (like forth)
-        LanguageInfo.of("Go", "Go", "go", "go"),              //http://rosettacode.org/wiki/Category:Go
+//      "Factor",                 //http://rosettacode.org/wiki/Category:Factor (like forth)
+        LanguageInfo.of("Fortran", "Fortran", "for", "fortran", false),
+        LanguageInfo.of("Go", "Go", "go", "go", true), //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy"),
         LanguageInfo.of("Java", "Java", "java", "java_"),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript", false),
+        LanguageInfo.of("Julia", "Julia", "jl", "julia", true),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin"),
-//        LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp"),      //http://rosettacode.org/wiki/Category:Lisp
+        LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp", false), //http://rosettacode.org/wiki/Category:Lisp
         LanguageInfo.of("LLVM", "LLVM", "ll", "llvm", false),
         LanguageInfo.of("Lua", "Lua", "lua", "lua"),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2", false),
-//0        "Oxygene",                                           //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
-        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal"), //http://rosettacode.org/wiki/Category:Pascal
-        LanguageInfo.of("Perl", "Perl", "pl", "perl"),
-        LanguageInfo.of("Python", "Python", "py", "python"),
-        LanguageInfo.of("Ruby", "Ruby", "ruby", "ruby"),      //http://rosettacode.org/wiki/Category:Ruby
-        LanguageInfo.of("Rust", "Rust", "rs", "rust"),        //http://rosettacode.org/wiki/Category:Rust
-        LanguageInfo.of("Scala", "Scala", "scala", "scala"),
-//-13        "Microsoft_Small_Basic",                           //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
-//        LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript"),  //http://rosettacode.org/wiki/Category:TypeScript
-        LanguageInfo.of("Visual Basic .NET", "Visual_Basic_.NET", "Visual Basic .NET", "vb", "vbnet")
+//      "Oxygene",                //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
+        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal", false),    //http://rosettacode.org/wiki/Category:Pascal
+        LanguageInfo.of("Perl", "Perl", "pl", "perl", true),
+        LanguageInfo.of("PowerShell", "PowerShell", "ps1", "powershell", true),
+        LanguageInfo.of("Python", "Python", "py", "python", true),
+        LanguageInfo.of("Ruby", "Ruby", "ruby", "ruby", true), //http://rosettacode.org/wiki/Category:Ruby
+        LanguageInfo.of("Rust", "Rust", "rs", "rust", true),   //http://rosettacode.org/wiki/Category:Rust
+        LanguageInfo.of("Scala", "Scala", "scala", "scala", true),
+//      "Microsoft_Small_Basic",  //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
+        // Standard ML
+        LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript", false), //http://rosettacode.org/wiki/Category:TypeScript
+        LanguageInfo.of("Visual Basic .NET", "Visual_Basic_.NET", "Visual Basic .NET", "vb", "vbnet", true)
     );
 
     private LanguageUtil() {
