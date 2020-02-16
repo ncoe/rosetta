@@ -32,7 +32,7 @@
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.3</logstash.version>
         <org.eclipse.jgit.version>5.6.0.201912101111-r</org.eclipse.jgit.version>
-        <poi-ooxml.version>4.1.1</poi-ooxml.version>
+        <poi-ooxml.version>4.1.2</poi-ooxml.version>
     </properties>
 
     <build>
@@ -172,7 +172,7 @@
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
                     <processPluginDependenciesInPluginManagement>false</processPluginDependenciesInPluginManagement>
-                    <rulesUri>file:///${project.basedir}/maven-version-rules.xml.xml</rulesUri>
+                    <rulesUri>file:///${project.basedir}/maven-version-rules.xml</rulesUri>
                 </configuration>
                 <executions>
                     <execution>
@@ -205,7 +205,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <configuration>
-                    <rulesUri>file:///${project.basedir}/maven-version-rules.xml.xml</rulesUri>
+                    <rulesUri>file:///${project.basedir}/maven-version-rules.xml</rulesUri>
                 </configuration>
                 <reportSets>
                     <reportSet>

@@ -1,7 +1,9 @@
 package com.github.ncoe.rosetta.io;
 
+import com.github.ncoe.rosetta.dto.LanguageInfo;
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
+import com.github.ncoe.rosetta.util.LanguageUtil;
 import com.github.ncoe.rosetta.util.LocalUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -40,6 +42,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.logstash.logback.argument.StructuredArguments.value;
@@ -156,7 +159,11 @@ public final class SpreadsheetWriter {
             // task next steps
             if (null != info.getNext()) {
                 cell = taskRow.createCell(colNum++);
-                cell.setCellValue("ppr for " + info.getNext());
+                if (info.getCategory() == 0.0) {
+                    cell.setCellValue("ppr for " + info.getNext());
+                } else {
+                    cell.setCellValue(info.getNext());
+                }
             }
 
             // last modified (for pending solutions)
@@ -214,8 +221,25 @@ public final class SpreadsheetWriter {
         }
         statList.sort(Collections.reverseOrder(Entry.comparingByValue()));
 
+        XSSFFont incFont = workbook.createFont();
+        incFont.setColor(IndexedColors.GREEN.index);
+        XSSFCellStyle incStyle = workbook.createCellStyle();
+        incStyle.setFont(incFont);
+
+        XSSFFont decFont = workbook.createFont();
+        decFont.setColor(IndexedColors.RED.index);
+        XSSFCellStyle decStyle = workbook.createCellStyle();
+        decStyle.setFont(decFont);
+
         XSSFCellStyle numStyle = workbook.createCellStyle();
         numStyle.setDataFormat(0xa); //BuiltinFormats: 0.00%
+
+        XSSFFont boldFont = workbook.createFont();
+        boldFont.setBold(true);
+        XSSFCellStyle numBoldStyle = numStyle.copy();
+        numBoldStyle.setFont(boldFont);
+        XSSFCellStyle boldStyle = workbook.createCellStyle();
+        boldStyle.setFont(boldFont);
 
         // create the worksheet
         XSSFSheet sheet = workbook.createSheet("Breakdown");
@@ -236,6 +260,9 @@ public final class SpreadsheetWriter {
         // per chart header
         header.createCell(3).setCellValue("Per Chart");
 
+        // direction
+        header.createCell(4).setCellValue("Direction");
+
         List<Integer> startList = new ArrayList<>();
         startList.add(0);
         List<CellRangeAddress> rangeList = new ArrayList<>();
@@ -246,10 +273,33 @@ public final class SpreadsheetWriter {
             Row row = sheet.createRow(rowNum++);
 
             // language name
-            row.createCell(0).setCellValue(entry.getKey());
+            Cell langCell = row.createCell(0);
+            langCell.setCellValue(entry.getKey());
 
             // total size
-            row.createCell(1).setCellValue(entry.getValue());
+            Cell sizeCell = row.createCell(1);
+            sizeCell.setCellValue(entry.getValue());
+
+            // directionality
+            Cell dirCell = row.createCell(4);
+            Optional<LanguageInfo> langOpt = LanguageUtil.find(entry.getKey());
+            int direction = langOpt.map(LanguageInfo::getHarvest).orElse(0);
+            switch (direction) {
+                case -1:
+                    dirCell.setCellValue("V");
+                    dirCell.setCellStyle(decStyle);
+                    break;
+                case 0:
+                    dirCell.setCellValue("-");
+                    break;
+                case 1:
+                    dirCell.setCellValue("^");
+                    dirCell.setCellStyle(incStyle);
+                    break;
+                default:
+                    dirCell.setCellValue("error");
+                    break;
+            }
 
             cumulative += entry.getValue();
             Integer startIndex = startList.get(startList.size() - 1);
@@ -266,11 +316,17 @@ public final class SpreadsheetWriter {
                     LOG.debug("Resetting {} to 100%", value("language", entry.getKey()));
                 }
 
+                langCell.setCellStyle(boldStyle);
+                sizeCell.setCellStyle(boldStyle);
+
                 cumulative = entry.getValue();
                 startList.add(rowNum - 2);
 
                 CellRangeAddress prevRange = new CellRangeAddress(startIndex + 1, rowNum - 2, 1, 1);
                 rangeList.add(prevRange);
+            } else if (rowNum == 2) {
+                langCell.setCellStyle(boldStyle);
+                sizeCell.setCellStyle(boldStyle);
             }
         }
 
@@ -300,11 +356,19 @@ public final class SpreadsheetWriter {
 
             cell = row.createCell(2);
             cell.setCellFormula(String.format("%s / SUM(%s)", dataRefStr, totalRangeStr));
-            cell.setCellStyle(numStyle);
+            if (i == subsetRange.getFirstRow()) {
+                cell.setCellStyle(numBoldStyle);
+            } else {
+                cell.setCellStyle(numStyle);
+            }
 
             cell = row.createCell(3);
             cell.setCellFormula(String.format("%s / SUM(%s)", dataRefStr, rangeStr));
-            cell.setCellStyle(numStyle);
+            if (i == subsetRange.getFirstRow()) {
+                cell.setCellStyle(numBoldStyle);
+            } else {
+                cell.setCellStyle(numStyle);
+            }
         }
 
         // autosize each column to fit contents
@@ -334,8 +398,10 @@ public final class SpreadsheetWriter {
 
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()
-            .filter(task -> !task.getLanguageSet().isEmpty() && task.getCategory() < 5.0)
-            .sorted()
+            .filter(
+                task -> !task.getLanguageSet().isEmpty() && task.getCategory() < 5.0
+                    || task.getCategory() < 0.5
+            ).sorted()
             .collect(Collectors.toList());
 
         // create and populate a workbook

@@ -1,6 +1,5 @@
 package com.github.ncoe.rosetta.io;
 
-import com.github.ncoe.rosetta.dto.LanguageInfo;
 import com.github.ncoe.rosetta.dto.TaskInfo;
 import com.github.ncoe.rosetta.exception.UtilException;
 import com.github.ncoe.rosetta.util.LanguageUtil;
@@ -15,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,15 +50,7 @@ public final class HtmlWriter {
             cfg.setLogTemplateExceptions(false);
             cfg.setWrapUncheckedExceptions(true);
 
-            Map<String, String> langMap = LanguageUtil.LANG_INFO
-                .stream()
-                .collect(Collectors.toMap(
-                    LanguageInfo::getLanguage,
-                    LanguageInfo::getClassName,
-                    (e1, e2) -> e2,
-                    LinkedHashMap::new
-                ));
-
+            Map<String, String> langMap = LanguageUtil.mapLanguageToClass();
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("langMap", langMap);
             dataMap.put("taskInfoList", taskList);

@@ -5,12 +5,17 @@
 
 <module name="Checker">
     <module name="Translation"/>
-    <!--<module name="SuppressionCommentFilter"/>-->
 
     <module name="TreeWalker">
+        <module name="SuppressionCommentFilter">
+            <property name="offCommentFormat" value="CHECKSTYLE\:OFF ([\w\|]+)"/>
+            <property name="onCommentFormat" value="CHECKSTYLE\:ON ([\w\|]+)"/>
+            <property name="checkFormat" value="$1"/>
+        </module>
+
         <!-- Check use of Spaces and not TABs (4 spaces) -->
-        <property name="tabWidth" value="4" />
-        <module name="GenericWhitespace" />
+        <property name="tabWidth" value="4"/>
+        <module name="GenericWhitespace"/>
         <module name="CyclomaticComplexity">
             <property name="max" value="15"/>
         </module>
@@ -87,28 +92,28 @@
         <!-- Checks correct indentation of Java Code. -->
         <module name="Indentation">
             <!-- how many spaces to use for new indentation level -->
-            <property name="basicOffset" value="4" />
+            <property name="basicOffset" value="4"/>
             <!-- how far brace should be indented when on next line -->
-            <property name="braceAdjustment" value="0" />
+            <property name="braceAdjustment" value="0"/>
             <!-- how much to indent a case label -->
-            <property name="caseIndent" value="4" />
+            <property name="caseIndent" value="4"/>
         </module>
 
         <!-- Checks for Javadoc comments in public methods/variables only -->
         <module name="JavadocMethod">
-            <property name="scope" value="public" />
-            <property name="allowMissingPropertyJavadoc" value="true" />
+            <property name="scope" value="public"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>
         <module name="JavadocType">
-            <property name="scope" value="public" />
-            <property name="allowUnknownTags" value="true" />
+            <property name="scope" value="public"/>
+            <property name="allowUnknownTags" value="true"/>
         </module>
         <module name="JavadocVariable">
-            <property name="scope" value="public" />
+            <property name="scope" value="public"/>
         </module>
         <!-- all JavaDoc must have the right style, regardless of the scope -->
         <module name="JavadocStyle">
-            <property name="scope" value="public" />
+            <property name="scope" value="public"/>
         </module>
 
         <module name="SuppressWarningsHolder"/>
@@ -118,18 +123,18 @@
 
     <!-- No TAB characters in the source code -->
     <module name="FileTabCharacter">
-        <property name="eachLine" value="true" />
-        <property name="fileExtensions" value="java,properties,xml,wsdl" />
+        <property name="eachLine" value="true"/>
+        <property name="fileExtensions" value="java,properties,xml,wsdl"/>
     </module>
 
     <module name="RegexpMultiline">
-        <property name="id" value="consoleOutput" />
-        <property name="format" value="System\.(out)|(err)\.print(ln)?\(" />
-        <property name="message" value="Writing to System.out and System.err not allowed - use logger instead" />
+        <property name="id" value="consoleOutput"/>
+        <property name="format" value="System\.(out)|(err)\.print(ln)?\("/>
+        <property name="message" value="Writing to System.out and System.err not allowed - use logger instead"/>
     </module>
     <module name="RegexpMultiline">
-        <property name="format" value="\.printStackTrace\(\s*\)" />
-        <property name="message" value="Calling printStackTrace on an exception is not allowed - use logger instead" />
+        <property name="format" value="\.printStackTrace\(\s*\)"/>
+        <property name="message" value="Calling printStackTrace on an exception is not allowed - use logger instead"/>
     </module>
     <module name="RegexpMultiline">
         <property name="format" value="java\.util\.(Date|Calendar)"/>

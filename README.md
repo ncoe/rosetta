@@ -16,6 +16,7 @@ Organized by IDE or text editor used.
     * [Lua](https://www.lua.org/) (5.1.5)
     * [Perl](https://www.perl.org/) (ActivePerl 5.18.2)
     * [Python](https://www.python.org/) (2.7.6)
+    * [Ruby](https://www.ruby-lang.org/en/) (2.7.0)
 * [Visual Studio](https://visualstudio.microsoft.com/vs/)
     * C
     * C++

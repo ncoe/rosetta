@@ -170,6 +170,9 @@ public final class Program {
         // Add notes to aid in selecting a language to try out for a task
         addNotes(taskInfoMap);
 
+        // Change the default priority of some tasks to make some stand out in various ways
+        adjustPriority(taskInfoMap);
+
         // Write summary information for manipulation, filtering, and analysis
         SpreadsheetWriter.writeReport(taskInfoMap.values(), langStatMap);
         HtmlWriter.writeReport(taskInfoMap.values());
@@ -184,7 +187,9 @@ public final class Program {
         addNote(taskInfoMap, "Bell_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Bilinear_interpolation", IMAGE_IO);
         addNote(taskInfoMap, "Chat_server", NETWORK_IO);
+        addNote(taskInfoMap, "Chemical_Calculator", DYNAMIC_MEMORY);
         addNote(taskInfoMap, "Cipolla's_algorithm", BIG_INTEGER);
+        addNote(taskInfoMap, "Cramer's_rule", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Create_a_file_on_magnetic_tape", FILE_IO);
         addNote(taskInfoMap, "De_Bruijn_sequences", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Eertree", NESTED_FUNCTIONS);
@@ -199,57 +204,21 @@ public final class Program {
         addNote(taskInfoMap, "Make_directory_path", FILE_IO);
         addNote(taskInfoMap, "Markov_chain_text_generator", FILE_IO);
         addNote(taskInfoMap, "Mersenne_primes", BIG_INTEGER);
-        addNote(taskInfoMap, "Metallic_ratios", BIG_INTEGER + SLASH + BIG_DECIMAL);
+        addNote(taskInfoMap, "Metallic_ratios", BIG_DECIMAL);
         addNote(taskInfoMap, "Montgomery_reduction", BIG_INTEGER);
         addNote(taskInfoMap, "Narcissist", FILE_IO);
         addNote(taskInfoMap, "N-body_problem", FILE_IO);
         addNote(taskInfoMap, "N-smooth_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Pell's_equation", BIG_INTEGER);
         addNote(taskInfoMap, "Pierpont_primes", BIG_INTEGER + SLASH + "prime test");
+        addNote(taskInfoMap, "Rare_numbers", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Sierpinski_pentagon", IMAGE_IO + SLASH + FILE_IO);
         addNote(taskInfoMap, "Suffix_tree", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Super-d_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Tonelli-Shanks_algorithm", BIG_INTEGER);
         addNote(taskInfoMap, "Write_entire_file", FILE_IO);
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
-
-        // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
-        Set<String> topPickSet = Set.of(
-            "Untitled_task"
-        );
-
-        // Prioritize some tasks so that there is more than one task with the same prefix
-        taskInfoMap.entrySet()
-            .stream()
-            .filter(entry -> {
-                String key = entry.getKey();
-                return StringUtils.startsWithAny(key,
-                    "Arithmetic_coding"
-                ) && !StringUtils.equalsAny(key,
-                    "Arithmetic_coding/As_a_generalized_change_of_radix"
-                ) || topPickSet.contains(key);
-            })
-            .map(Entry::getValue)
-            .forEach(data -> {
-                if (0 < data.getCategory() && data.getCategory() < 3) {
-                    if (LOG.isWarnEnabled()) {
-                        LOG.warn("No longer need to process task [{}]", value("taskName", data.getTaskName()));
-                    }
-                } else if (data.getCategory() > 2) {
-                    if (data.getCategory() == 3) {
-                        if (topPickSet.contains(data.getTaskName())) {
-                            data.setCategory(1.5);
-                            data.setNote("Top pick");
-                        } else {
-                            data.setCategory(1.7);
-                            data.setNote("Multiple Options :)");
-                        }
-                    } else {
-                        data.setCategory(1.8);
-                        data.setNote("Only one option :(");
-                    }
-                }
-            });
+        addNote(taskInfoMap, "Zumkeller_numbers", DYNAMIC_MEMORY);
     }
 
     private static void addNote(Map<String, TaskInfo> taskInfoMap, String taskName, String note) {
@@ -261,5 +230,93 @@ public final class Program {
         } else {
             info.setNote(note);
         }
+    }
+
+    private static void adjustPriority(Map<String, TaskInfo> taskInfoMap) {
+        // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
+        Set<String> taskAddSet = Set.of(
+            "Untitled_task"
+        );
+        Map<String, String> solAddMap = new HashMap<>();
+
+        solAddMap.put("Intersecting_Number_Wheels", "C");
+        solAddMap.put("Mersenne_primes", "C");
+        solAddMap.put("Montgomery_reduction", "C");
+
+        solAddMap.put("Pierpont_primes", "D");
+        solAddMap.put("Random_Latin_Squares", "D");
+        solAddMap.put("Reflection/List_properties", "D"); // see http://rosettacode.org/wiki/Reflection/List_methods#D
+
+        solAddMap.put("Approximate_Equality", "Groovy");
+        solAddMap.put("Burrows–Wheeler_transform", "Groovy");
+        solAddMap.put("CUSIP", "Groovy");
+
+        solAddMap.put("Gapful_numbers", "Kotlin");
+        solAddMap.put("Strong_and_weak_primes", "Kotlin");
+        solAddMap.put("Successive_prime_differences", "Kotlin");
+
+        solAddMap.put("Chemical_Calculator", "Ruby");
+        solAddMap.put("Faulhaber's_triangle", "Ruby");
+        solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Ruby");
+
+        solAddMap.put("100_prisoners", "Visual Basic .NET");
+        solAddMap.put("Fork", "Visual Basic .NET");
+        solAddMap.put("Handle_a_signal", "Visual Basic .NET");
+
+        //CHECKSTYLE:OFF InnerAssignment
+        double solCat = 1.7;
+        Map<String, Double> solCatMap = Map.of(
+            "Visual Basic .NET", solCat += 0.01,    //vs
+            "Groovy", solCat += 0.01,               //id
+            "Ruby", solCat += 0.01,                 //np
+            "C", solCat += 0.01,                    //vs
+            "Kotlin", solCat += 0.01,               //id
+            "D", solCat += 0.01,                    //np
+            "END", solCat
+        );
+        //CHECKSTYLE:ON InnerAssignment
+
+        // Prioritize some tasks so that there is more than one task with the same prefix
+        taskInfoMap.entrySet()
+            .stream()
+            .filter(entry -> {
+                String key = entry.getKey();
+                return StringUtils.startsWithAny(key,
+                    "Arithmetic_coding"
+                ) && !StringUtils.equalsAny(key,
+                    "Arithmetic_coding/As_a_generalized_change_of_radix"
+                ) || taskAddSet.contains(key)
+                    || solAddMap.containsKey(key);
+            })
+            .map(Entry::getValue)
+            .forEach(data -> {
+                String taskName = data.getTaskName();
+                if (solAddMap.containsKey(taskName)) {
+                    String language = solAddMap.get(taskName);
+                    if (data.getLanguageSet().contains(language)) {
+                        data.setCategory(solCatMap.getOrDefault(language, 1.7));
+                        data.setNext("try with " + language);
+                    } else if (LOG.isWarnEnabled()) {
+                        LOG.warn("No longer need to provide a solution to task [{}] using {}", value("taskName", taskName), value("language", language));
+                    }
+                } else if (0 < data.getCategory() && data.getCategory() < 3) {
+                    if (LOG.isWarnEnabled()) {
+                        LOG.warn("No longer need to process task [{}]", value("taskName", taskName));
+                    }
+                } else if (data.getCategory() > 2) {
+                    if (data.getCategory() == 3) {
+                        if (taskAddSet.contains(taskName)) {
+                            data.setCategory(1.3);
+                            data.setNote("Top pick");
+                        } else {
+                            data.setCategory(1.5);
+                            data.setNote("Multiple Options :)");
+                        }
+                    } else {
+                        data.setCategory(1.8);
+                        data.setNote("Only one option :(");
+                    }
+                }
+            });
     }
 }
