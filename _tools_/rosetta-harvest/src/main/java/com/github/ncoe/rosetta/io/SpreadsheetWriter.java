@@ -12,7 +12,6 @@ import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xddf.usermodel.chart.ChartTypes;
 import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
@@ -29,6 +28,9 @@ import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSortCondition;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSortState;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTWorksheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +77,7 @@ public final class SpreadsheetWriter {
         hLinkFont.setColor(IndexedColors.BLUE.index);
         hLinkStyle.setFont(hLinkFont);
 
-        Sheet sheet = workbook.createSheet("In Progress");
+        XSSFSheet sheet = workbook.createSheet("In Progress");
 
         int rowNum = 0;
         int colNum = 0;
@@ -85,10 +87,12 @@ public final class SpreadsheetWriter {
         Row header = sheet.createRow(rowNum++);
 
         // category header
+        int categoryCol = colNum;
         cell = header.createCell(colNum++);
         cell.setCellValue("Category");
 
         // task name header
+        int taskNameCol = colNum;
         cell = header.createCell(colNum++);
         cell.setCellValue("Task Name");
 
@@ -105,10 +109,12 @@ public final class SpreadsheetWriter {
         cell.setCellValue("Next Step");
 
         // last modified header
+        int lastModifiedCol = colNum;
         cell = header.createCell(colNum++);
         cell.setCellValue("Last modified");
 
         int maxCol = colNum;
+        configureSortState(sheet, categoryCol, taskNameCol, lastModifiedCol, taskList.size());
 
         // Fill in the task info as additional rows
         for (TaskInfo info : taskList) {
@@ -179,6 +185,31 @@ public final class SpreadsheetWriter {
         }
 
         sheet.createFreezePane(0, 1);
+    }
+
+    private static void configureSortState(XSSFSheet sheet, int categoryCol, int taskNameCol, int lastModifiedCol, int numTasks) {
+        CTWorksheet ctWorksheet = sheet.getCTWorksheet();
+        CTSortState sortState;
+        CTSortCondition ctSortCondition;
+        CellRangeAddress rangeAddress;
+
+        int minCol = NumberUtils.min(categoryCol, taskNameCol, lastModifiedCol);
+        int maxCol = NumberUtils.max(categoryCol, taskNameCol, lastModifiedCol);
+        rangeAddress = new CellRangeAddress(1, numTasks, minCol, maxCol);
+        sortState = ctWorksheet.addNewSortState();
+        sortState.setRef(rangeAddress.formatAsString());
+
+        rangeAddress = new CellRangeAddress(1, numTasks, categoryCol, categoryCol);
+        ctSortCondition = sortState.addNewSortCondition();
+        ctSortCondition.setRef(rangeAddress.formatAsString());
+
+        rangeAddress = new CellRangeAddress(1, numTasks, lastModifiedCol, lastModifiedCol);
+        ctSortCondition = sortState.addNewSortCondition();
+        ctSortCondition.setRef(rangeAddress.formatAsString());
+
+        rangeAddress = new CellRangeAddress(1, numTasks, taskNameCol, taskNameCol);
+        ctSortCondition = sortState.addNewSortCondition();
+        ctSortCondition.setRef(rangeAddress.formatAsString());
     }
 
     private static void insertChart(XSSFSheet sheet, String title, int firstRow, int lastRow, int labelCol, int dataCol, int slot, int chartColumn) {
@@ -391,10 +422,15 @@ public final class SpreadsheetWriter {
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
         Path filePath = Path.of(LocalUtil.OUTPUT_DIRECTORY, FILENAME);
 
-        // Make tasks that need a buddy, but not for any chosen language more visible
+        // Make tasks that need a buddy, but not for any chosen language less visible
         taskInfoCollection.stream()
             .filter(task -> task.getCategory() == 1.0 && task.getLanguageSet().isEmpty())
             .forEach(task -> task.setCategory(5.0));
+
+        // Make tasks that have one final language to be implemented in more visible
+        taskInfoCollection.stream()
+            .filter(task -> task.getCategory() == 2.0 && task.getLanguageSet().size() == 1)
+            .forEach(task -> task.setCategory(1.999));
 
         // pre-filter the tasks so only actionable data is written
         List<TaskInfo> taskList = taskInfoCollection.stream()

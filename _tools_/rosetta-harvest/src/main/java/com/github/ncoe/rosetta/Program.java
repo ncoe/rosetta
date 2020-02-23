@@ -240,38 +240,39 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
 
         solAddMap.put("Intersecting_Number_Wheels", "C");
-        solAddMap.put("Mersenne_primes", "C");
         solAddMap.put("Montgomery_reduction", "C");
+
+        solAddMap.put("Binary_strings", "C++");
 
         solAddMap.put("Pierpont_primes", "D");
         solAddMap.put("Random_Latin_Squares", "D");
-        solAddMap.put("Reflection/List_properties", "D"); // see http://rosettacode.org/wiki/Reflection/List_methods#D
 
-        solAddMap.put("Approximate_Equality", "Groovy");
         solAddMap.put("Burrows–Wheeler_transform", "Groovy");
         solAddMap.put("CUSIP", "Groovy");
 
-        solAddMap.put("Gapful_numbers", "Kotlin");
+        solAddMap.put("Latin_Squares_in_reduced_form", "Java");
+
         solAddMap.put("Strong_and_weak_primes", "Kotlin");
         solAddMap.put("Successive_prime_differences", "Kotlin");
 
         solAddMap.put("Chemical_Calculator", "Ruby");
         solAddMap.put("Faulhaber's_triangle", "Ruby");
-        solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Ruby");
 
-        solAddMap.put("100_prisoners", "Visual Basic .NET");
         solAddMap.put("Fork", "Visual Basic .NET");
         solAddMap.put("Handle_a_signal", "Visual Basic .NET");
 
         //CHECKSTYLE:OFF InnerAssignment
         double solCat = 1.7;
         Map<String, Double> solCatMap = Map.of(
+            "Lua", solCat += 0.01,                  //np
             "Visual Basic .NET", solCat += 0.01,    //vs
             "Groovy", solCat += 0.01,               //id
             "Ruby", solCat += 0.01,                 //np
             "C", solCat += 0.01,                    //vs
             "Kotlin", solCat += 0.01,               //id
             "D", solCat += 0.01,                    //np
+            "C++", solCat += 0.01,                  //vs
+            "Java", solCat += 0.01,                 //id
             "END", solCat
         );
         //CHECKSTYLE:ON InnerAssignment

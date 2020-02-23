@@ -23,7 +23,7 @@ public final class LanguageUtil {
         LanguageInfo.of("ALGOL", "ALGOL", "alg", "algol", -1),   //http://rosettacode.org/wiki/Category:ALGOL_68
         LanguageInfo.of("Batch_File", "Batch", "bat", "batch", -1),
         LanguageInfo.of("C", "C", "c", "clang", 1),
-        LanguageInfo.of("C++", "Cpp", "cpp", "cpp", 0),
+        LanguageInfo.of("C++", "Cpp", "cpp", "cpp", 1),
         LanguageInfo.of("C#", "C_sharp", "CS", "cs", "csharp", 0),
 //      "Clojure",                //http://rosettacode.org/wiki/Category:Clojure (JVM language)
         LanguageInfo.of("COBOL", "COBOL", "cob", "cobol", -1),
@@ -34,13 +34,13 @@ public final class LanguageUtil {
         LanguageInfo.of("Fortran", "Fortran", "for", "fortran", -1),
         LanguageInfo.of("Go", "Go", "go", "go", -1), //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy", 1),
-        LanguageInfo.of("Java", "Java", "java", "java_"),
+        LanguageInfo.of("Java", "Java", "java", "java_", 1),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript", 0),
         LanguageInfo.of("Julia", "Julia", "jl", "julia", -1),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin", 1),
         LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp", -1), //http://rosettacode.org/wiki/Category:Lisp
         LanguageInfo.of("LLVM", "LLVM", "ll", "llvm", 0),
-        LanguageInfo.of("Lua", "Lua", "lua", "lua", 0),
+        LanguageInfo.of("Lua", "Lua", "lua", "lua", 1),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2", -1),
 //      "Oxygene",                //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
         LanguageInfo.of("Pascal", "Pascal", "pas", "pascal", -1),    //http://rosettacode.org/wiki/Category:Pascal
