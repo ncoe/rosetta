@@ -171,7 +171,7 @@ public final class Program {
         addNotes(taskInfoMap);
 
         // Change the default priority of some tasks to make some stand out in various ways
-        adjustPriority(taskInfoMap);
+        adjustPriority(taskInfoMap, pendingMap);
 
         // Write summary information for manipulation, filtering, and analysis
         SpreadsheetWriter.writeReport(taskInfoMap.values(), langStatMap);
@@ -232,7 +232,7 @@ public final class Program {
         }
     }
 
-    private static void adjustPriority(Map<String, TaskInfo> taskInfoMap) {
+    private static void adjustPriority(Map<String, TaskInfo> taskInfoMap, Map<String, Pair<String, FileTime>> pendingMap) {
         // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
         Set<String> taskAddSet = Set.of(
             "Untitled_task"
@@ -248,7 +248,6 @@ public final class Program {
         solAddMap.put("Random_Latin_Squares", "D");
 
         solAddMap.put("Burrows–Wheeler_transform", "Groovy");
-        solAddMap.put("CUSIP", "Groovy");
 
         solAddMap.put("Latin_Squares_in_reduced_form", "Java");
 
@@ -264,15 +263,15 @@ public final class Program {
         //CHECKSTYLE:OFF InnerAssignment
         double solCat = 1.7;
         Map<String, Double> solCatMap = Map.of(
-            "Lua", solCat += 0.01,                  //np
-            "Visual Basic .NET", solCat += 0.01,    //vs
-            "Groovy", solCat += 0.01,               //id
             "Ruby", solCat += 0.01,                 //np
             "C", solCat += 0.01,                    //vs
             "Kotlin", solCat += 0.01,               //id
             "D", solCat += 0.01,                    //np
             "C++", solCat += 0.01,                  //vs
             "Java", solCat += 0.01,                 //id
+            "Lua", solCat += 0.01,                  //np
+            "Visual Basic .NET", solCat += 0.01,    //vs
+            "Groovy", solCat += 0.01,               //id
             "END", solCat
         );
         //CHECKSTYLE:ON InnerAssignment
@@ -295,8 +294,18 @@ public final class Program {
                 if (solAddMap.containsKey(taskName)) {
                     String language = solAddMap.get(taskName);
                     if (data.getLanguageSet().contains(language)) {
-                        data.setCategory(solCatMap.getOrDefault(language, 1.7));
-                        data.setNext("try with " + language);
+                        if (pendingMap.containsKey(taskName)) {
+                            Pair<String, FileTime> langFileTime = pendingMap.get(taskName);
+                            String lang = langFileTime.getKey();
+                            if (StringUtils.equals(language, lang)) {
+                                LOG.warn("Solution has been submitted for {}", taskName);
+                            } else {
+                                LOG.warn("Solution was submitted for {}, but for a different language.", taskName);
+                            }
+                        } else {
+                            data.setCategory(solCatMap.getOrDefault(language, 1.7));
+                            data.setNext("try with " + language);
+                        }
                     } else if (LOG.isWarnEnabled()) {
                         LOG.warn("No longer need to provide a solution to task [{}] using {}", value("taskName", taskName), value("language", language));
                     }
