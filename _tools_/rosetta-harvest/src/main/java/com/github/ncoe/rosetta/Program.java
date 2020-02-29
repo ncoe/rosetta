@@ -239,23 +239,22 @@ public final class Program {
         );
         Map<String, String> solAddMap = new HashMap<>();
 
-        solAddMap.put("Intersecting_Number_Wheels", "C");
+        solAddMap.put("Cipolla's_algorithm", "C");
         solAddMap.put("Montgomery_reduction", "C");
+        solAddMap.put("Pell's_equation", "C");
+        solAddMap.put("Tonelli-Shanks_algorithm", "C");
 
-        solAddMap.put("Binary_strings", "C++");
+        //solAddMap.put("Binary_strings", "C++");
 
         solAddMap.put("Pierpont_primes", "D");
         solAddMap.put("Random_Latin_Squares", "D");
 
         solAddMap.put("Burrows–Wheeler_transform", "Groovy");
 
-        solAddMap.put("Latin_Squares_in_reduced_form", "Java");
-
         solAddMap.put("Strong_and_weak_primes", "Kotlin");
         solAddMap.put("Successive_prime_differences", "Kotlin");
 
         solAddMap.put("Chemical_Calculator", "Ruby");
-        solAddMap.put("Faulhaber's_triangle", "Ruby");
 
         solAddMap.put("Fork", "Visual Basic .NET");
         solAddMap.put("Handle_a_signal", "Visual Basic .NET");
@@ -263,15 +262,16 @@ public final class Program {
         //CHECKSTYLE:OFF InnerAssignment
         double solCat = 1.7;
         Map<String, Double> solCatMap = Map.of(
+            "Visual Basic .NET", solCat += 0.01,    //vs
+            "Groovy", solCat += 0.01,               //id
             "Ruby", solCat += 0.01,                 //np
             "C", solCat += 0.01,                    //vs
             "Kotlin", solCat += 0.01,               //id
             "D", solCat += 0.01,                    //np
+
             "C++", solCat += 0.01,                  //vs
             "Java", solCat += 0.01,                 //id
             "Lua", solCat += 0.01,                  //np
-            "Visual Basic .NET", solCat += 0.01,    //vs
-            "Groovy", solCat += 0.01,               //id
             "END", solCat
         );
         //CHECKSTYLE:ON InnerAssignment
@@ -298,7 +298,7 @@ public final class Program {
                             Pair<String, FileTime> langFileTime = pendingMap.get(taskName);
                             String lang = langFileTime.getKey();
                             if (StringUtils.equals(language, lang)) {
-                                LOG.warn("Solution has been submitted for {}", taskName);
+                                LOG.warn("Solution has been prepared for {}", taskName);
                             } else {
                                 LOG.warn("Solution was submitted for {}, but for a different language.", taskName);
                             }

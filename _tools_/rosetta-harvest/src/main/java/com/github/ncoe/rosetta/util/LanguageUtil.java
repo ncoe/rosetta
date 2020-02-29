@@ -24,7 +24,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Batch_File", "Batch", "bat", "batch", -1),
         LanguageInfo.of("C", "C", "c", "clang", 1),
         LanguageInfo.of("C++", "Cpp", "cpp", "cpp", 1),
-        LanguageInfo.of("C#", "C_sharp", "CS", "cs", "csharp", 0),
+        LanguageInfo.of("C#", "C_sharp", "CS", "cs", "csharp", 1),
 //      "Clojure",                //http://rosettacode.org/wiki/Category:Clojure (JVM language)
         LanguageInfo.of("COBOL", "COBOL", "cob", "cobol", -1),
         LanguageInfo.of("D", "D", "d", "dlang", 1),
