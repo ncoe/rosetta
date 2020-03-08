@@ -27,8 +27,8 @@
 
         <commons-io.version>2.6</commons-io.version>
         <commons-lang3.version>3.9</commons-lang3.version>
-        <freemarker.version>2.3.29</freemarker.version>
-        <httpclient.version>4.5.11</httpclient.version>
+        <freemarker.version>2.3.30</freemarker.version>
+        <httpclient.version>4.5.12</httpclient.version>
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.3</logstash.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>

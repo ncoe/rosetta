@@ -233,45 +233,61 @@ public final class Program {
     }
 
     private static void adjustPriority(Map<String, TaskInfo> taskInfoMap, Map<String, Pair<String, FileTime>> pendingMap) {
-        // Tasks that look doable with the current set of languages (possibly where a language is wanted moved up in ranking)
-        Set<String> taskAddSet = Set.of(
-            "Untitled_task"
-        );
         Map<String, String> solAddMap = new HashMap<>();
 
+        // C
         solAddMap.put("Cipolla's_algorithm", "C");
         solAddMap.put("Montgomery_reduction", "C");
         solAddMap.put("Pell's_equation", "C");
         solAddMap.put("Tonelli-Shanks_algorithm", "C");
+        // C++
+        solAddMap.put("Birthday_problem", "C++");
+        solAddMap.put("Days_between_dates", "C++");
+        solAddMap.put("Mersenne_primes", "C++");
+        // Visual Basic .NET
+        solAddMap.put("Handle_a_signal", "Visual Basic .NET");
+        solAddMap.put("Kernighans_large_earthquake_problem", "Visual Basic .NET");
+        solAddMap.put("Validate_International_Securities_Identification_Number", "Visual Basic .NET");
 
-        //solAddMap.put("Binary_strings", "C++");
-
+        // D
+        solAddMap.put("Determine_if_a_string_is_squeezable", "D");
         solAddMap.put("Pierpont_primes", "D");
         solAddMap.put("Random_Latin_Squares", "D");
+        // Lua
+        solAddMap.put("Balanced_ternary", "Lua");
+        solAddMap.put("Eban_numbers", "Lua");
+        solAddMap.put("Reflection/List_properties", "Lua");
+        // Ruby
+        solAddMap.put("Addition_chains", "Ruby");
+        solAddMap.put("Chemical_Calculator", "Ruby");
+        solAddMap.put("Determine_if_two_triangles_overlap", "Ruby");
 
+        // Groovy
         solAddMap.put("Burrows–Wheeler_transform", "Groovy");
-
+        solAddMap.put("Cantor_set", "Groovy");
+        solAddMap.put("Card_shuffles", "Groovy");
+        // Java
+        solAddMap.put("Decision_tables", "Java");
+        solAddMap.put("Peaceful_chess_queen_armies", "Java");
+        solAddMap.put("Rare_numbers", "Java");
+        // Kotlin
+        solAddMap.put("Cyclotomic_Polynomial", "Kotlin");
         solAddMap.put("Strong_and_weak_primes", "Kotlin");
         solAddMap.put("Successive_prime_differences", "Kotlin");
-
-        solAddMap.put("Chemical_Calculator", "Ruby");
-
-        solAddMap.put("Fork", "Visual Basic .NET");
-        solAddMap.put("Handle_a_signal", "Visual Basic .NET");
 
         //CHECKSTYLE:OFF InnerAssignment
         double solCat = 1.7;
         Map<String, Double> solCatMap = Map.of(
-            "Visual Basic .NET", solCat += 0.01,    //vs
-            "Groovy", solCat += 0.01,               //id
-            "Ruby", solCat += 0.01,                 //np
             "C", solCat += 0.01,                    //vs
             "Kotlin", solCat += 0.01,               //id
             "D", solCat += 0.01,                    //np
-
             "C++", solCat += 0.01,                  //vs
             "Java", solCat += 0.01,                 //id
             "Lua", solCat += 0.01,                  //np
+            "Visual Basic .NET", solCat += 0.01,    //vs
+            "Groovy", solCat += 0.01,               //id
+            "Ruby", solCat += 0.01,                 //np
+
             "END", solCat
         );
         //CHECKSTYLE:ON InnerAssignment
@@ -285,8 +301,7 @@ public final class Program {
                     "Arithmetic_coding"
                 ) && !StringUtils.equalsAny(key,
                     "Arithmetic_coding/As_a_generalized_change_of_radix"
-                ) || taskAddSet.contains(key)
-                    || solAddMap.containsKey(key);
+                ) || solAddMap.containsKey(key);
             })
             .map(Entry::getValue)
             .forEach(data -> {
@@ -303,6 +318,13 @@ public final class Program {
                                 LOG.warn("Solution was submitted for {}, but for a different language.", taskName);
                             }
                         } else {
+                            if (data.getCategory() > 2) {
+                                if (null == data.getNote()) {
+                                    data.setNote("(NEW TASK)");
+                                } else {
+                                    data.setNote(data.getNote() + "(NEW TASK)");
+                                }
+                            }
                             data.setCategory(solCatMap.getOrDefault(language, 1.7));
                             data.setNext("try with " + language);
                         }
@@ -312,19 +334,6 @@ public final class Program {
                 } else if (0 < data.getCategory() && data.getCategory() < 3) {
                     if (LOG.isWarnEnabled()) {
                         LOG.warn("No longer need to process task [{}]", value("taskName", taskName));
-                    }
-                } else if (data.getCategory() > 2) {
-                    if (data.getCategory() == 3) {
-                        if (taskAddSet.contains(taskName)) {
-                            data.setCategory(1.3);
-                            data.setNote("Top pick");
-                        } else {
-                            data.setCategory(1.5);
-                            data.setNote("Multiple Options :)");
-                        }
-                    } else {
-                        data.setCategory(1.8);
-                        data.setNote("Only one option :(");
                     }
                 }
             });
