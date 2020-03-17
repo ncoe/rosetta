@@ -236,14 +236,12 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
 
         // C
-        solAddMap.put("Cipolla's_algorithm", "C");
         solAddMap.put("Montgomery_reduction", "C");
         solAddMap.put("Pell's_equation", "C");
         solAddMap.put("Tonelli-Shanks_algorithm", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
         solAddMap.put("Days_between_dates", "C++");
-        solAddMap.put("Mersenne_primes", "C++");
         // Visual Basic .NET
         solAddMap.put("Handle_a_signal", "Visual Basic .NET");
         solAddMap.put("Kernighans_large_earthquake_problem", "Visual Basic .NET");
@@ -251,14 +249,11 @@ public final class Program {
 
         // D
         solAddMap.put("Determine_if_a_string_is_squeezable", "D");
-        solAddMap.put("Pierpont_primes", "D");
         solAddMap.put("Random_Latin_Squares", "D");
         // Lua
         solAddMap.put("Balanced_ternary", "Lua");
         solAddMap.put("Eban_numbers", "Lua");
-        solAddMap.put("Reflection/List_properties", "Lua");
         // Ruby
-        solAddMap.put("Addition_chains", "Ruby");
         solAddMap.put("Chemical_Calculator", "Ruby");
         solAddMap.put("Determine_if_two_triangles_overlap", "Ruby");
 
@@ -268,11 +263,9 @@ public final class Program {
         solAddMap.put("Card_shuffles", "Groovy");
         // Java
         solAddMap.put("Decision_tables", "Java");
-        solAddMap.put("Peaceful_chess_queen_armies", "Java");
         solAddMap.put("Rare_numbers", "Java");
         // Kotlin
         solAddMap.put("Cyclotomic_Polynomial", "Kotlin");
-        solAddMap.put("Strong_and_weak_primes", "Kotlin");
         solAddMap.put("Successive_prime_differences", "Kotlin");
 
         //CHECKSTYLE:OFF InnerAssignment
