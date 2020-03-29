@@ -210,7 +210,7 @@ public final class LocalUtil {
 
         // determine what language the file contributes a solution to
         String language = LanguageUtil.extensionToLanguage(extension);
-        if (null != language) {
+        if (null != language && Files.exists(fullPath)) {
             // augment the current metrics
             long size = Files.size(fullPath);
             langMap.merge(language, size, Long::sum);
@@ -327,7 +327,7 @@ public final class LocalUtil {
                 Pair<String, String> solution = extractSolution(changePath);
                 if (null != solution) {
                     Pair<String, FileTime> info = taskMap.get(solution.getKey());
-                    if (null == info) {
+                    if (null == info || Objects.equals(solution.getValue(), info.getKey())) {
                         Path fullPath = basePath.resolve(changePath);
                         FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
                         long fileSize = Files.size(fullPath);

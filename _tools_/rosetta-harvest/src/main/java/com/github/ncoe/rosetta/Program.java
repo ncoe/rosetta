@@ -236,37 +236,55 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
 
         // C
+        solAddMap.put("Egyptian_fractions", "C");
         solAddMap.put("Montgomery_reduction", "C");
-        solAddMap.put("Pell's_equation", "C");
         solAddMap.put("Tonelli-Shanks_algorithm", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
-        solAddMap.put("Days_between_dates", "C++");
+        solAddMap.put("N-smooth_numbers", "C++");
+        solAddMap.put("Yellowstone_sequence", "C++");
         // Visual Basic .NET
+        solAddMap.put("Approximate_Equality", "Visual Basic .NET");
         solAddMap.put("Handle_a_signal", "Visual Basic .NET");
         solAddMap.put("Kernighans_large_earthquake_problem", "Visual Basic .NET");
-        solAddMap.put("Validate_International_Securities_Identification_Number", "Visual Basic .NET");
 
         // D
         solAddMap.put("Determine_if_a_string_is_squeezable", "D");
-        solAddMap.put("Random_Latin_Squares", "D");
+        solAddMap.put("Van_Eck_sequence", "D");
+        solAddMap.put("Word_break_problem", "D");
+        // LLVM
+        solAddMap.put("Base64_decode_data", "LLVM");
+        solAddMap.put("Chowla_numbers", "LLVM");
+        solAddMap.put("Pascal's_triangle", "LLVM");
         // Lua
         solAddMap.put("Balanced_ternary", "Lua");
+        solAddMap.put("Determine_if_a_string_has_all_the_same_characters", "Lua");
         solAddMap.put("Eban_numbers", "Lua");
+        // Perl
+        solAddMap.put("Data_Encryption_Standard", "Perl");
+        solAddMap.put("Latin_Squares_in_reduced_form", "Perl");
+        solAddMap.put("Transportation_problem", "Perl");
         // Ruby
+        solAddMap.put("Apply_a_digital_filter_(direct_form_II_transposed)", "Ruby");
+        solAddMap.put("Casting_out_nines", "Ruby");
         solAddMap.put("Chemical_Calculator", "Ruby");
-        solAddMap.put("Determine_if_two_triangles_overlap", "Ruby");
 
         // Groovy
         solAddMap.put("Burrows–Wheeler_transform", "Groovy");
-        solAddMap.put("Cantor_set", "Groovy");
         solAddMap.put("Card_shuffles", "Groovy");
+        solAddMap.put("Chinese_remainder_theorem", "Groovy");
         // Java
+        solAddMap.put("Addition-chain_exponentiation", "Java");
         solAddMap.put("Decision_tables", "Java");
         solAddMap.put("Rare_numbers", "Java");
         // Kotlin
         solAddMap.put("Cyclotomic_Polynomial", "Kotlin");
+        solAddMap.put("First_perfect_square_in_base_N_with_N_unique_digits", "Kotlin");
         solAddMap.put("Successive_prime_differences", "Kotlin");
+        // Scala
+        solAddMap.put("100_prisoners", "Scala");
+        solAddMap.put("Bell_numbers", "Scala");
+        solAddMap.put("Brazilian_numbers", "Scala");
 
         //CHECKSTYLE:OFF InnerAssignment
         double solCat = 1.7;
@@ -281,6 +299,9 @@ public final class Program {
             "Groovy", solCat += 0.01,               //id
             "Ruby", solCat += 0.01,                 //np
 
+//            "Scala", solCat += 0.01,                //id
+//            "Perl", solCat += 0.01,                 //np
+//            "LLVM", solCat += 0.01,                 //np
             "END", solCat
         );
         //CHECKSTYLE:ON InnerAssignment
@@ -318,7 +339,7 @@ public final class Program {
                                     data.setNote(data.getNote() + "(NEW TASK)");
                                 }
                             }
-                            data.setCategory(solCatMap.getOrDefault(language, 1.7));
+                            data.setCategory(solCatMap.getOrDefault(language, data.getCategory()));
                             data.setNext("try with " + language);
                         }
                     } else if (LOG.isWarnEnabled()) {

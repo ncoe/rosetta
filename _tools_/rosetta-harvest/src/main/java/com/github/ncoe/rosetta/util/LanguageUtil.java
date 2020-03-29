@@ -32,24 +32,24 @@ public final class LanguageUtil {
         LanguageInfo.of("F#", "F_Sharp", "FS", "fs", "fsharp", -1),
 //      "Factor",                 //http://rosettacode.org/wiki/Category:Factor (like forth)
         LanguageInfo.of("Fortran", "Fortran", "for", "fortran", -1),
-        LanguageInfo.of("Go", "Go", "go", "go", -1), //http://rosettacode.org/wiki/Category:Go
+        LanguageInfo.of("Go", "Go", "go", "go", 0), //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy", 1),
         LanguageInfo.of("Java", "Java", "java", "java_", 1),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript", 0),
         LanguageInfo.of("Julia", "Julia", "jl", "julia", -1),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin", 1),
         LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp", -1), //http://rosettacode.org/wiki/Category:Lisp
-        LanguageInfo.of("LLVM", "LLVM", "ll", "llvm", 0),
+        LanguageInfo.of("LLVM", "LLVM", "ll", "llvm", 1),
         LanguageInfo.of("Lua", "Lua", "lua", "lua", 1),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2", -1),
 //      "Oxygene",                //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
-        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal", -1),    //http://rosettacode.org/wiki/Category:Pascal
-        LanguageInfo.of("Perl", "Perl", "pl", "perl", 0),
+        LanguageInfo.of("Pascal", "Pascal", "pas", "pascal", 0),    //http://rosettacode.org/wiki/Category:Pascal
+        LanguageInfo.of("Perl", "Perl", "pl", "perl", 1),
         LanguageInfo.of("PowerShell", "PowerShell", "ps1", "powershell", -1),
-        LanguageInfo.of("Python", "Python", "py", "python", 0),
+        LanguageInfo.of("Python", "Python", "py", "python", 1),
         LanguageInfo.of("Ruby", "Ruby", "rb", "ruby", 1), //http://rosettacode.org/wiki/Category:Ruby
-        LanguageInfo.of("Rust", "Rust", "rs", "rust", -1),   //http://rosettacode.org/wiki/Category:Rust
-        LanguageInfo.of("Scala", "Scala", "scala", "scala", 0),
+        LanguageInfo.of("Rust", "Rust", "rs", "rust", 0),   //http://rosettacode.org/wiki/Category:Rust
+        LanguageInfo.of("Scala", "Scala", "scala", "scala", 1),
 //      "Microsoft_Small_Basic",  //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
         // Standard ML
         LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript", -1), //http://rosettacode.org/wiki/Category:TypeScript
