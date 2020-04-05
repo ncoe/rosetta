@@ -39,17 +39,17 @@ public final class LanguageUtil {
         LanguageInfo.of("Julia", "Julia", "jl", "julia", -1),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin", 1),
         LanguageInfo.of("Lisp", "Lisp", "lisp", "lisp", -1), //http://rosettacode.org/wiki/Category:Lisp
-        LanguageInfo.of("LLVM", "LLVM", "ll", "llvm", 1),
+        LanguageInfo.of("LLVM", "LLVM", "ll", "llvm", 0),
         LanguageInfo.of("Lua", "Lua", "lua", "lua", 1),
         LanguageInfo.of("Modula-2", "Modula-2", "mod", "modula2", -1),
 //      "Oxygene",                //http://rosettacode.org/wiki/Category:Oxygene (JVM Language)
         LanguageInfo.of("Pascal", "Pascal", "pas", "pascal", 0),    //http://rosettacode.org/wiki/Category:Pascal
-        LanguageInfo.of("Perl", "Perl", "pl", "perl", 1),
+        LanguageInfo.of("Perl", "Perl", "pl", "perl", 0),
         LanguageInfo.of("PowerShell", "PowerShell", "ps1", "powershell", -1),
         LanguageInfo.of("Python", "Python", "py", "python", 1),
         LanguageInfo.of("Ruby", "Ruby", "rb", "ruby", 1), //http://rosettacode.org/wiki/Category:Ruby
         LanguageInfo.of("Rust", "Rust", "rs", "rust", 0),   //http://rosettacode.org/wiki/Category:Rust
-        LanguageInfo.of("Scala", "Scala", "scala", "scala", 1),
+        LanguageInfo.of("Scala", "Scala", "scala", "scala", 0),
 //      "Microsoft_Small_Basic",  //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
         // Standard ML
         LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript", -1), //http://rosettacode.org/wiki/Category:TypeScript
