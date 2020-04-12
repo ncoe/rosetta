@@ -167,6 +167,8 @@ public final class Program {
             }
         }
 
+        removeLanguages(taskInfoMap);
+
         // Add notes to aid in selecting a language to try out for a task
         addNotes(taskInfoMap);
 
@@ -176,6 +178,29 @@ public final class Program {
         // Write summary information for manipulation, filtering, and analysis
         SpreadsheetWriter.writeReport(taskInfoMap.values(), langStatMap);
         HtmlWriter.writeReport(taskInfoMap.values());
+    }
+
+    private static void removeLanguages(Map<String, TaskInfo> taskInfoMap) {
+        //remove languages from tasks that are going to be too challenging at this time
+        removeLanguage(taskInfoMap, "Arithmetic_coding/As_a_generalized_change_of_radix", "C");
+        removeLanguage(taskInfoMap, "Arithmetic_coding/As_a_generalized_change_of_radix", "C++");
+        removeLanguage(taskInfoMap, "Arithmetic_coding/As_a_generalized_change_of_radix", "Lua");
+        removeLanguage(taskInfoMap, "Arithmetic-geometric_mean/Calculate_Pi", "Lua");
+        removeLanguage(taskInfoMap, "Base58Check_encoding", "C");
+        removeLanguage(taskInfoMap, "Base58Check_encoding", "C++");
+        removeLanguage(taskInfoMap, "Base58Check_encoding", "Lua");
+        removeLanguage(taskInfoMap, "Check_output_device_is_a_terminal", "Groovy");
+        removeLanguage(taskInfoMap, "Check_output_device_is_a_terminal", "Java");
+        removeLanguage(taskInfoMap, "De_Bruijn_sequences", "C");
+        removeLanguage(taskInfoMap, "Eertree", "C");
+    }
+
+    private static void removeLanguage(Map<String, TaskInfo> taskInfoMap, String task, String language) {
+        TaskInfo taskInfo = taskInfoMap.get(task);
+        if (null != taskInfo) {
+            Set<String> languageSet = taskInfo.getLanguageSet();
+            languageSet.remove(language);
+        }
     }
 
     private static void addNotes(Map<String, TaskInfo> taskInfoMap) {
@@ -236,20 +261,20 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
 
         // C
-        solAddMap.put("Montgomery_reduction", "C");
+        solAddMap.put("Pierpont_primes", "C");
         solAddMap.put("Smarandache_prime-digital_sequence", "C");
         solAddMap.put("Tonelli-Shanks_algorithm", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
-        solAddMap.put("Pell's_equation", "C++");
+        solAddMap.put("Super-d_numbers", "C++");
         solAddMap.put("Yellowstone_sequence", "C++");
         // Visual Basic .NET
         solAddMap.put("Approximate_Equality", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Visual Basic .NET");
-        solAddMap.put("Kernighans_large_earthquake_problem", "Visual Basic .NET");
+        solAddMap.put("Determine_if_a_string_is_collapsible", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Print_debugging_statement", "D");
+        solAddMap.put("Square-free_integers", "D");
         solAddMap.put("Van_Eck_sequence", "D");
         solAddMap.put("Word_break_problem", "D");
         // LLVM
@@ -257,7 +282,7 @@ public final class Program {
         //solAddMap.put("Chowla_numbers", "LLVM");
         //solAddMap.put("Pascal's_triangle", "LLVM");
         // Lua
-        solAddMap.put("Balanced_ternary", "Lua");
+        solAddMap.put("Display_a_linear_combination", "Lua");
         solAddMap.put("Eban_numbers", "Lua");
         solAddMap.put("Humble_numbers", "Lua");
         // Perl
@@ -265,21 +290,21 @@ public final class Program {
         //solAddMap.put("Latin_Squares_in_reduced_form", "Perl");
         //solAddMap.put("Transportation_problem", "Perl");
         // Ruby
-        solAddMap.put("Casting_out_nines", "Ruby");
         solAddMap.put("Chemical_Calculator", "Ruby");
         solAddMap.put("Fairshare_between_two_and_more", "Ruby");
+        solAddMap.put("Faulhaber's_formula", "Ruby");
 
         // Groovy
-        solAddMap.put("Card_shuffles", "Groovy");
         solAddMap.put("Chinese_remainder_theorem", "Groovy");
         solAddMap.put("Chinese_zodiac", "Groovy");
+        solAddMap.put("Circles_of_given_radius_through_two_points", "Groovy");
         // Java
         solAddMap.put("Addition-chain_exponentiation", "Java");
         solAddMap.put("Decision_tables", "Java");
-        solAddMap.put("Random_Latin_Squares", "Java");
+        solAddMap.put("Shortest_common_supersequence", "Java");
         // Kotlin
         solAddMap.put("Cyclotomic_Polynomial", "Kotlin");
-        solAddMap.put("First_perfect_square_in_base_N_with_N_unique_digits", "Kotlin");
+        solAddMap.put("Determine_if_a_string_is_squeezable", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
         // Scala
         //solAddMap.put("100_prisoners", "Scala");
