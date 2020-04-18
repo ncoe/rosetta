@@ -86,3 +86,8 @@ Settings.settings
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+# Eclipse / VS Code?
+**/.settings/
+**/.classpath
+**/.project
