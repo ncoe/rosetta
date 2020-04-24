@@ -261,20 +261,25 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
 
         // C
-        solAddMap.put("Pierpont_primes", "C");
+        solAddMap.put("Circular_primes", "C");
         solAddMap.put("Smarandache_prime-digital_sequence", "C");
         solAddMap.put("Tonelli-Shanks_algorithm", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
-        solAddMap.put("Super-d_numbers", "C++");
+        solAddMap.put("Print_debugging_statement", "C++");
         solAddMap.put("Yellowstone_sequence", "C++");
+        // C#
+        //solAddMap.put("", "C#");
+        //solAddMap.put("", "C#");
+        //solAddMap.put("", "C#");
         // Visual Basic .NET
-        solAddMap.put("Approximate_Equality", "Visual Basic .NET");
+        solAddMap.put("Binary_strings", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_is_collapsible", "Visual Basic .NET");
+        solAddMap.put("Imaginary_base_numbers", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Square-free_integers", "D");
+        solAddMap.put("Esthetic_numbers", "D");
         solAddMap.put("Van_Eck_sequence", "D");
         solAddMap.put("Word_break_problem", "D");
         // LLVM
@@ -282,8 +287,8 @@ public final class Program {
         //solAddMap.put("Chowla_numbers", "LLVM");
         //solAddMap.put("Pascal's_triangle", "LLVM");
         // Lua
-        solAddMap.put("Display_a_linear_combination", "Lua");
         solAddMap.put("Eban_numbers", "Lua");
+        solAddMap.put("Fraction_reduction", "Lua");
         solAddMap.put("Humble_numbers", "Lua");
         // Perl
         //solAddMap.put("Data_Encryption_Standard", "Perl");
@@ -291,20 +296,20 @@ public final class Program {
         //solAddMap.put("Transportation_problem", "Perl");
         // Ruby
         solAddMap.put("Chemical_Calculator", "Ruby");
-        solAddMap.put("Fairshare_between_two_and_more", "Ruby");
         solAddMap.put("Faulhaber's_formula", "Ruby");
+        solAddMap.put("Feigenbaum_constant_calculation", "Ruby");
 
         // Groovy
-        solAddMap.put("Chinese_remainder_theorem", "Groovy");
         solAddMap.put("Chinese_zodiac", "Groovy");
         solAddMap.put("Circles_of_given_radius_through_two_points", "Groovy");
-        // Java
+        solAddMap.put("Continued_fraction", "Groovy");
+        // Java (exhaust)
         solAddMap.put("Addition-chain_exponentiation", "Java");
-        solAddMap.put("Decision_tables", "Java");
         solAddMap.put("Shortest_common_supersequence", "Java");
+        //solAddMap.put("", "Java");
         // Kotlin
         solAddMap.put("Cyclotomic_Polynomial", "Kotlin");
-        solAddMap.put("Determine_if_a_string_is_squeezable", "Kotlin");
+        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
         // Scala
         //solAddMap.put("100_prisoners", "Scala");
