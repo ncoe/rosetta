@@ -49,7 +49,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Python", "Python", "py", "python", 1),
         LanguageInfo.of("Ruby", "Ruby", "rb", "ruby", 1), //http://rosettacode.org/wiki/Category:Ruby
         LanguageInfo.of("Rust", "Rust", "rs", "rust", 0),   //http://rosettacode.org/wiki/Category:Rust
-        LanguageInfo.of("Scala", "Scala", "scala", "scala", 0),
+        LanguageInfo.of("Scala", "Scala", "scala", "scala", 1),
 //      "Microsoft_Small_Basic",  //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
         // Standard ML
         LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript", -1), //http://rosettacode.org/wiki/Category:TypeScript

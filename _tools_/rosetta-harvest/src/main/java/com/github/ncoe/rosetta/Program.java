@@ -262,59 +262,58 @@ public final class Program {
 
         // C
         solAddMap.put("Circular_primes", "C");
+        solAddMap.put("N-smooth_numbers", "C");
         solAddMap.put("Smarandache_prime-digital_sequence", "C");
-        solAddMap.put("Tonelli-Shanks_algorithm", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
-        solAddMap.put("Print_debugging_statement", "C++");
+        solAddMap.put("Random_Latin_Squares", "C++");
         solAddMap.put("Yellowstone_sequence", "C++");
         // C#
         //solAddMap.put("", "C#");
         //solAddMap.put("", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
-        solAddMap.put("Binary_strings", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_is_collapsible", "Visual Basic .NET");
         solAddMap.put("Imaginary_base_numbers", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Esthetic_numbers", "D");
         solAddMap.put("Van_Eck_sequence", "D");
         solAddMap.put("Word_break_problem", "D");
+        solAddMap.put("XXXX_redacted", "D");
         // LLVM
         //solAddMap.put("Base64_decode_data", "LLVM");
         //solAddMap.put("Chowla_numbers", "LLVM");
         //solAddMap.put("Pascal's_triangle", "LLVM");
         // Lua
-        solAddMap.put("Eban_numbers", "Lua");
         solAddMap.put("Fraction_reduction", "Lua");
+        solAddMap.put("Fusc_sequence", "Lua");
         solAddMap.put("Humble_numbers", "Lua");
         // Perl
         //solAddMap.put("Data_Encryption_Standard", "Perl");
         //solAddMap.put("Latin_Squares_in_reduced_form", "Perl");
         //solAddMap.put("Transportation_problem", "Perl");
         // Ruby
+        solAddMap.put("Chebyshev_coefficients", "Ruby");
         solAddMap.put("Chemical_Calculator", "Ruby");
-        solAddMap.put("Faulhaber's_formula", "Ruby");
         solAddMap.put("Feigenbaum_constant_calculation", "Ruby");
 
         // Groovy
-        solAddMap.put("Chinese_zodiac", "Groovy");
         solAddMap.put("Circles_of_given_radius_through_two_points", "Groovy");
         solAddMap.put("Continued_fraction", "Groovy");
-        // Java (exhaust)
-        solAddMap.put("Addition-chain_exponentiation", "Java");
-        solAddMap.put("Shortest_common_supersequence", "Java");
+        solAddMap.put("Cramer's_rule", "Groovy");
+        // Java
+        //solAddMap.put("", "Java");
+        //solAddMap.put("", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Cyclotomic_Polynomial", "Kotlin");
         solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
+        solAddMap.put("ISBN13_check_digit", "Kotlin");
         // Scala
-        //solAddMap.put("100_prisoners", "Scala");
-        //solAddMap.put("Bell_numbers", "Scala");
-        //solAddMap.put("Brazilian_numbers", "Scala");
+        solAddMap.put("100_prisoners", "Scala");
+        solAddMap.put("Bell_numbers", "Scala");
+        solAddMap.put("Brazilian_numbers", "Scala");
 
         //CHECKSTYLE:OFF InnerAssignment
         double solCat = 1.7;
@@ -323,13 +322,13 @@ public final class Program {
             "Kotlin", solCat += 0.01,               //id
             "D", solCat += 0.01,                    //np
             "C++", solCat += 0.01,                  //vs
-            "Java", solCat += 0.01,                 //id
+            "Scala", solCat += 0.01,                //id
             "Lua", solCat += 0.01,                  //np
             "Visual Basic .NET", solCat += 0.01,    //vs
             "Groovy", solCat += 0.01,               //id
             "Ruby", solCat += 0.01,                 //np
 
-//            "Scala", solCat += 0.01,                //id
+//            "Java", solCat += 0.01,                 //id
 //            "Perl", solCat += 0.01,                 //np
 //            "LLVM", solCat += 0.01,                 //np
             "END", solCat
