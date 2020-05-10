@@ -24,6 +24,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -193,6 +195,7 @@ public final class Program {
         removeLanguage(taskInfoMap, "Check_output_device_is_a_terminal", "Java");
         removeLanguage(taskInfoMap, "De_Bruijn_sequences", "C");
         removeLanguage(taskInfoMap, "Eertree", "C");
+        removeLanguage(taskInfoMap, "N-smooth_numbers", "C");
     }
 
     private static void removeLanguage(Map<String, TaskInfo> taskInfoMap, String task, String language) {
@@ -261,79 +264,89 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
 
         // C
-        solAddMap.put("Circular_primes", "C");
-        solAddMap.put("N-smooth_numbers", "C");
-        solAddMap.put("Smarandache_prime-digital_sequence", "C");
+        solAddMap.put("Commatizing_numbers", "C");
+        solAddMap.put("Line_circle_intersection", "C");
+        solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
-        solAddMap.put("Random_Latin_Squares", "C++");
+        solAddMap.put("Cyclotomic_Polynomial", "C++");
         solAddMap.put("Yellowstone_sequence", "C++");
         // C#
-        //solAddMap.put("", "C#");
-        //solAddMap.put("", "C#");
-        //solAddMap.put("", "C#");
+        //solAddMap.put("Casting_out_nines", "C#");
+        //solAddMap.put("Square-free_integers", "C#");
+        //solAddMap.put("Super-d_numbers", "C#");
         // Visual Basic .NET
         solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_is_collapsible", "Visual Basic .NET");
         solAddMap.put("Imaginary_base_numbers", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Van_Eck_sequence", "D");
+        solAddMap.put("Fairshare_between_two_and_more", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         // LLVM
-        //solAddMap.put("Base64_decode_data", "LLVM");
-        //solAddMap.put("Chowla_numbers", "LLVM");
-        //solAddMap.put("Pascal's_triangle", "LLVM");
+        //solAddMap.put("", "LLVM");
+        //solAddMap.put("", "LLVM");
+        //solAddMap.put("", "LLVM");
         // Lua
-        solAddMap.put("Fraction_reduction", "Lua");
+        solAddMap.put("Approximate_Equality", "Lua");
         solAddMap.put("Fusc_sequence", "Lua");
         solAddMap.put("Humble_numbers", "Lua");
         // Perl
-        //solAddMap.put("Data_Encryption_Standard", "Perl");
-        //solAddMap.put("Latin_Squares_in_reduced_form", "Perl");
-        //solAddMap.put("Transportation_problem", "Perl");
+        //solAddMap.put("", "Perl");
+        //solAddMap.put("", "Perl");
+        //solAddMap.put("", "Perl");
         // Ruby
-        solAddMap.put("Chebyshev_coefficients", "Ruby");
+        solAddMap.put("Burrows–Wheeler_transform", "Ruby");
         solAddMap.put("Chemical_Calculator", "Ruby");
         solAddMap.put("Feigenbaum_constant_calculation", "Ruby");
 
         // Groovy
-        solAddMap.put("Circles_of_given_radius_through_two_points", "Groovy");
         solAddMap.put("Continued_fraction", "Groovy");
         solAddMap.put("Cramer's_rule", "Groovy");
+        solAddMap.put("Cuban_primes", "Groovy");
         // Java
-        //solAddMap.put("", "Java");
-        //solAddMap.put("", "Java");
-        //solAddMap.put("", "Java");
+        //solAddMap.put("List_rooted_trees", "Java");
+        //solAddMap.put("Multiple_regression", "Java");
+        //solAddMap.put("Print_debugging_statement", "Java");
         // Kotlin
-        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Kotlin");
-        solAddMap.put("Next_highest_int_from_digits", "Kotlin");
+        solAddMap.put("Esthetic_numbers", "Kotlin");
         solAddMap.put("ISBN13_check_digit", "Kotlin");
+        solAddMap.put("Next_highest_int_from_digits", "Kotlin");
         // Scala
         solAddMap.put("100_prisoners", "Scala");
         solAddMap.put("Bell_numbers", "Scala");
         solAddMap.put("Brazilian_numbers", "Scala");
 
-        //CHECKSTYLE:OFF InnerAssignment
-        double solCat = 1.7;
-        Map<String, Double> solCatMap = Map.of(
-            "C", solCat += 0.01,                    //vs
-            "Kotlin", solCat += 0.01,               //id
-            "D", solCat += 0.01,                    //np
-            "C++", solCat += 0.01,                  //vs
-            "Scala", solCat += 0.01,                //id
-            "Lua", solCat += 0.01,                  //np
-            "Visual Basic .NET", solCat += 0.01,    //vs
-            "Groovy", solCat += 0.01,               //id
-            "Ruby", solCat += 0.01,                 //np
+        Supplier<Double> incFunc = new Supplier<>() {
+            final AtomicInteger nextCat = new AtomicInteger(170);
 
-//            "Java", solCat += 0.01,                 //id
-//            "Perl", solCat += 0.01,                 //np
-//            "LLVM", solCat += 0.01,                 //np
-            "END", solCat
-        );
-        //CHECKSTYLE:ON InnerAssignment
+            @Override
+            public Double get() {
+                int tmp = nextCat.incrementAndGet();
+                if (tmp % 10 == 0) {
+                    tmp = nextCat.incrementAndGet();
+                }
+                return 0.01 * tmp;
+            }
+        };
+
+        Map<String, Double> solCatMap = new HashMap<>();
+        solCatMap.put("C", incFunc.get());                    //vs (*)
+        solCatMap.put("Kotlin", incFunc.get());               //id
+        solCatMap.put("D", incFunc.get());                    //np
+        solCatMap.put("C++", incFunc.get());                  //vs
+        solCatMap.put("Scala", incFunc.get());                //id
+        solCatMap.put("Lua", incFunc.get());                  //np
+        solCatMap.put("Visual Basic .NET", incFunc.get());    //vs
+        solCatMap.put("Groovy", incFunc.get());               //id
+        solCatMap.put("Ruby", incFunc.get());                 //np
+
+        //solCatMap.put("Perl", incFunc.get());                 //np
+        //solCatMap.put("C#", incFunc.get());                   //vs
+        //solCatMap.put("Java", incFunc.get());                 //id
+
+        //solCatMap.put("LLVM", incFunc.get());                 //np
 
         // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
