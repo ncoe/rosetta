@@ -276,8 +276,8 @@ public final class Program {
         //solAddMap.put("Square-free_integers", "C#");
         //solAddMap.put("Super-d_numbers", "C#");
         // Visual Basic .NET
-        solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Visual Basic .NET");
         solAddMap.put("Determine_if_a_string_is_collapsible", "Visual Basic .NET");
+        solAddMap.put("Determine_if_a_string_is_squeezable", "Visual Basic .NET");
         solAddMap.put("Imaginary_base_numbers", "Visual Basic .NET");
 
         // D
@@ -289,8 +289,8 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
-        solAddMap.put("Approximate_Equality", "Lua");
         solAddMap.put("Fusc_sequence", "Lua");
+        solAddMap.put("Gapful_numbers", "Lua");
         solAddMap.put("Humble_numbers", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -299,27 +299,27 @@ public final class Program {
         // Ruby
         solAddMap.put("Burrows–Wheeler_transform", "Ruby");
         solAddMap.put("Chemical_Calculator", "Ruby");
-        solAddMap.put("Feigenbaum_constant_calculation", "Ruby");
+        solAddMap.put("Display_a_linear_combination", "Ruby");
 
         // Groovy
-        solAddMap.put("Continued_fraction", "Groovy");
         solAddMap.put("Cramer's_rule", "Groovy");
         solAddMap.put("Cuban_primes", "Groovy");
+        solAddMap.put("Cycle_detection", "Groovy");
         // Java
         //solAddMap.put("List_rooted_trees", "Java");
         //solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("Print_debugging_statement", "Java");
         // Kotlin
-        solAddMap.put("Esthetic_numbers", "Kotlin");
         solAddMap.put("ISBN13_check_digit", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
+        solAddMap.put("Van_Eck_sequence", "Kotlin");
         // Scala
         solAddMap.put("100_prisoners", "Scala");
         solAddMap.put("Bell_numbers", "Scala");
         solAddMap.put("Brazilian_numbers", "Scala");
 
         Supplier<Double> incFunc = new Supplier<>() {
-            final AtomicInteger nextCat = new AtomicInteger(170);
+            private final AtomicInteger nextCat = new AtomicInteger(170);
 
             @Override
             public Double get() {

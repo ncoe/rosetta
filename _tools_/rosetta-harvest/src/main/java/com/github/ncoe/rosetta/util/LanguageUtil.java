@@ -34,7 +34,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Fortran", "Fortran", "for", "fortran", -1),
         LanguageInfo.of("Go", "Go", "go", "go", 0), //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy", 1),
-        LanguageInfo.of("Java", "Java", "java", "java_", 1),
+        LanguageInfo.of("Java", "Java", "java", "java_", 0),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript", 0),
         LanguageInfo.of("Julia", "Julia", "jl", "julia", -1),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin", 1),
