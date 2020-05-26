@@ -46,7 +46,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Pascal", "Pascal", "pas", "pascal", 0),    //http://rosettacode.org/wiki/Category:Pascal
         LanguageInfo.of("Perl", "Perl", "pl", "perl", 0),
         LanguageInfo.of("PowerShell", "PowerShell", "ps1", "powershell", -1),
-        LanguageInfo.of("Python", "Python", "py", "python", 1),
+        LanguageInfo.of("Python", "Python", "py", "python", 0),
         LanguageInfo.of("Ruby", "Ruby", "rb", "ruby", 1), //http://rosettacode.org/wiki/Category:Ruby
         LanguageInfo.of("Rust", "Rust", "rs", "rust", 0),   //http://rosettacode.org/wiki/Category:Rust
         LanguageInfo.of("Scala", "Scala", "scala", "scala", 1),
