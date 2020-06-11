@@ -109,6 +109,9 @@ public final class LocalUtil {
             case "Pells_equation":
                 name = "Pell's_equation";
                 break;
+            case "Primalty_by_Wilsons_theorem":
+                name = "Primalty_by_Wilson's_theorem";
+                break;
             case "Recamans_sequence":
                 name = "Recaman's_sequence";
                 break;
