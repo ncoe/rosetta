@@ -265,25 +265,24 @@ public final class Program {
 
         // C
         solAddMap.put("Commatizing_numbers", "C");
-        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "C");
         solAddMap.put("Lychrel_numbers", "C");
         solAddMap.put("Primalty_by_Wilson's_theorem", "C");
         solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "C");
         // C++
         solAddMap.put("Birthday_problem", "C++");
-        solAddMap.put("Decision_tables", "C++");
+        solAddMap.put("Cut_a_rectangle", "C++");
         solAddMap.put("Yellowstone_sequence", "C++");
         // C#
         //solAddMap.put("Casting_out_nines", "C#");
         //solAddMap.put("Square-free_integers", "C#");
         //solAddMap.put("Super-d_numbers", "C#");
         // Visual Basic .NET
-        solAddMap.put("Imaginary_base_numbers", "Visual Basic .NET");
         solAddMap.put("Just_in_time_processing_on_a_character_stream", "Visual Basic .NET");
         solAddMap.put("Kolakoski_sequence", "Visual Basic .NET");
+        solAddMap.put("Totient_function", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Cyclotomic_Polynomial", "D");
+        solAddMap.put("Diversity_prediction_theorem", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         // LLVM
@@ -292,7 +291,7 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         // Lua
         solAddMap.put("De_Bruijn_sequences", "Lua");
-        solAddMap.put("Fairshare_between_two_and_more", "Lua");
+        solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Lua");
         solAddMap.put("Gapful_numbers", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -301,25 +300,24 @@ public final class Program {
         // Ruby
         solAddMap.put("Burrows–Wheeler_transform", "Ruby");
         solAddMap.put("Create_a_file_on_magnetic_tape", "Ruby");
-        solAddMap.put("Fraction_reduction", "Ruby");
+        solAddMap.put("Esthetic_numbers", "Ruby");
 
         // Groovy
         solAddMap.put("Cramer's_rule", "Groovy");
         solAddMap.put("Damm_algorithm", "Groovy");
-        solAddMap.put("Department_Numbers", "Groovy");
         solAddMap.put("Determine_if_a_string_has_all_the_same_characters", "Groovy");
         // Java
         //solAddMap.put("List_rooted_trees", "Java");
         //solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("Print_debugging_statement", "Java");
         // Kotlin
-        solAddMap.put("Line_circle_intersection", "Kotlin");
+        solAddMap.put("Length_of_an_arc_between_two_angles", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
         solAddMap.put("Print_debugging_statement", "Kotlin");
         // Scala
         solAddMap.put("Bacon_cipher", "Scala");
-        solAddMap.put("Brazilian_numbers", "Scala");
         solAddMap.put("Eban_numbers", "Scala");
+        solAddMap.put("Faulhaber's_formula", "Scala");
 
         Supplier<Double> incFunc = new Supplier<>() {
             private final AtomicInteger nextCat = new AtomicInteger(170);

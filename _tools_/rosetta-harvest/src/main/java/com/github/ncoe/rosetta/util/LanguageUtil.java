@@ -29,7 +29,7 @@ public final class LanguageUtil {
         LanguageInfo.of("COBOL", "COBOL", "cob", "cobol", -1),
         LanguageInfo.of("D", "D", "d", "dlang", 1),
 //      "Eiffel",                 //http://rosettacode.org/wiki/Factorial#Eiffel (.NET CLI language)
-        LanguageInfo.of("F#", "F_Sharp", "FS", "fs", "fsharp", -1),
+        LanguageInfo.of("F#", "F_Sharp", "FS", "fs", "fsharp", 0),
 //      "Factor",                 //http://rosettacode.org/wiki/Category:Factor (like forth)
         LanguageInfo.of("Fortran", "Fortran", "for", "fortran", -1),
         LanguageInfo.of("Go", "Go", "go", "go", 0), //http://rosettacode.org/wiki/Category:Go
