@@ -262,62 +262,89 @@ public final class Program {
 
     private static void adjustPriority(Map<String, TaskInfo> taskInfoMap, Map<String, Pair<String, FileTime>> pendingMap) {
         Map<String, String> solAddMap = new HashMap<>();
+        //solAddMap.put("", "");
 
         // C
-        solAddMap.put("Commatizing_numbers", "C");
-        solAddMap.put("Lychrel_numbers", "C");
-        solAddMap.put("Primalty_by_Wilson's_theorem", "C");
-        solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "C");
+        solAddMap.put("Brace_expansion", "C");
+        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C");
+        solAddMap.put("Sum_and_Product_Puzzle", "C");
+        //solAddMap.put("", "C");
         // C++
-        solAddMap.put("Birthday_problem", "C++");
         solAddMap.put("Cut_a_rectangle", "C++");
-        solAddMap.put("Yellowstone_sequence", "C++");
+        solAddMap.put("Determinant_and_permanent", "C++");
+        solAddMap.put("Fairshare_between_two_and_more", "C++");
+        //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Casting_out_nines", "C#");
         //solAddMap.put("Square-free_integers", "C#");
         //solAddMap.put("Super-d_numbers", "C#");
+        //solAddMap.put("", "C#");
         // Visual Basic .NET
-        solAddMap.put("Just_in_time_processing_on_a_character_stream", "Visual Basic .NET");
+        //solAddMap.put("Birthday_problem", "Visual Basic .NET");
+        solAddMap.put("Cyclotomic_Polynomial", "Visual Basic .NET");
+        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Visual Basic .NET");
         solAddMap.put("Kolakoski_sequence", "Visual Basic .NET");
-        solAddMap.put("Totient_function", "Visual Basic .NET");
+        solAddMap.put("Lah_numbers", "Visual Basic .NET");
+        solAddMap.put("Mersenne_primes", "Visual Basic .NET");
+        //solAddMap.put("", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Diversity_prediction_theorem", "D");
+        solAddMap.put("Stirling_numbers_of_the_second_kind", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
+        //solAddMap.put("", "D");
         // LLVM
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
         solAddMap.put("De_Bruijn_sequences", "Lua");
-        solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Lua");
-        solAddMap.put("Gapful_numbers", "Lua");
+        solAddMap.put("Determine_if_a_string_is_collapsible", "Lua");
+        solAddMap.put("Determine_if_a_string_is_squeezable", "Lua");
+        solAddMap.put("Line_circle_intersection", "Lua");
+        //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
         solAddMap.put("Burrows–Wheeler_transform", "Ruby");
-        solAddMap.put("Create_a_file_on_magnetic_tape", "Ruby");
+        solAddMap.put("Cheryl's_Birthday", "Ruby");
         solAddMap.put("Esthetic_numbers", "Ruby");
+        solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
+        //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Cramer's_rule", "Groovy");
-        solAddMap.put("Damm_algorithm", "Groovy");
-        solAddMap.put("Determine_if_a_string_has_all_the_same_characters", "Groovy");
+        //solAddMap.put("Cramer's_rule", "Groovy");
+        solAddMap.put("Determine_if_two_triangles_overlap", "Groovy");
+        solAddMap.put("Digital_root", "Groovy");
+        solAddMap.put("Display_a_linear_combination", "Groovy");
+        //solAddMap.put("Egyptian_division", "Groovy");
+        //solAddMap.put("Emirp_primes", "Groovy");
+        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
+        //solAddMap.put("", "Groovy");
         // Java
         //solAddMap.put("List_rooted_trees", "Java");
         //solAddMap.put("Multiple_regression", "Java");
-        //solAddMap.put("Print_debugging_statement", "Java");
+        //solAddMap.put("", "Java");
         // Kotlin
         solAddMap.put("Length_of_an_arc_between_two_angles", "Kotlin");
+        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
-        solAddMap.put("Print_debugging_statement", "Kotlin");
+        solAddMap.put("Stirling_numbers_of_the_first_kind", "Kotlin");
+        //solAddMap.put("", "Kotlin");
         // Scala
-        solAddMap.put("Bacon_cipher", "Scala");
+        solAddMap.put("Binary_strings", "Scala");
+        solAddMap.put("Card_shuffles", "Scala");
+        solAddMap.put("Circular_primes", "Scala");
         solAddMap.put("Eban_numbers", "Scala");
+        solAddMap.put("Egyptian_fractions", "Scala");
         solAddMap.put("Faulhaber's_formula", "Scala");
+        solAddMap.put("Faulhaber's_triangle", "Scala");
+        //solAddMap.put("Fermat_numbers", "Scala");
+        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
+        solAddMap.put("Parsing/RPN_to_infix_conversion", "Scala");
+        //solAddMap.put("", "Scala");
 
         Supplier<Double> incFunc = new Supplier<>() {
             private final AtomicInteger nextCat = new AtomicInteger(170);
@@ -382,7 +409,10 @@ public final class Program {
                                     data.setNote(data.getNote() + "(NEW TASK)");
                                 }
                             }
-                            data.setCategory(solCatMap.getOrDefault(language, data.getCategory()));
+                            if (data.getCategory() != 1.0) {
+                                // only overwrite the category if it does not require another solution to balance
+                                data.setCategory(solCatMap.getOrDefault(language, data.getCategory()));
+                            }
                             data.setNext("try with " + language);
                         }
                     } else if (LOG.isWarnEnabled()) {

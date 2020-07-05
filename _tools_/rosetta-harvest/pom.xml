@@ -32,7 +32,7 @@
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.4</logstash.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
-        <org.eclipse.jgit.version>5.7.0.202003110725-r</org.eclipse.jgit.version>
+        <org.eclipse.jgit.version>5.8.0.202006091008-r</org.eclipse.jgit.version>
         <poi-ooxml.version>4.1.2</poi-ooxml.version>
     </properties>
 

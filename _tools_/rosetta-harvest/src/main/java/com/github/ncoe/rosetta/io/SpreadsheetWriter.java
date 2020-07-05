@@ -71,6 +71,11 @@ public final class SpreadsheetWriter {
     private static void writeOpenTasks(XSSFWorkbook workbook, List<TaskInfo> taskList) {
         XSSFCreationHelper helper = new XSSFCreationHelper(workbook);
 
+        XSSFFont boldFont = workbook.createFont();
+        boldFont.setBold(true);
+        XSSFCellStyle boldStyle = workbook.createCellStyle();
+        boldStyle.setFont(boldFont);
+
         XSSFCellStyle hLinkStyle = workbook.createCellStyle();
         XSSFFont hLinkFont = workbook.createFont();
         hLinkFont.setUnderline(XSSFFont.U_SINGLE);
@@ -168,6 +173,9 @@ public final class SpreadsheetWriter {
                 if (info.getCategory() == 0.0) {
                     cell.setCellValue("ppr for " + info.getNext());
                 } else {
+                    if (info.getCategory() == 1.0) {
+                        cell.setCellStyle(boldStyle);
+                    }
                     cell.setCellValue(info.getNext());
                 }
             }
