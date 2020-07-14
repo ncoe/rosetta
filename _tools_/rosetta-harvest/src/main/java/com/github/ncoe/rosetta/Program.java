@@ -266,13 +266,11 @@ public final class Program {
 
         // C
         solAddMap.put("Brace_expansion", "C");
-        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C");
         solAddMap.put("Sum_and_Product_Puzzle", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Cut_a_rectangle", "C++");
         solAddMap.put("Determinant_and_permanent", "C++");
-        solAddMap.put("Fairshare_between_two_and_more", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Casting_out_nines", "C#");
@@ -280,8 +278,7 @@ public final class Program {
         //solAddMap.put("Super-d_numbers", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
-        //solAddMap.put("Birthday_problem", "Visual Basic .NET");
-        solAddMap.put("Cyclotomic_Polynomial", "Visual Basic .NET");
+        solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Visual Basic .NET");
         solAddMap.put("Kolakoski_sequence", "Visual Basic .NET");
         solAddMap.put("Lah_numbers", "Visual Basic .NET");
@@ -289,7 +286,8 @@ public final class Program {
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Stirling_numbers_of_the_second_kind", "D");
+        solAddMap.put("Fermat_numbers", "D");
+        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -310,30 +308,31 @@ public final class Program {
         // Ruby
         solAddMap.put("Burrows–Wheeler_transform", "Ruby");
         solAddMap.put("Cheryl's_Birthday", "Ruby");
-        solAddMap.put("Esthetic_numbers", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
+        //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        //solAddMap.put("Cramer's_rule", "Groovy");
         solAddMap.put("Determine_if_two_triangles_overlap", "Groovy");
         solAddMap.put("Digital_root", "Groovy");
         solAddMap.put("Display_a_linear_combination", "Groovy");
-        //solAddMap.put("Egyptian_division", "Groovy");
-        //solAddMap.put("Emirp_primes", "Groovy");
-        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
+        solAddMap.put("Egyptian_division", "Groovy");
+        solAddMap.put("Emirp_primes", "Groovy");
+        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
         //solAddMap.put("List_rooted_trees", "Java");
         //solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Length_of_an_arc_between_two_angles", "Kotlin");
-        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
+        //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Kotlin");
+        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
         solAddMap.put("Next_highest_int_from_digits", "Kotlin");
         solAddMap.put("Stirling_numbers_of_the_first_kind", "Kotlin");
+        solAddMap.put("Unprimeable_numbers", "Kotlin");
+        solAddMap.put("Yellowstone_sequence", "Kotlin");
         //solAddMap.put("", "Kotlin");
-        // Scala
+        // Scala (exhaust and replace with java)
         solAddMap.put("Binary_strings", "Scala");
         solAddMap.put("Card_shuffles", "Scala");
         solAddMap.put("Circular_primes", "Scala");
@@ -341,7 +340,6 @@ public final class Program {
         solAddMap.put("Egyptian_fractions", "Scala");
         solAddMap.put("Faulhaber's_formula", "Scala");
         solAddMap.put("Faulhaber's_triangle", "Scala");
-        //solAddMap.put("Fermat_numbers", "Scala");
         //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
         solAddMap.put("Parsing/RPN_to_infix_conversion", "Scala");
         //solAddMap.put("", "Scala");
