@@ -266,11 +266,15 @@ public final class Program {
 
         // C
         solAddMap.put("Brace_expansion", "C");
-        solAddMap.put("Sum_and_Product_Puzzle", "C");
+        solAddMap.put("Möbius_function", "C");
+        solAddMap.put("Powerful_numbers", "C");
         //solAddMap.put("", "C");
         // C++
+        solAddMap.put("Angles_(geometric),_normalization_and_conversion", "C++");
         solAddMap.put("Cut_a_rectangle", "C++");
         solAddMap.put("Determinant_and_permanent", "C++");
+        solAddMap.put("Length_of_an_arc_between_two_angles", "C++");
+        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Casting_out_nines", "C#");
@@ -287,7 +291,6 @@ public final class Program {
 
         // D
         solAddMap.put("Fermat_numbers", "D");
-        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -299,21 +302,18 @@ public final class Program {
         solAddMap.put("De_Bruijn_sequences", "Lua");
         solAddMap.put("Determine_if_a_string_is_collapsible", "Lua");
         solAddMap.put("Determine_if_a_string_is_squeezable", "Lua");
-        solAddMap.put("Line_circle_intersection", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
-        solAddMap.put("Burrows–Wheeler_transform", "Ruby");
         solAddMap.put("Cheryl's_Birthday", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Ruby");
+        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Determine_if_two_triangles_overlap", "Groovy");
         solAddMap.put("Digital_root", "Groovy");
         solAddMap.put("Display_a_linear_combination", "Groovy");
         solAddMap.put("Egyptian_division", "Groovy");
@@ -327,7 +327,6 @@ public final class Program {
         // Kotlin
         //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Kotlin");
         solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
-        solAddMap.put("Next_highest_int_from_digits", "Kotlin");
         solAddMap.put("Stirling_numbers_of_the_first_kind", "Kotlin");
         solAddMap.put("Unprimeable_numbers", "Kotlin");
         solAddMap.put("Yellowstone_sequence", "Kotlin");
@@ -340,7 +339,7 @@ public final class Program {
         solAddMap.put("Egyptian_fractions", "Scala");
         solAddMap.put("Faulhaber's_formula", "Scala");
         solAddMap.put("Faulhaber's_triangle", "Scala");
-        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
+        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Scala");
         solAddMap.put("Parsing/RPN_to_infix_conversion", "Scala");
         //solAddMap.put("", "Scala");
 

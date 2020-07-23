@@ -26,13 +26,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <commons-io.version>2.7</commons-io.version>
-        <commons-lang3.version>3.10</commons-lang3.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
         <freemarker.version>2.3.30</freemarker.version>
         <httpclient.version>4.5.12</httpclient.version>
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.4</logstash.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
-        <org.eclipse.jgit.version>5.8.0.202006091008-r</org.eclipse.jgit.version>
+        <org.eclipse.jgit.version>5.8.1.202007141445-r</org.eclipse.jgit.version>
         <poi-ooxml.version>4.1.2</poi-ooxml.version>
     </properties>
 
