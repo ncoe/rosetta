@@ -264,16 +264,20 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
         //solAddMap.put("", "");
 
+        //Powerful_numbers (there seems to be something missing from the description to properly show the set)
+
         // C
         solAddMap.put("Brace_expansion", "C");
-        solAddMap.put("Möbius_function", "C");
-        solAddMap.put("Powerful_numbers", "C");
+        solAddMap.put("Chemical_Calculator", "C");
+        solAddMap.put("Cyclotomic_Polynomial", "C");
+        solAddMap.put("Random_Latin_Squares", "C");
+        solAddMap.put("Successive_prime_differences", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Angles_(geometric),_normalization_and_conversion", "C++");
         solAddMap.put("Cut_a_rectangle", "C++");
         solAddMap.put("Determinant_and_permanent", "C++");
-        solAddMap.put("Length_of_an_arc_between_two_angles", "C++");
+        solAddMap.put("ISBN13_check_digit", "C++");
         //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -283,7 +287,6 @@ public final class Program {
         //solAddMap.put("", "C#");
         // Visual Basic .NET
         solAddMap.put("Birthday_problem", "Visual Basic .NET");
-        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Visual Basic .NET");
         solAddMap.put("Kolakoski_sequence", "Visual Basic .NET");
         solAddMap.put("Lah_numbers", "Visual Basic .NET");
         solAddMap.put("Mersenne_primes", "Visual Basic .NET");
@@ -291,6 +294,8 @@ public final class Program {
 
         // D
         solAddMap.put("Fermat_numbers", "D");
+        //solAddMap.put("Length_of_an_arc_between_two_angles", "D");
+        solAddMap.put("Line_circle_intersection", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -299,25 +304,37 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
-        solAddMap.put("De_Bruijn_sequences", "Lua");
+        solAddMap.put("Chebyshev_coefficients", "Lua");
+        //solAddMap.put("Chemical_Calculator", "Lua");
+        solAddMap.put("Decision_tables", "Lua");
         solAddMap.put("Determine_if_a_string_is_collapsible", "Lua");
         solAddMap.put("Determine_if_a_string_is_squeezable", "Lua");
+        solAddMap.put("Diversity_prediction_theorem", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
-        solAddMap.put("Cheryl's_Birthday", "Ruby");
+        solAddMap.put("Convex_hull", "Ruby");
+        //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
+        //solAddMap.put("Diversity_prediction_theorem", "Ruby");
+        solAddMap.put("Eertree", "Ruby");
+        //solAddMap.put("ISBN13_check_digit", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Ruby");
+        solAddMap.put("Length_of_an_arc_between_two_angles", "Ruby");
+        //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Digital_root", "Groovy");
+        //solAddMap.put("Casting_out_nines", "Groovy");
+        //solAddMap.put("Chaocipher", "Groovy");
         solAddMap.put("Display_a_linear_combination", "Groovy");
         solAddMap.put("Egyptian_division", "Groovy");
         solAddMap.put("Emirp_primes", "Groovy");
+        solAddMap.put("Euler's_sum_of_powers_conjecture", "Groovy");
+        solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
+        solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Groovy");
         //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
@@ -325,16 +342,14 @@ public final class Program {
         //solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Kotlin");
+        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Kotlin");
         solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
-        solAddMap.put("Stirling_numbers_of_the_first_kind", "Kotlin");
         solAddMap.put("Unprimeable_numbers", "Kotlin");
         solAddMap.put("Yellowstone_sequence", "Kotlin");
         //solAddMap.put("", "Kotlin");
         // Scala (exhaust and replace with java)
         solAddMap.put("Binary_strings", "Scala");
         solAddMap.put("Card_shuffles", "Scala");
-        solAddMap.put("Circular_primes", "Scala");
         solAddMap.put("Eban_numbers", "Scala");
         solAddMap.put("Egyptian_fractions", "Scala");
         solAddMap.put("Faulhaber's_formula", "Scala");
@@ -413,7 +428,10 @@ public final class Program {
                             data.setNext("try with " + language);
                         }
                     } else if (LOG.isWarnEnabled()) {
-                        LOG.warn("No longer need to provide a solution to task [{}] using {}", value("taskName", taskName), value("language", language));
+                        LOG.warn(
+                            "No longer need to provide a solution to task [{}] using {}",
+                            value("taskName", taskName), value("language", language)
+                        );
                     }
                 } else if (0 < data.getCategory() && data.getCategory() < 3) {
                     if (LOG.isWarnEnabled()) {

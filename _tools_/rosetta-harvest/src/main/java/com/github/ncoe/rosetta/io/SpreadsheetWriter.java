@@ -220,7 +220,9 @@ public final class SpreadsheetWriter {
         ctSortCondition.setRef(rangeAddress.formatAsString());
     }
 
-    private static void insertChart(XSSFSheet sheet, String title, int firstRow, int lastRow, int labelCol, int dataCol, int slot, int chartColumn) {
+    private static void insertChart(
+        XSSFSheet sheet, String title, int firstRow, int lastRow, int labelCol, int dataCol, int slot, int chartColumn
+    ) {
         int rowNum = 31 * (slot / 2);
         int colNum = chartColumn + 11 * (slot % 2);
 

@@ -4,12 +4,12 @@ package com.github.ncoe.rosetta.dto;
  * Holds related forms of a language.
  */
 public final class LanguageInfo {
-    private String language;
-    private String rosetta;
-    private String directoryName;
-    private String fileExtension;
-    private String className;
-    private int harvest;
+    private final String language;
+    private final String rosetta;
+    private final String directoryName;
+    private final String fileExtension;
+    private final String className;
+    private final int harvest;
 
     /**
      * Builder method.
@@ -63,7 +63,9 @@ public final class LanguageInfo {
      * @param harvest       true if the language should be harvested for new tasks
      * @return the new info
      */
-    public static LanguageInfo of(String language, String rosetta, String directoryName, String fileExtension, String className, int harvest) {
+    public static LanguageInfo of(
+        String language, String rosetta, String directoryName, String fileExtension, String className, int harvest
+    ) {
         return new LanguageInfo(language, rosetta, directoryName, fileExtension, className, harvest);
     }
 
@@ -74,7 +76,9 @@ public final class LanguageInfo {
      * @param className     the css class name to use
      * @param harvest       true if the language should be harvested for new tasks
      */
-    private LanguageInfo(String language, String rosetta, String directoryName, String fileExtension, String className, int harvest) {
+    private LanguageInfo(
+        String language, String rosetta, String directoryName, String fileExtension, String className, int harvest
+    ) {
         this.language = language;
         this.rosetta = rosetta;
         this.directoryName = directoryName;
