@@ -1,157 +1,163 @@
 package com.github.ncoe.rosetta.util;
 
-import com.github.ncoe.rosetta.exception.UtilException;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.function.Failable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.URI;
 import java.net.URLDecoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import static net.logstash.logback.argument.StructuredArguments.value;
 
-/**
- * For gathering data about tasks that could be worked on.
- */
 public final class RemoteUtil {
     private static final Logger LOG = LoggerFactory.getLogger(RemoteUtil.class);
+    private static final String HEAD = "HEAD";
+
+    private static final Pattern HEAD_PATTERN = Pattern.compile("<span class=\"mw-headline\" id=\"([^\"]+)\">[^<]+</span>");
+    private static final Pattern TASK_PATTERN = Pattern.compile("<li><a href=\"/wiki/([^\"]+)\" title=\"[^\"]+\">[^<]+</a></li>");
 
     private RemoteUtil() {
-        throw new NotImplementedException("No RemoteUtil for you!");
-    }
-
-    /**
-     * @param name the name of the task to validate the existence of
-     */
-    static void validateTaskName(String name) {
-        HttpUriRequest request = RequestBuilder.head("http://rosettacode.org/wiki/" + name).build();
-        HttpClientBuilder builder = HttpClientBuilder.create();
-        CloseableHttpClient client = builder.build();
-
-        try (CloseableHttpResponse response = client.execute(request)) {
-            StatusLine statusLine = response.getStatusLine();
-            int statusCode = statusLine.getStatusCode();
-
-            if (LOG.isErrorEnabled() && HttpStatus.SC_OK != statusCode) {
-                LOG.error(
-                    "Unknown status ({}) or task name: {}",
-                    value("statusCode", statusCode),
-                    value("taskName", name)
-                );
-            }
-        } catch (IOException e) {
-            throw new UtilException(e);
-        }
+        throw new AssertionError("No instance for you!");
     }
 
     /**
      * @param language the language to find the unimplemented tasks for
      * @return the collection of unimplemented tasks for the given language
      */
-    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     public static Set<String> harvest(String language) {
-        // prepare patterns for extracting data from the document
-        Pattern headPattern = Pattern.compile("<span class=\"mw-headline\" id=\"([^\"]+)\">[^<]+</span>");
-        Pattern taskPattern = Pattern.compile("<li><a href=\"/wiki/([^\"]+)\" title=\"[^\"]+\">[^<]+</a></li>");
-
-        // prepare the request to the server
-        String uri = "http://rosettacode.org/wiki/Reports:Tasks_not_implemented_in_" + language;
-        HttpUriRequest request = RequestBuilder.get(uri).build();
-        HttpClientBuilder builder = HttpClientBuilder.create();
-        RequestConfig config = RequestConfig.custom()
-            .setCircularRedirectsAllowed(false)
-            .setNormalizeUri(false)
+        var client = HttpClient.newBuilder()
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .connectTimeout(Duration.ofSeconds(5))
             .build();
 
-        CloseableHttpClient client = builder.setDefaultRequestConfig(config).build();
+        var uri = buildUri("Reports:Tasks_not_implemented_in_" + language);
+        LOG.info("Requesting data from: {}", uri);
 
-        // execute and process the request
-        Set<String> taskSet = new HashSet<>();
-        try (CloseableHttpResponse response = client.execute(request)) {
+        // prepare the request to the server
+        var request = HttpRequest.newBuilder()
+            .uri(uri).GET()
+            .timeout(Duration.ofSeconds(5))
+            .build();
+
+        // send the request and process the response
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofLines()).thenApply(response -> {
             if (LOG.isInfoEnabled()) {
-                StatusLine statusLine = response.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
-
+                int statusCode = response.statusCode();
                 LOG.info(
-                    "Status code for {}: {} - {}",
+                    "Status code for {}: {}",
                     value("language", language),
-                    value("statusCode", statusCode),
-                    value("reasonPhrase", statusLine.getReasonPhrase())
+                    value("statusCode", statusCode)
                 );
             }
 
-            // prepare to extract the lines from the response
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-            LineIterator li = IOUtils.lineIterator(is, StandardCharsets.UTF_8);
+            Set<String> taskSet = new HashSet<>();
+            response.body().forEach(new Consumer<>() {
+                private SectionEnum section = SectionEnum.None;
 
-            RemoteUtil.SectionEnum section = RemoteUtil.SectionEnum.None;
-            while (li.hasNext()) {
-                String line = li.nextLine();
-
-                // look for changes in the section headers in the document
-                Matcher headMatcher = headPattern.matcher(line);
-                if (headMatcher.find()) {
-                    String head = headMatcher.group(1);
-                    switch (head) {
-                        case "Not_implemented":
-                            section = RemoteUtil.SectionEnum.NotImplemented;
-                            break;
-                        case "Draft_tasks_without_implementation":
-                            section = RemoteUtil.SectionEnum.DraftTasks;
-                            break;
-                        case "Requiring_Attention":
-                            section = SectionEnum.RequireAttention;
-                            break;
-                        case "Not_Considered":
-                            section = SectionEnum.NotConsidered;
-                            break;
-                        case "End_of_List":
-                            section = SectionEnum.EndOfList;
-                            break;
-                        default:
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Unknown section: {}", value("headline", head));
-                            }
-                        case "Examples":
-                        case "Other_pages":
-                            section = RemoteUtil.SectionEnum.None;
-                            break;
-                    }
+                @Override
+                public void accept(String line) {
+                    this.section = processLine(this.section, line, taskSet);
                 }
+            });
+            return taskSet;
+        }).join();
+    }
 
-                // process the lines in the sections of interest
-                if (section == RemoteUtil.SectionEnum.NotImplemented || section == RemoteUtil.SectionEnum.DraftTasks) {
-                    Matcher taskMatcher = taskPattern.matcher(line);
-                    if (taskMatcher.find()) {
-                        String taskName = taskMatcher.group(1);
-                        String task = URLDecoder.decode(taskName, StandardCharsets.UTF_8);
-                        taskSet.add(task);
+    private static SectionEnum processLine(SectionEnum section, String line, Set<String> taskSet) {
+        SectionEnum nextSection;
+
+        // look for changes in the section headers in the document
+        var headMatcher = HEAD_PATTERN.matcher(line);
+        if (headMatcher.find()) {
+            var head = headMatcher.group(1);
+            switch (head) {
+                case "Not_implemented":
+                    nextSection = SectionEnum.NotImplemented;
+                    break;
+                case "Draft_tasks_without_implementation":
+                    nextSection = SectionEnum.DraftTasks;
+                    break;
+                case "Requiring_Attention":
+                    nextSection = SectionEnum.RequireAttention;
+                    break;
+                case "Not_Considered":
+                    nextSection = SectionEnum.NotConsidered;
+                    break;
+                case "End_of_List":
+                    nextSection = SectionEnum.EndOfList;
+                    break;
+                default:
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Unknown section: {}", value("headline", head));
                     }
-                }
+                case "Examples":
+                case "Other_pages":
+                    nextSection = SectionEnum.None;
+                    break;
             }
-        } catch (IOException e) {
-            throw new UtilException(e);
+        } else {
+            nextSection = section;
         }
 
-        return taskSet;
+        // process the lines in the sections of interest
+        if (nextSection == SectionEnum.NotImplemented || nextSection == SectionEnum.DraftTasks) {
+            var taskMatcher = TASK_PATTERN.matcher(line);
+            if (taskMatcher.find()) {
+                var taskName = taskMatcher.group(1);
+                var task = URLDecoder.decode(taskName, StandardCharsets.UTF_8);
+                taskSet.add(task);
+            }
+        }
+
+        return nextSection;
+    }
+
+    /**
+     * @param taskName the name of the task to validate the existence of
+     */
+    static void validateTaskName(String taskName) {
+        var client = HttpClient.newBuilder()
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .connectTimeout(Duration.ofSeconds(5))
+            .build();
+
+        var uri = buildUri(taskName);
+        LOG.info("Checking the task name for: {}", uri);
+
+        var request = HttpRequest.newBuilder()
+            .uri(uri)
+            .method(HEAD, HttpRequest.BodyPublishers.noBody())
+            .timeout(Duration.ofSeconds(5))
+            .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(response -> {
+            var statusCode = response.statusCode();
+            if (LOG.isErrorEnabled() && statusCode != 200) {
+                LOG.error(
+                    "Unknown status ({}) for task name: {}",
+                    value("statusCode", statusCode),
+                    value("taskName", taskName)
+                );
+            }
+        }).join();
+    }
+
+    private static URI buildUri(String partialPath) {
+        var fixSlash = StringUtils.replaceChars(partialPath, '\\', '/');
+
+        var path = "/wiki/" + fixSlash;
+
+        return Failable.call(() -> new URI("http", "rosettacode.org", path, null));
     }
 
     /**

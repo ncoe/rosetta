@@ -1,19 +1,14 @@
 package com.github.ncoe.rosetta.util;
 
-import com.github.ncoe.rosetta.exception.UtilException;
 import net.logstash.logback.marker.Markers;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.function.Failable;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.http.util.Asserts;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -31,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.logstash.logback.argument.StructuredArguments.value;
 
@@ -47,16 +42,22 @@ public final class LocalUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalUtil.class);
 
-    private LocalUtil() {
-        throw new NotImplementedException("No LocalUtil for you!");
+    private final Map<String, Integer> directoryMap = new ConcurrentHashMap<>();
+    private boolean checkTaskName = false;
+
+    /**
+     * @param checkTaskName true if task names should be verified
+     */
+    public void setCheckTaskName(boolean checkTaskName) {
+        this.checkTaskName = checkTaskName;
     }
 
     /**
      * @return the git repository for the project
      * @throws IOException if not repository is found, e.g.
      */
-    public static Repository getRepository() throws IOException {
-        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+    public Repository getRepository() throws IOException {
+        var builder = new FileRepositoryBuilder();
         return builder.readEnvironment()
             .findGitDir()
             .build();
@@ -67,7 +68,7 @@ public final class LocalUtil {
      * @return the task name according to rosetta code
      */
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
-    private static String directoryToTask(String directory) {
+    private String directoryToTask(String directory) {
         String name;
         switch (directory) {
             case "Abbreviations_automatic":
@@ -123,8 +124,11 @@ public final class LocalUtil {
         }
 
         // Optional extra check that the task name is now valid (good for verifying solutions for new tasks)
-        if (BooleanUtils.toBoolean(System.getProperty("validateTaskName"))) {
-            RemoteUtil.validateTaskName(name);
+        if (this.checkTaskName) {
+            this.directoryMap.computeIfAbsent(name, s -> {
+                RemoteUtil.validateTaskName(name);
+                return 1;
+            });
         }
 
         return name.replace("\\", "/");
@@ -136,22 +140,22 @@ public final class LocalUtil {
      */
     private static List<Path> processPathForTasks(Path currentPath) {
         List<Path> taskList = new ArrayList<>();
-        try (Stream<Path> pathStream = Files.walk(currentPath, 1)) {
-            pathStream.filter(p -> Files.isDirectory(p))
+        try (var pathStream = Files.walk(currentPath, 1)) {
+            pathStream.filter(Files::isDirectory)
                 .forEach(p -> {
-                    Path fileNamePath = p.getFileName();
-                    String fileName = fileNamePath.toString();
+                    var fileNamePath = p.getFileName();
+                    var fileName = fileNamePath.toString();
                     if (LanguageUtil.isLanguageDirectory(fileName)) {
                         // Found another task to dissect later
                         taskList.add(p);
                     } else if (!Objects.equals(currentPath, p)) {
                         // Do not self recurse
-                        List<Path> innerTaskList = processPathForTasks(p);
+                        var innerTaskList = processPathForTasks(p);
                         taskList.addAll(innerTaskList);
                     }
                 });
         } catch (IOException e) {
-            throw new UtilException(e);
+            throw Failable.rethrow(e);
         }
         return taskList;
     }
@@ -160,22 +164,23 @@ public final class LocalUtil {
      * @param repository the repository to extract current languages from for each task
      * @return a map of the tasks that have current solutions, and what languages there are for solutions to each
      */
-    public static Map<String, Set<String>> classifyCurrent(Repository repository) {
-        Path basePath = repository.getWorkTree().toPath();
+    public Map<String, Set<String>> classifyCurrent(Repository repository) {
+        var basePath = repository.getWorkTree().toPath();
+
         return processPathForTasks(basePath)
             .stream()
             .map(basePath::relativize)
             .collect(
                 Collectors.toMap(
                     keyPath -> {
-                        Path taskPath = keyPath.getParent();
-                        String taskDir = taskPath.toString();
+                        var taskPath = keyPath.getParent();
+                        var taskDir = taskPath.toString();
                         return directoryToTask(taskDir);
                     },
                     valuePath -> {
-                        Path langPath = valuePath.getFileName();
-                        String dirLang = langPath.toString();
-                        String language = LanguageUtil.directoryToLanguage(dirLang);
+                        var langPath = valuePath.getFileName();
+                        var dirLang = langPath.toString();
+                        var language = LanguageUtil.directoryToLanguage(dirLang);
 
                         Set<String> languageSet = new HashSet<>();
                         languageSet.add(language);
@@ -195,7 +200,7 @@ public final class LocalUtil {
      * @throws IOException if something happens gathering data
      */
     private static void addLanguageStat(Map<String, Long> langMap, Path fullPath) throws IOException {
-        String fullPathStr = fullPath.toString();
+        var fullPathStr = fullPath.toString();
 
         // Known directories and files that do not need to be considered for tracking metrics
         if (StringUtils.containsAny(fullPathStr,
@@ -207,12 +212,12 @@ public final class LocalUtil {
             return;
         }
 
-        Path fileName = fullPath.getFileName();
-        String fileNameStr = fileName.toString();
-        String extension = StringUtils.substringAfterLast(fileNameStr, ".").toUpperCase();
+        var fileName = fullPath.getFileName();
+        var fileNameStr = fileName.toString();
+        var extension = FilenameUtils.getExtension(fileNameStr).toUpperCase();
 
         // determine what language the file contributes a solution to
-        String language = LanguageUtil.extensionToLanguage(extension);
+        var language = LanguageUtil.extensionToLanguage(extension);
         if (null != language && Files.exists(fullPath)) {
             // augment the current metrics
             long size = Files.size(fullPath);
@@ -225,19 +230,19 @@ public final class LocalUtil {
      * @return a map showing by language the amount of code needed for solutions
      * @throws IOException if something happens gathering data
      */
-    public static Map<String, Long> languageStats(Repository repository) throws IOException {
-        Path basePath = repository.getWorkTree().toPath();
+    public Map<String, Long> languageStats(Repository repository) throws IOException {
+        var basePath = repository.getWorkTree().toPath();
         Ref head = repository.exactRef("HEAD");
 
         Map<String, Long> langMap = new HashMap<>();
-        try (RevWalk revWalk = new RevWalk(repository)) {
-            RevCommit commit = revWalk.parseCommit(head.getObjectId());
-            RevTree tree = commit.getTree();
-            try (TreeWalk treeWalk = new TreeWalk(repository)) {
+        try (var revWalk = new RevWalk(repository)) {
+            var commit = revWalk.parseCommit(head.getObjectId());
+            var tree = commit.getTree();
+            try (var treeWalk = new TreeWalk(repository)) {
                 treeWalk.addTree(tree);
                 treeWalk.setRecursive(true);
                 while (treeWalk.next()) {
-                    Path fullPath = basePath.resolve(treeWalk.getPathString());
+                    var fullPath = basePath.resolve(treeWalk.getPathString());
                     addLanguageStat(langMap, fullPath);
                 }
             }
@@ -250,9 +255,9 @@ public final class LocalUtil {
      * @param path the path to examine
      * @return either (task name, language) or null if analysis fails
      */
-    private static Pair<String, String> extractSolution(Path path) {
-        String fileName = path.getFileName().toString();
-        String extension = StringUtils.substringAfterLast(fileName, ".");
+    private Pair<String, String> extractSolution(Path path) {
+        var fileName = path.getFileName().toString();
+        var extension = FilenameUtils.getExtension(fileName);
 
         // The html files help to demonstrate the javascript submissions
         // The text files either server as input to a program, or hold a submission that is waiting to be submitted.
@@ -263,8 +268,8 @@ public final class LocalUtil {
         StringBuilder taskName = null;
         String language = null;
 
-        for (Path p : path) {
-            String str = p.toString();
+        for (var p : path) {
+            var str = p.toString();
             if (LanguageUtil.isLanguageDirectory(str)) {
                 language = LanguageUtil.directoryToLanguage(str);
                 break;
@@ -280,7 +285,7 @@ public final class LocalUtil {
 
         // This should never happen
         Objects.requireNonNull(taskName, "This should not have happened.");
-        Asserts.check(!taskName.toString().contains("\\"), "The paths should be normalized for consistent results.");
+        MiscUtil.assertFalse(taskName.toString().contains("\\"), "The paths should be normalized for consistent results, saw: " + taskName);
 
         // A new language has been added, or something is non-standard and needs to be corrected
         if (null == language) {
@@ -290,7 +295,7 @@ public final class LocalUtil {
             return null;
         }
 
-        String taskNameCorrected = directoryToTask(taskName.toString());
+        var taskNameCorrected = directoryToTask(taskName.toString());
         return Pair.of(taskNameCorrected, language);
     }
 
@@ -298,19 +303,19 @@ public final class LocalUtil {
      * @param repository the repository to find pending changes in
      * @return tasks that have a pending solution, and what language the pending solution is written in
      */
-    public static Pair<Map<String, Pair<String, FileTime>>, Map<String, Long>> pendingSolutions(Repository repository) {
-        String baseDirStr = repository.getWorkTree().toString();
-        Path basePath = Path.of(baseDirStr);
+    public Pair<Map<String, Pair<String, FileTime>>, Map<String, Long>> pendingSolutions(Repository repository) {
+        var baseDirStr = repository.getWorkTree().toString();
+        var basePath = Path.of(baseDirStr);
         Map<String, Pair<String, FileTime>> taskMap = new HashMap<>();
         Map<String, Long> langSizeMap = new HashMap<>();
 
         try (Git git = new Git(repository)) {
-            Status status = git.status().call();
-            Set<String> uncommittedSet = status.getUncommittedChanges()
+            var status = git.status().call();
+            var uncommittedSet = status.getUncommittedChanges()
                 .stream()
                 .filter(p -> !StringUtils.startsWith(p, "_tools_"))
                 .collect(Collectors.toSet());
-            Set<String> untrackedSet = status.getUntracked()
+            var untrackedSet = status.getUntracked()
                 .stream()
                 .filter(p -> !StringUtils.startsWith(p, "_tools_"))
                 .collect(Collectors.toSet());
@@ -319,20 +324,20 @@ public final class LocalUtil {
             uncommittedSet.removeAll(status.getRemoved());
             uncommittedSet.removeAll(status.getModified());
             if (LOG.isDebugEnabled()) {
-                String setStr = StringUtils.join(uncommittedSet, ", ");
+                var setStr = StringUtils.join(uncommittedSet, ", ");
                 LOG.debug(Markers.append("finalSet", uncommittedSet), "The final set considered is: [{}]", setStr);
             }
 
-            for (String changePathStr : uncommittedSet) {
-                Path changePath = Path.of(changePathStr);
+            for (var changePathStr : uncommittedSet) {
+                var changePath = Path.of(changePathStr);
 
                 // check if there is a pending solution (taskName, language)
-                Pair<String, String> solution = extractSolution(changePath);
+                var solution = extractSolution(changePath);
                 if (null != solution) {
-                    Pair<String, FileTime> info = taskMap.get(solution.getKey());
+                    var info = taskMap.get(solution.getKey());
                     if (null == info || Objects.equals(solution.getValue(), info.getKey())) {
-                        Path fullPath = basePath.resolve(changePath);
-                        FileTime lastModifiedTime = Files.getLastModifiedTime(fullPath);
+                        var fullPath = basePath.resolve(changePath);
+                        var lastModifiedTime = Files.getLastModifiedTime(fullPath);
                         long fileSize = Files.size(fullPath);
                         langSizeMap.merge(solution.getValue(), fileSize, Long::sum);
                         // taskName -> (language, modificationTime)
@@ -348,7 +353,7 @@ public final class LocalUtil {
                 }
             }
         } catch (GitAPIException | IOException e) {
-            throw new UtilException(e);
+            throw Failable.rethrow(e);
         }
 
         return Pair.of(taskMap, langSizeMap);

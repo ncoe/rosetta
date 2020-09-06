@@ -3,6 +3,8 @@ package com.github.ncoe.rosetta.util;
 import com.github.ncoe.rosetta.dto.LanguageInfo;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
  * Common place to handle manipulation among the various forms of the solution languages.
  */
 public final class LanguageUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(LanguageUtil.class);
+
     /**
      * List of languages to do solutions for, or to consider solutions for.
      */
@@ -57,7 +61,7 @@ public final class LanguageUtil {
     );
 
     private LanguageUtil() {
-        throw new NotImplementedException("No LanguageUtil for you!");
+        throw new NotImplementedException("No instance for you!");
     }
 
     /**
@@ -94,17 +98,17 @@ public final class LanguageUtil {
      * @return the natural form of the language (the identity for anything else)
      */
     public static String directoryToLanguage(String name) {
-        Optional<String> langOpt = LANG_INFO.stream()
+        var langOpt = LANG_INFO.stream()
             .filter(li -> StringUtils.equals(li.getDirectoryName(), name))
             .map(LanguageInfo::getLanguage)
             .findAny();
 
         if (langOpt.isPresent()) {
             return langOpt.get();
-        } else {
-            System.err.printf("[LanguageUtil] Unknown language: %s\n", name);
-            return name;
         }
+
+        LOG.error("Unknown language: {}", name);
+        return name;
     }
 
     /**
@@ -118,17 +122,17 @@ public final class LanguageUtil {
             return null;
         }
 
-        Optional<String> langOpt = LANG_INFO.stream()
+        var langOpt = LANG_INFO.stream()
             .filter(li -> StringUtils.equalsIgnoreCase(li.getFileExtension(), ext))
             .map(LanguageInfo::getLanguage)
             .findAny();
 
         if (langOpt.isPresent()) {
             return langOpt.get();
-        } else {
-            System.err.printf("[LanguageUtil] Unknown file extension: %s\n", ext);
-            return null;
         }
+
+        LOG.error("Unknown file extension: {}", ext);
+        return null;
     }
 
     /**
@@ -149,6 +153,7 @@ public final class LanguageUtil {
     public static Map<String, String> mapLanguageToClass() {
         return LanguageUtil.LANG_INFO
             .stream()
+            .filter(lang -> lang.getHarvest() > 0)
             .collect(Collectors.toMap(
                 LanguageInfo::getLanguage,
                 LanguageInfo::getClassName,

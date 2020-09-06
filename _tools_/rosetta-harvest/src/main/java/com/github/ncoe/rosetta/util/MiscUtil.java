@@ -22,4 +22,14 @@ public final class MiscUtil {
             return b;
         }
     }
+
+    /**
+     * @param condition the condition to check
+     * @param message   the message to display
+     */
+    public static void assertFalse(boolean condition, String message) {
+        if (condition) {
+            throw new AssertionError(message);
+        }
+    }
 }

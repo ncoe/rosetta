@@ -129,7 +129,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- checks currently run on module-info are not configured because module is not recognized as a keyword -->
+                    <!-- todo checks currently run on module-info are not configured because module is not recognized as a keyword -->
                     <excludes>**/module-info.java</excludes>
 
                     <failsOnError>true</failsOnError>
@@ -248,12 +248,6 @@
             <version>${freemarker.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
-            <!-- Classes like DefaultHostnameVerifier (used by HttpClientBuilder) require commons-logging -->
-        </dependency>
-        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${poi-ooxml.version}</version>
@@ -266,6 +260,7 @@
             </exclusions>
         </dependency>
         <dependency>
+            <!-- todo reexamine the schemas uses when updates become available -->
             <groupId>org.apache.poi</groupId>
             <artifactId>ooxml-schemas</artifactId>
             <version>${ooxml-schemas.version}</version>

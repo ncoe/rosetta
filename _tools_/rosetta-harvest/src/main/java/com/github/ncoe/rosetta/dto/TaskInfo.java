@@ -8,12 +8,15 @@ import java.util.TreeSet;
  * Information gathered regarding a task.
  */
 public class TaskInfo implements Comparable<TaskInfo> {
-    private double category;
-    private String taskName;
-    private Set<String> languageSet;
-    private String next;
+    private final Set<String> languageSet = new TreeSet<>();
+    private final String taskName;
+
     private FileTime lastModified;
+
+    private String next;
     private String note;
+
+    private double category;
 
     /**
      * @param category the category to use
@@ -22,7 +25,6 @@ public class TaskInfo implements Comparable<TaskInfo> {
     public TaskInfo(double category, String taskName) {
         this.category = category;
         this.taskName = taskName;
-        this.languageSet = new TreeSet<>();
     }
 
     public double getCategory() {
@@ -42,7 +44,7 @@ public class TaskInfo implements Comparable<TaskInfo> {
     }
 
     public String getNote() {
-        return note;
+        return this.note;
     }
 
     public void setNote(String note) {
@@ -58,7 +60,7 @@ public class TaskInfo implements Comparable<TaskInfo> {
     }
 
     public FileTime getLastModified() {
-        return lastModified;
+        return this.lastModified;
     }
 
     public void setLastModified(FileTime lastModified) {
@@ -74,9 +76,8 @@ public class TaskInfo implements Comparable<TaskInfo> {
         if (compare == 0) {
             if (this.category == 0 && null != this.lastModified && null != other.lastModified) {
                 return this.lastModified.compareTo(other.lastModified);
-            } else {
-                return this.taskName.compareTo(other.taskName);
             }
+            return this.taskName.compareTo(other.taskName);
         } else {
             return compare;
         }

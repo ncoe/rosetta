@@ -2,10 +2,10 @@ package com.github.ncoe.rosetta.io;
 
 import com.github.ncoe.rosetta.dto.LanguageInfo;
 import com.github.ncoe.rosetta.dto.TaskInfo;
-import com.github.ncoe.rosetta.exception.UtilException;
 import com.github.ncoe.rosetta.util.LanguageUtil;
 import com.github.ncoe.rosetta.util.LocalUtil;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.function.Failable;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.common.usermodel.HyperlinkType;
@@ -14,28 +14,18 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xddf.usermodel.chart.ChartTypes;
-import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
-import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
-import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFChart;
-import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
-import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSortCondition;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSortState;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTWorksheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -44,8 +34,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static net.logstash.logback.argument.StructuredArguments.value;
 
@@ -69,20 +59,20 @@ public final class SpreadsheetWriter {
      * @param taskList the list of tasks where there is work that could be done
      */
     private static void writeOpenTasks(XSSFWorkbook workbook, List<TaskInfo> taskList) {
-        XSSFCreationHelper helper = new XSSFCreationHelper(workbook);
+        var helper = new XSSFCreationHelper(workbook);
 
-        XSSFFont boldFont = workbook.createFont();
+        var boldFont = workbook.createFont();
         boldFont.setBold(true);
-        XSSFCellStyle boldStyle = workbook.createCellStyle();
+        var boldStyle = workbook.createCellStyle();
         boldStyle.setFont(boldFont);
 
-        XSSFCellStyle hLinkStyle = workbook.createCellStyle();
-        XSSFFont hLinkFont = workbook.createFont();
+        var hLinkFont = workbook.createFont();
         hLinkFont.setUnderline(XSSFFont.U_SINGLE);
         hLinkFont.setColor(IndexedColors.BLUE.index);
+        var hLinkStyle = workbook.createCellStyle();
         hLinkStyle.setFont(hLinkFont);
 
-        XSSFSheet sheet = workbook.createSheet("In Progress");
+        var sheet = workbook.createSheet("In Progress");
 
         int rowNum = 0;
         int colNum = 0;
@@ -122,12 +112,12 @@ public final class SpreadsheetWriter {
         configureSortState(sheet, categoryCol, taskNameCol, lastModifiedCol, taskList.size());
 
         // Fill in the task info as additional rows
-        for (TaskInfo info : taskList) {
-            List<String> langList = info.getLanguageSet()
+        for (var info : taskList) {
+            var langList = info.getLanguageSet()
                 .stream()
                 .sorted()
                 .collect(Collectors.toList());
-            String languageStr = String.join(", ", langList);
+            var languageStr = String.join(", ", langList);
 
             // prepare a new row
             Row taskRow = sheet.createRow(rowNum++);
@@ -139,12 +129,12 @@ public final class SpreadsheetWriter {
 
             // task name
             cell = taskRow.createCell(colNum++);
-            String taskName = info.getTaskName();
-            String taskNameUrl = String.format(
+            var taskName = info.getTaskName();
+            var taskNameUrl = String.format(
                 "http://rosettacode.org/wiki/%s", info.getTaskName().replace("\"", "%22")
             );
 
-            XSSFHyperlink link = helper.createHyperlink(HyperlinkType.URL);
+            var link = helper.createHyperlink(HyperlinkType.URL);
             link.setAddress(taskNameUrl);
             link.setLabel(taskName);
 
@@ -188,21 +178,21 @@ public final class SpreadsheetWriter {
         }
 
         // have the sheet adjust the column sizes to fit the text
-        for (int i = 0; i < maxCol; ++i) {
-            sheet.autoSizeColumn(i);
-        }
+        IntStream.range(0, maxCol).forEach(sheet::autoSizeColumn);
 
         sheet.createFreezePane(0, 1);
     }
 
     private static void configureSortState(XSSFSheet sheet, int categoryCol, int taskNameCol, int lastModifiedCol, int numTasks) {
-        CTWorksheet ctWorksheet = sheet.getCTWorksheet();
+        var ctWorksheet = sheet.getCTWorksheet();
+
         CTSortState sortState;
         CTSortCondition ctSortCondition;
         CellRangeAddress rangeAddress;
 
         int minCol = NumberUtils.min(categoryCol, taskNameCol, lastModifiedCol);
         int maxCol = NumberUtils.max(categoryCol, taskNameCol, lastModifiedCol);
+
         rangeAddress = new CellRangeAddress(1, numTasks, minCol, maxCol);
         sortState = ctWorksheet.addNewSortState();
         sortState.setRef(rangeAddress.formatAsString());
@@ -226,25 +216,25 @@ public final class SpreadsheetWriter {
         int rowNum = 31 * (slot / 2);
         int colNum = chartColumn + 11 * (slot % 2);
 
-        XSSFDrawing drawing = sheet.createDrawingPatriarch();
-        XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, colNum, rowNum, colNum + 10, rowNum + 30);
+        var drawing = sheet.createDrawingPatriarch();
+        var anchor = drawing.createAnchor(0, 0, 0, 0, colNum, rowNum, colNum + 10, rowNum + 30);
 
-        XSSFChart chart = drawing.createChart(anchor);
+        var chart = drawing.createChart(anchor);
         //chart.setTitleText("X Language Breakdown")
 
-        //XDDFChartLegend legend = chart.getOrAddLegend()
+        //var legend = chart.getOrAddLegend()
         //legend.setPosition(LegendPosition.TOP_RIGHT)
 
-        CellRangeAddress labelRange = new CellRangeAddress(firstRow, lastRow, labelCol, labelCol);
-        XDDFDataSource<String> labelData = XDDFDataSourcesFactory.fromStringCellRange(sheet, labelRange);
+        var labelRange = new CellRangeAddress(firstRow, lastRow, labelCol, labelCol);
+        var labelData = XDDFDataSourcesFactory.fromStringCellRange(sheet, labelRange);
 
-        CellRangeAddress dataRange = new CellRangeAddress(firstRow, lastRow, dataCol, dataCol);
-        XDDFNumericalDataSource<Double> dataData = XDDFDataSourcesFactory.fromNumericCellRange(sheet, dataRange);
+        var dataRange = new CellRangeAddress(firstRow, lastRow, dataCol, dataCol);
+        var dataData = XDDFDataSourcesFactory.fromNumericCellRange(sheet, dataRange);
 
         // connect the data to the pie chart
-        XDDFChartData data = chart.createData(ChartTypes.PIE, null, null);
+        var data = chart.createData(ChartTypes.PIE, null, null);
         data.setVaryColors(true);
-        XDDFChartData.Series series = data.addSeries(labelData, dataData);
+        var series = data.addSeries(labelData, dataData);
         series.setShowLeaderLines(true);
         series.setTitle(title, null);
         chart.plot(data);
@@ -257,33 +247,33 @@ public final class SpreadsheetWriter {
     private static void writeLanguageDown(XSSFWorkbook workbook, Map<String, Long> langStatMap) {
         // transform the data so it is ordered
         List<Pair<String, Long>> statList = new ArrayList<>();
-        for (Entry<String, Long> entry : langStatMap.entrySet()) {
+        for (var entry : langStatMap.entrySet()) {
             statList.add(Pair.of(entry.getKey(), entry.getValue()));
         }
         statList.sort(Collections.reverseOrder(Entry.comparingByValue()));
 
-        XSSFFont incFont = workbook.createFont();
+        var incFont = workbook.createFont();
         incFont.setColor(IndexedColors.GREEN.index);
-        XSSFCellStyle incStyle = workbook.createCellStyle();
+        var incStyle = workbook.createCellStyle();
         incStyle.setFont(incFont);
 
-        XSSFFont decFont = workbook.createFont();
+        var decFont = workbook.createFont();
         decFont.setColor(IndexedColors.RED.index);
-        XSSFCellStyle decStyle = workbook.createCellStyle();
+        var decStyle = workbook.createCellStyle();
         decStyle.setFont(decFont);
 
-        XSSFCellStyle numStyle = workbook.createCellStyle();
+        var numStyle = workbook.createCellStyle();
         numStyle.setDataFormat(0xa); //BuiltinFormats: 0.00%
 
-        XSSFFont boldFont = workbook.createFont();
+        var boldFont = workbook.createFont();
         boldFont.setBold(true);
-        XSSFCellStyle numBoldStyle = numStyle.copy();
+        var numBoldStyle = numStyle.copy();
         numBoldStyle.setFont(boldFont);
-        XSSFCellStyle boldStyle = workbook.createCellStyle();
+        var boldStyle = workbook.createCellStyle();
         boldStyle.setFont(boldFont);
 
         // create the worksheet
-        XSSFSheet sheet = workbook.createSheet("Breakdown");
+        var sheet = workbook.createSheet("Breakdown");
         int rowNum = 0;
 
         // create the header
@@ -310,20 +300,20 @@ public final class SpreadsheetWriter {
 
         // process each language
         double cumulative = 0.0;
-        for (Pair<String, Long> entry : statList) {
+        for (var entry : statList) {
             Row row = sheet.createRow(rowNum++);
 
             // language name
-            Cell langCell = row.createCell(0);
+            var langCell = row.createCell(0);
             langCell.setCellValue(entry.getKey());
 
             // total size
-            Cell sizeCell = row.createCell(1);
+            var sizeCell = row.createCell(1);
             sizeCell.setCellValue(entry.getValue());
 
             // directionality
-            Cell dirCell = row.createCell(4);
-            Optional<LanguageInfo> langOpt = LanguageUtil.find(entry.getKey());
+            var dirCell = row.createCell(4);
+            var langOpt = LanguageUtil.find(entry.getKey());
             int direction = langOpt.map(LanguageInfo::getHarvest).orElse(0);
             switch (direction) {
                 case -1:
@@ -343,7 +333,7 @@ public final class SpreadsheetWriter {
             }
 
             cumulative += entry.getValue();
-            Integer startIndex = startList.get(startList.size() - 1);
+            var startIndex = startList.get(startList.size() - 1);
             double ratio = 100.0 * entry.getValue() / cumulative;
             if (LOG.isDebugEnabled()) {
                 LOG.debug(
@@ -363,7 +353,7 @@ public final class SpreadsheetWriter {
                 cumulative = entry.getValue();
                 startList.add(rowNum - 2);
 
-                CellRangeAddress prevRange = new CellRangeAddress(startIndex + 1, rowNum - 2, 1, 1);
+                var prevRange = new CellRangeAddress(startIndex + 1, rowNum - 2, 1, 1);
                 rangeList.add(prevRange);
             } else if (rowNum == 2) {
                 langCell.setCellStyle(boldStyle);
@@ -372,26 +362,26 @@ public final class SpreadsheetWriter {
         }
 
         // Calculate chart ranges
-        Integer lastIndex = startList.get(startList.size() - 1);
-        CellRangeAddress finalRange = new CellRangeAddress(lastIndex + 1, rowNum - 1, 1, 1);
+        var lastIndex = startList.get(startList.size() - 1);
+        var finalRange = new CellRangeAddress(lastIndex + 1, rowNum - 1, 1, 1);
         rangeList.add(finalRange);
 
-        CellRangeAddress totalRange = new CellRangeAddress(1, rowNum - 1, 1, 1);
-        String totalRangeStr = totalRange.formatAsString(null, true);
+        var totalRange = new CellRangeAddress(1, rowNum - 1, 1, 1);
+        var totalRangeStr = totalRange.formatAsString(null, true);
 
         int rangeIndex = 0;
         for (int i = 1; i <= statList.size(); i++) {
             Row row = sheet.getRow(i);
 
-            CellRangeAddress subsetRange = rangeList.get(rangeIndex);
+            var subsetRange = rangeList.get(rangeIndex);
             if (!subsetRange.containsRow(i)) {
                 rangeIndex++;
                 subsetRange = rangeList.get(rangeIndex);
             }
 
-            CellRangeAddress dataRange = new CellRangeAddress(i, i, 1, 1);
-            String dataRefStr = dataRange.formatAsString(null, true);
-            String rangeStr = subsetRange.formatAsString(null, true);
+            var dataRange = new CellRangeAddress(i, i, 1, 1);
+            var dataRefStr = dataRange.formatAsString(null, true);
+            var rangeStr = subsetRange.formatAsString(null, true);
 
             Cell cell;
 
@@ -420,7 +410,7 @@ public final class SpreadsheetWriter {
 
         //there may be a chart with a single range if other languages are relatively too dominant
         for (int i = 0; i < rangeList.size(); i++) {
-            CellRangeAddress range = rangeList.get(i);
+            var range = rangeList.get(i);
             insertChart(sheet, "C" + (i + 1), range.getFirstRow(), range.getLastRow(), 0, 1, i, 6);
         }
     }
@@ -430,7 +420,7 @@ public final class SpreadsheetWriter {
      * @param langStatMap        statistics to track for each language
      */
     public static void writeReport(Collection<TaskInfo> taskInfoCollection, Map<String, Long> langStatMap) {
-        Path filePath = Path.of(LocalUtil.OUTPUT_DIRECTORY, FILENAME);
+        var filePath = Path.of(LocalUtil.OUTPUT_DIRECTORY, FILENAME);
 
         // Make tasks that need a buddy, but not for any chosen language less visible
         taskInfoCollection.stream()
@@ -443,7 +433,7 @@ public final class SpreadsheetWriter {
             .forEach(task -> task.setCategory(1.999));
 
         // pre-filter the tasks so only actionable data is written
-        List<TaskInfo> taskList = taskInfoCollection.stream()
+        var taskList = taskInfoCollection.stream()
             .filter(
                 task -> !task.getLanguageSet().isEmpty() && task.getCategory() < 5.0
                     || task.getCategory() < 0.5
@@ -451,16 +441,16 @@ public final class SpreadsheetWriter {
             .collect(Collectors.toList());
 
         // create and populate a workbook
-        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+        try (var workbook = new XSSFWorkbook()) {
             writeOpenTasks(workbook, taskList);
             writeLanguageDown(workbook, langStatMap);
 
             // Write the workbook out to disk
-            try (OutputStream writer = Files.newOutputStream(filePath)) {
+            try (var writer = Files.newOutputStream(filePath)) {
                 workbook.write(writer);
             }
         } catch (IOException e) {
-            throw new UtilException(e);
+            throw Failable.rethrow(e);
         }
     }
 }

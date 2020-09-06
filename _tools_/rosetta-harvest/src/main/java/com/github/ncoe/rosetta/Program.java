@@ -1,7 +1,6 @@
 package com.github.ncoe.rosetta;
 
 import com.github.ncoe.rosetta.dto.TaskInfo;
-import com.github.ncoe.rosetta.exception.UtilException;
 import com.github.ncoe.rosetta.io.HtmlWriter;
 import com.github.ncoe.rosetta.io.SpreadsheetWriter;
 import com.github.ncoe.rosetta.util.LanguageUtil;
@@ -10,8 +9,8 @@ import com.github.ncoe.rosetta.util.MiscUtil;
 import com.github.ncoe.rosetta.util.RemoteUtil;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.function.Failable;
 import org.apache.commons.lang3.tuple.Pair;
-import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,54 +57,53 @@ public final class Program {
      */
     public static void main(String[] args) {
         makeOutputDirectory();
-        generate();
+
+        LocalUtil localUtil = new LocalUtil();
+        localUtil.setCheckTaskName(false);
+
+        generate(localUtil);
     }
 
     private static void makeOutputDirectory() {
-        Path outPath = Path.of("out");
+        var outPath = Path.of("out");
         if (Files.exists(outPath)) {
-            Path openPath = outPath.resolve("~$" + SpreadsheetWriter.FILENAME);
+            var openPath = outPath.resolve("~$" + SpreadsheetWriter.FILENAME);
             if (Files.exists(openPath)) {
-                throw new UtilException("First close " + openPath.toString());
+                throw new IllegalStateException("First close " + openPath.toString());
             }
         } else {
-            try {
-                Files.createDirectory(outPath);
-            } catch (IOException e) {
-                throw new UtilException(e);
-            }
+            Failable.accept(Files::createDirectory, outPath);
         }
     }
 
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
-    private static void generate() {
+    private static void generate(LocalUtil localUtil) {
         // Gather local solutions and statistics
         Map<String, Long> langStatMap;
         Map<String, Pair<String, FileTime>> pendingMap;
         Map<String, Set<String>> localTaskMap;
-        try (Repository repository = LocalUtil.getRepository()) {
-            localTaskMap = LocalUtil.classifyCurrent(repository);
+        try (var repository = localUtil.getRepository()) {
+            localTaskMap = localUtil.classifyCurrent(repository);
 
-            Pair<Map<String, Pair<String, FileTime>>, Map<String, Long>> taskSizePair
-                = LocalUtil.pendingSolutions(repository);
+            var taskSizePair = localUtil.pendingSolutions(repository);
             pendingMap = taskSizePair.getKey();
 
-            langStatMap = LocalUtil.languageStats(repository);
+            langStatMap = localUtil.languageStats(repository);
             if (COMBINE) {
-                Map<String, Long> langSizeMap = taskSizePair.getValue();
+                var langSizeMap = taskSizePair.getValue();
                 langStatMap = Stream.concat(langStatMap.entrySet().stream(), langSizeMap.entrySet().stream())
                     .collect(Collectors.toMap(Entry::getKey, Entry::getValue, Long::sum));
             }
         } catch (IOException e) {
-            throw new UtilException(e);
+            throw Failable.rethrow(e);
         }
 
         // Aggregate local data into task information
         Map<String, TaskInfo> taskInfoMap = new HashMap<>();
-        for (Entry<String, Set<String>> entry : localTaskMap.entrySet()) {
-            TaskInfo info = taskInfoMap.get(entry.getKey());
+        for (var entry : localTaskMap.entrySet()) {
+            var info = taskInfoMap.get(entry.getKey());
             if (null == info) {
-                Set<String> langSet = entry.getValue();
+                var langSet = entry.getValue();
                 int cat = MiscUtil.choice(langSet.size() > 1, 2, langSet.size());
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
@@ -117,8 +115,8 @@ public final class Program {
         // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
         LanguageUtil.rosettaSet().parallelStream().forEach(language -> {
-            String taskLang = LanguageUtil.rosettaToLanguage(language);
-            Set<String> langSet = RemoteUtil.harvest(language);
+            var taskLang = LanguageUtil.rosettaToLanguage(language);
+            var langSet = RemoteUtil.harvest(language);
 
             // Incorporate the tasks that could be implemented with this language
             for (String taskName : langSet) {
@@ -135,10 +133,10 @@ public final class Program {
         });
 
         // Aggregate remote data into task information
-        for (Entry<String, Set<String>> entry : langByTask.entrySet()) {
-            TaskInfo info = taskInfoMap.get(entry.getKey());
+        for (var entry : langByTask.entrySet()) {
+            var info = taskInfoMap.get(entry.getKey());
             if (null == info) {
-                Set<String> langSet = entry.getValue();
+                var langSet = entry.getValue();
                 int cat = MiscUtil.choice(langSet.size() > 1, 3, 4);
                 info = new TaskInfo(cat, entry.getKey());
                 info.getLanguageSet().addAll(entry.getValue());
@@ -149,10 +147,10 @@ public final class Program {
         }
 
         // Update task information with in-progress solutions
-        for (Entry<String, Pair<String, FileTime>> entry : pendingMap.entrySet()) {
-            TaskInfo info = taskInfoMap.get(entry.getKey());
+        for (var entry : pendingMap.entrySet()) {
+            var info = taskInfoMap.get(entry.getKey());
             if (null != info) {
-                Pair<String, FileTime> langTime = entry.getValue();
+                var langTime = entry.getValue();
 
                 // A task could be zero if we saw it already, or if it is the final implementation,
                 // but that can be handled with the next re-sync
@@ -199,9 +197,9 @@ public final class Program {
     }
 
     private static void removeLanguage(Map<String, TaskInfo> taskInfoMap, String task, String language) {
-        TaskInfo taskInfo = taskInfoMap.get(task);
+        var taskInfo = taskInfoMap.get(task);
         if (null != taskInfo) {
-            Set<String> languageSet = taskInfo.getLanguageSet();
+            var languageSet = taskInfo.getLanguageSet();
             languageSet.remove(language);
         }
     }
@@ -250,7 +248,7 @@ public final class Program {
     }
 
     private static void addNote(Map<String, TaskInfo> taskInfoMap, String taskName, String note) {
-        TaskInfo info = taskInfoMap.get(taskName);
+        var info = taskInfoMap.get(taskName);
         if (null == info) {
             if (LOG.isErrorEnabled()) {
                 LOG.error("Unknown task [{}] for adding a note", value("taskName", taskName));
@@ -267,18 +265,15 @@ public final class Program {
         //Powerful_numbers (there seems to be something missing from the description to properly show the set)
 
         // C
-        solAddMap.put("Brace_expansion", "C");
-        solAddMap.put("Chemical_Calculator", "C");
         solAddMap.put("Cyclotomic_Polynomial", "C");
-        solAddMap.put("Random_Latin_Squares", "C");
+        solAddMap.put("Lucky_and_even_lucky_numbers", "C");
         solAddMap.put("Successive_prime_differences", "C");
+        solAddMap.put("UPC", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Angles_(geometric),_normalization_and_conversion", "C++");
-        solAddMap.put("Cut_a_rectangle", "C++");
-        solAddMap.put("Determinant_and_permanent", "C++");
-        solAddMap.put("ISBN13_check_digit", "C++");
-        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C++");
+        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C++");
+        solAddMap.put("Vogel's_approximation_method", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Casting_out_nines", "C#");
@@ -286,16 +281,15 @@ public final class Program {
         //solAddMap.put("Super-d_numbers", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
-        solAddMap.put("Birthday_problem", "Visual Basic .NET");
-        solAddMap.put("Kolakoski_sequence", "Visual Basic .NET");
-        solAddMap.put("Lah_numbers", "Visual Basic .NET");
+        //solAddMap.put("Birthday_problem", "Visual Basic .NET");
+        solAddMap.put("Largest_number_divisible_by_its_digits", "Visual Basic .NET");
         solAddMap.put("Mersenne_primes", "Visual Basic .NET");
+        solAddMap.put("Transportation_problem", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
-        solAddMap.put("Fermat_numbers", "D");
-        //solAddMap.put("Length_of_an_arc_between_two_angles", "D");
-        solAddMap.put("Line_circle_intersection", "D");
+        //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
+        solAddMap.put("Möbius_function", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -304,65 +298,45 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
-        solAddMap.put("Chebyshev_coefficients", "Lua");
-        //solAddMap.put("Chemical_Calculator", "Lua");
+        solAddMap.put("Burrows–Wheeler_transform", "Lua");
+        solAddMap.put("Chemical_Calculator", "Lua");
         solAddMap.put("Decision_tables", "Lua");
-        solAddMap.put("Determine_if_a_string_is_collapsible", "Lua");
-        solAddMap.put("Determine_if_a_string_is_squeezable", "Lua");
-        solAddMap.put("Diversity_prediction_theorem", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
-        solAddMap.put("Convex_hull", "Ruby");
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
-        //solAddMap.put("Diversity_prediction_theorem", "Ruby");
         solAddMap.put("Eertree", "Ruby");
-        //solAddMap.put("ISBN13_check_digit", "Ruby");
+        solAddMap.put("ISBN13_check_digit", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("Length_of_an_arc_between_two_angles", "Ruby");
-        //solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        //solAddMap.put("Casting_out_nines", "Groovy");
-        //solAddMap.put("Chaocipher", "Groovy");
-        solAddMap.put("Display_a_linear_combination", "Groovy");
-        solAddMap.put("Egyptian_division", "Groovy");
-        solAddMap.put("Emirp_primes", "Groovy");
         solAddMap.put("Euler's_sum_of_powers_conjecture", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
         solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Groovy");
-        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
+        //solAddMap.put("Diversity_prediction_theorem", "Java");
         //solAddMap.put("List_rooted_trees", "Java");
         //solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Kotlin");
-        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Kotlin");
+        solAddMap.put("Stirling_numbers_of_the_second_kind", "Kotlin");
         solAddMap.put("Unprimeable_numbers", "Kotlin");
-        solAddMap.put("Yellowstone_sequence", "Kotlin");
+        solAddMap.put("Weather_Routing", "Kotlin");
         //solAddMap.put("", "Kotlin");
         // Scala (exhaust and replace with java)
-        solAddMap.put("Binary_strings", "Scala");
-        solAddMap.put("Card_shuffles", "Scala");
-        solAddMap.put("Eban_numbers", "Scala");
-        solAddMap.put("Egyptian_fractions", "Scala");
-        solAddMap.put("Faulhaber's_formula", "Scala");
         solAddMap.put("Faulhaber's_triangle", "Scala");
-        //solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Scala");
-        solAddMap.put("Parsing/RPN_to_infix_conversion", "Scala");
         //solAddMap.put("", "Scala");
 
-        Supplier<Double> incFunc = new Supplier<>() {
+        var incFunc = new DoubleSupplier() {
             private final AtomicInteger nextCat = new AtomicInteger(170);
 
             @Override
-            public Double get() {
+            public double getAsDouble() {
                 int tmp = nextCat.incrementAndGet();
                 if (tmp % 10 == 0) {
                     tmp = nextCat.incrementAndGet();
@@ -372,27 +346,27 @@ public final class Program {
         };
 
         Map<String, Double> solCatMap = new HashMap<>();
-        solCatMap.put("C", incFunc.get());                    //vs (*)
-        solCatMap.put("Kotlin", incFunc.get());               //id
-        solCatMap.put("D", incFunc.get());                    //np
-        solCatMap.put("C++", incFunc.get());                  //vs
-        solCatMap.put("Scala", incFunc.get());                //id
-        solCatMap.put("Lua", incFunc.get());                  //np
-        solCatMap.put("Visual Basic .NET", incFunc.get());    //vs
-        solCatMap.put("Groovy", incFunc.get());               //id
-        solCatMap.put("Ruby", incFunc.get());                 //np
+        solCatMap.put("C", incFunc.getAsDouble());                    //vs (*)
+        solCatMap.put("Kotlin", incFunc.getAsDouble());               //id
+        solCatMap.put("D", incFunc.getAsDouble());                    //np
+        solCatMap.put("C++", incFunc.getAsDouble());                  //vs
+        solCatMap.put("Scala", incFunc.getAsDouble());                //id
+        solCatMap.put("Lua", incFunc.getAsDouble());                  //np
+        solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
+        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
+        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
 
-        //solCatMap.put("Perl", incFunc.get());                 //np
-        //solCatMap.put("C#", incFunc.get());                   //vs
-        //solCatMap.put("Java", incFunc.get());                 //id
+        //solCatMap.put("Perl", incFunc.getAsDouble());                 //np
+        //solCatMap.put("C#", incFunc.getAsDouble());                   //vs
+        //solCatMap.put("Java", incFunc.getAsDouble());                 //id
 
-        //solCatMap.put("LLVM", incFunc.get());                 //np
+        //solCatMap.put("LLVM", incFunc.getAsDouble());                 //np
 
         // Prioritize some tasks so that there is more than one task with the same prefix
         taskInfoMap.entrySet()
             .stream()
             .filter(entry -> {
-                String key = entry.getKey();
+                var key = entry.getKey();
                 return StringUtils.startsWithAny(key,
                     "Arithmetic_coding"
                 ) && !StringUtils.equalsAny(key,
@@ -401,13 +375,13 @@ public final class Program {
             })
             .map(Entry::getValue)
             .forEach(data -> {
-                String taskName = data.getTaskName();
+                var taskName = data.getTaskName();
                 if (solAddMap.containsKey(taskName)) {
-                    String language = solAddMap.get(taskName);
+                    var language = solAddMap.get(taskName);
                     if (data.getLanguageSet().contains(language)) {
                         if (pendingMap.containsKey(taskName)) {
-                            Pair<String, FileTime> langFileTime = pendingMap.get(taskName);
-                            String lang = langFileTime.getKey();
+                            var langFileTime = pendingMap.get(taskName);
+                            var lang = langFileTime.getKey();
                             if (StringUtils.equals(language, lang)) {
                                 LOG.warn("Solution has been prepared for {}", taskName);
                             } else {
