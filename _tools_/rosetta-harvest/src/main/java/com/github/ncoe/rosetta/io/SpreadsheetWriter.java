@@ -50,6 +50,9 @@ public final class SpreadsheetWriter {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpreadsheetWriter.class);
 
+    // the abundance in percent of a group that the least member must have after joining
+    private static final double CUTOFF_RATIO = 7.5;
+
     private SpreadsheetWriter() {
         throw new NotImplementedException("No SpreadsheetWriter for you!");
     }
@@ -342,7 +345,7 @@ public final class SpreadsheetWriter {
                     value("ratio", ratio)
                 );
             }
-            if (ratio < 5.7) {
+            if (ratio < CUTOFF_RATIO) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Resetting {} to 100%", value("language", entry.getKey()));
                 }

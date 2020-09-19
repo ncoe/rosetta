@@ -38,7 +38,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Fortran", "Fortran", "for", "fortran", -1),
         LanguageInfo.of("Go", "Go", "go", "go", 0), //http://rosettacode.org/wiki/Category:Go
         LanguageInfo.of("Groovy", "Groovy", "groovy", "groovy", 1),
-        LanguageInfo.of("Java", "Java", "java", "java_", 0),
+        LanguageInfo.of("Java", "Java", "java", "java_", 1),
         LanguageInfo.of("JavaScript", "JavaScript", "js", "javascript", 0),
         LanguageInfo.of("Julia", "Julia", "jl", "julia", -1),
         LanguageInfo.of("Kotlin", "Kotlin", "kt", "kotlin", 1),
@@ -53,7 +53,7 @@ public final class LanguageUtil {
         LanguageInfo.of("Python", "Python", "py", "python", 0),
         LanguageInfo.of("Ruby", "Ruby", "rb", "ruby", 1), //http://rosettacode.org/wiki/Category:Ruby
         LanguageInfo.of("Rust", "Rust", "rs", "rust", 0),   //http://rosettacode.org/wiki/Category:Rust
-        LanguageInfo.of("Scala", "Scala", "scala", "scala", 1),
+        LanguageInfo.of("Scala", "Scala", "scala", "scala", 0),
 //      "Microsoft_Small_Basic",  //http://rosettacode.org/wiki/Category:Microsoft_Small_Basic (.NET CLI language)
         // Standard ML
         LanguageInfo.of("TypeScript", "TypeScript", "ts", "typescript", -1), //http://rosettacode.org/wiki/Category:TypeScript

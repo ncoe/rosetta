@@ -220,21 +220,22 @@ public final class Program {
         addNote(taskInfoMap, "De_Bruijn_sequences", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Eertree", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Egyptian_fractions", BIG_INTEGER);
-        addNote(taskInfoMap, "Lucky_and_even_lucky_numbers", "commandline arguments");
+        addNote(taskInfoMap, "Fermat_numbers", BIG_INTEGER + SLASH + "prime test");
         addNote(taskInfoMap, "Get_system_command_output", "process io");
         addNote(taskInfoMap, "I_before_E_except_after_C", FILE_IO);
         addNote(taskInfoMap, "Knuth's_power_tree", BIG_DECIMAL);
         addNote(taskInfoMap, "Kosaraju", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Lah_numbers", BIG_INTEGER);
+        addNote(taskInfoMap, "Lucky_and_even_lucky_numbers", "commandline arguments");
         addNote(taskInfoMap, "Magic_squares_of_doubly_even_order", DYNAMIC_MEMORY);
         addNote(taskInfoMap, "Make_directory_path", FILE_IO);
         addNote(taskInfoMap, "Markov_chain_text_generator", FILE_IO);
         addNote(taskInfoMap, "Mersenne_primes", BIG_INTEGER);
         addNote(taskInfoMap, "Metallic_ratios", BIG_DECIMAL);
         addNote(taskInfoMap, "Montgomery_reduction", BIG_INTEGER);
-        addNote(taskInfoMap, "Narcissist", FILE_IO);
         addNote(taskInfoMap, "N-body_problem", FILE_IO);
         addNote(taskInfoMap, "N-smooth_numbers", BIG_INTEGER);
+        addNote(taskInfoMap, "Narcissist", FILE_IO);
         addNote(taskInfoMap, "Pell's_equation", BIG_INTEGER);
         addNote(taskInfoMap, "Pierpont_primes", BIG_INTEGER + SLASH + "prime test");
         addNote(taskInfoMap, "Rare_numbers", NESTED_FUNCTIONS);
@@ -268,11 +269,11 @@ public final class Program {
         solAddMap.put("Cyclotomic_Polynomial", "C");
         solAddMap.put("Lucky_and_even_lucky_numbers", "C");
         solAddMap.put("Successive_prime_differences", "C");
-        solAddMap.put("UPC", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Angles_(geometric),_normalization_and_conversion", "C++");
-        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "C++");
+        solAddMap.put("Remove_vowels_from_a_string", "C++");
+        //solAddMap.put("UPC", "C++");
         solAddMap.put("Vogel's_approximation_method", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -289,7 +290,7 @@ public final class Program {
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Möbius_function", "D");
+        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "D");
         solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -314,22 +315,27 @@ public final class Program {
         //solAddMap.put("", "Ruby");
 
         // Groovy
+        solAddMap.put("Chaocipher", "Groovy");
+        solAddMap.put("Cheryl's_Birthday", "Groovy");
+        solAddMap.put("Cramer's_rule", "Groovy");
         solAddMap.put("Euler's_sum_of_powers_conjecture", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
         solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        //solAddMap.put("Diversity_prediction_theorem", "Java");
-        //solAddMap.put("List_rooted_trees", "Java");
-        //solAddMap.put("Multiple_regression", "Java");
+        solAddMap.put("Diversity_prediction_theorem", "Java");
+        solAddMap.put("Esthetic_numbers", "Java");
+        solAddMap.put("Length_of_an_arc_between_two_angles", "Java");
+        solAddMap.put("List_rooted_trees", "Java");
+        solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Stirling_numbers_of_the_second_kind", "Kotlin");
+        //solAddMap.put("Remove_vowels_from_a_string", "Kotlin");
         solAddMap.put("Unprimeable_numbers", "Kotlin");
+        solAddMap.put("UPC", "Kotlin");
         solAddMap.put("Weather_Routing", "Kotlin");
         //solAddMap.put("", "Kotlin");
-        // Scala (exhaust and replace with java)
-        solAddMap.put("Faulhaber's_triangle", "Scala");
+        // Scala
         //solAddMap.put("", "Scala");
 
         var incFunc = new DoubleSupplier() {
@@ -350,7 +356,7 @@ public final class Program {
         solCatMap.put("Kotlin", incFunc.getAsDouble());               //id
         solCatMap.put("D", incFunc.getAsDouble());                    //np
         solCatMap.put("C++", incFunc.getAsDouble());                  //vs
-        solCatMap.put("Scala", incFunc.getAsDouble());                //id
+        solCatMap.put("Java", incFunc.getAsDouble());                 //id
         solCatMap.put("Lua", incFunc.getAsDouble());                  //np
         solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
         solCatMap.put("Groovy", incFunc.getAsDouble());               //id
@@ -358,7 +364,7 @@ public final class Program {
 
         //solCatMap.put("Perl", incFunc.getAsDouble());                 //np
         //solCatMap.put("C#", incFunc.getAsDouble());                   //vs
-        //solCatMap.put("Java", incFunc.getAsDouble());                 //id
+        //solCatMap.put("Scala", incFunc.getAsDouble());                //id
 
         //solCatMap.put("LLVM", incFunc.getAsDouble());                 //np
 
