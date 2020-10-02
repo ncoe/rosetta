@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,6 +63,8 @@ public final class SpreadsheetWriter {
      * @param taskList the list of tasks where there is work that could be done
      */
     private static void writeOpenTasks(XSSFWorkbook workbook, List<TaskInfo> taskList) {
+        var zoneOffset = OffsetDateTime.now().getOffset();
+
         var helper = new XSSFCreationHelper(workbook);
 
         var boldFont = workbook.createFont();
@@ -176,7 +179,12 @@ public final class SpreadsheetWriter {
             // last modified (for pending solutions)
             if (null != info.getLastModified()) {
                 cell = taskRow.createCell(colNum);
-                cell.setCellValue(info.getLastModified().toString());
+                var lastModified = info.getLastModified();
+                var lastModifiedInstant = lastModified.toInstant();
+                var lastModifiedOffset = lastModifiedInstant.atOffset(zoneOffset);
+                var lastModifiedLocal = lastModifiedOffset.toLocalDateTime();
+                var lastModifiedStr = lastModifiedLocal.toString();
+                cell.setCellValue(lastModifiedStr);
             }
         }
 

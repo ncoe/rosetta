@@ -268,22 +268,23 @@ public final class Program {
         // C
         solAddMap.put("Cyclotomic_Polynomial", "C");
         solAddMap.put("Lucky_and_even_lucky_numbers", "C");
-        solAddMap.put("Successive_prime_differences", "C");
+        solAddMap.put("Solve_the_no_connection_puzzle", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Angles_(geometric),_normalization_and_conversion", "C++");
         solAddMap.put("Remove_vowels_from_a_string", "C++");
+        solAddMap.put("Truth_table", "C++");
         //solAddMap.put("UPC", "C++");
-        solAddMap.put("Vogel's_approximation_method", "C++");
         //solAddMap.put("", "C++");
         // C#
+        //solAddMap.put("Birthday_problem", "C#");
         //solAddMap.put("Casting_out_nines", "C#");
         //solAddMap.put("Square-free_integers", "C#");
         //solAddMap.put("Super-d_numbers", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
-        solAddMap.put("Largest_number_divisible_by_its_digits", "Visual Basic .NET");
+        solAddMap.put("Brace_expansion", "Visual Basic .NET");
         solAddMap.put("Mersenne_primes", "Visual Basic .NET");
         solAddMap.put("Transportation_problem", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
@@ -291,17 +292,17 @@ public final class Program {
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
         solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "D");
-        solAddMap.put("Word_break_problem", "D");
         solAddMap.put("XXXX_redacted", "D");
+        solAddMap.put("Yellowstone_sequence", "D");
         //solAddMap.put("", "D");
         // LLVM
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
-        solAddMap.put("Burrows–Wheeler_transform", "Lua");
         solAddMap.put("Chemical_Calculator", "Lua");
         solAddMap.put("Decision_tables", "Lua");
+        solAddMap.put("Weird_numbers", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -310,12 +311,11 @@ public final class Program {
         // Ruby
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
         solAddMap.put("Eertree", "Ruby");
-        solAddMap.put("ISBN13_check_digit", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
+        solAddMap.put("The_Name_Game", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Chaocipher", "Groovy");
         solAddMap.put("Cheryl's_Birthday", "Groovy");
         solAddMap.put("Cramer's_rule", "Groovy");
         solAddMap.put("Euler's_sum_of_powers_conjecture", "Groovy");
@@ -323,7 +323,6 @@ public final class Program {
         solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Diversity_prediction_theorem", "Java");
         solAddMap.put("Esthetic_numbers", "Java");
         solAddMap.put("Length_of_an_arc_between_two_angles", "Java");
         solAddMap.put("List_rooted_trees", "Java");
@@ -331,7 +330,8 @@ public final class Program {
         //solAddMap.put("", "Java");
         // Kotlin
         //solAddMap.put("Remove_vowels_from_a_string", "Kotlin");
-        solAddMap.put("Unprimeable_numbers", "Kotlin");
+        solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
+        solAddMap.put("Rosetta_Code/Tasks_without_examples", "Kotlin");
         solAddMap.put("UPC", "Kotlin");
         solAddMap.put("Weather_Routing", "Kotlin");
         //solAddMap.put("", "Kotlin");
