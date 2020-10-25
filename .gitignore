@@ -92,3 +92,4 @@ Settings.settings
 **/.classpath
 **/.project
 **/.vscode
+*.csv

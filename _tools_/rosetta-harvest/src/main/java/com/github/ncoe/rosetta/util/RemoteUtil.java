@@ -36,6 +36,7 @@ public final class RemoteUtil {
      */
     public static Set<String> harvest(String language) {
         var client = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_1_1)
             .followRedirects(HttpClient.Redirect.NORMAL)
             .connectTimeout(Duration.ofSeconds(5))
             .build();
@@ -44,8 +45,8 @@ public final class RemoteUtil {
         LOG.info("Requesting data from: {}", uri);
 
         // prepare the request to the server
-        var request = HttpRequest.newBuilder()
-            .uri(uri).GET()
+        var request = HttpRequest.newBuilder(uri)
+            .GET()
             .timeout(Duration.ofSeconds(5))
             .build();
 

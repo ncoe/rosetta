@@ -115,20 +115,24 @@ public final class Program {
         // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
         LanguageUtil.rosettaSet().parallelStream().forEach(language -> {
-            var taskLang = LanguageUtil.rosettaToLanguage(language);
-            var langSet = RemoteUtil.harvest(language);
+            try {
+                var taskLang = LanguageUtil.rosettaToLanguage(language);
+                var langSet = RemoteUtil.harvest(language);
 
-            // Incorporate the tasks that could be implemented with this language
-            for (String taskName : langSet) {
-                synchronized (langByTask) {
-                    if (langByTask.containsKey(taskName)) {
-                        langSet = langByTask.get(taskName);
-                    } else {
-                        langSet = new HashSet<>();
-                        langByTask.put(taskName, langSet);
+                // Incorporate the tasks that could be implemented with this language
+                for (String taskName : langSet) {
+                    synchronized (langByTask) {
+                        if (langByTask.containsKey(taskName)) {
+                            langSet = langByTask.get(taskName);
+                        } else {
+                            langSet = new HashSet<>();
+                            langByTask.put(taskName, langSet);
+                        }
+                        langSet.add(taskLang);
                     }
-                    langSet.add(taskLang);
                 }
+            } catch (Exception e) {
+                LOG.error("", e);
             }
         });
 
@@ -243,6 +247,7 @@ public final class Program {
         addNote(taskInfoMap, "Suffix_tree", NESTED_FUNCTIONS);
         addNote(taskInfoMap, "Super-d_numbers", BIG_INTEGER);
         addNote(taskInfoMap, "Tonelli-Shanks_algorithm", BIG_INTEGER);
+        addNote(taskInfoMap, "Word_break_problem", DYNAMIC_MEMORY);
         addNote(taskInfoMap, "Write_entire_file", FILE_IO);
         addNote(taskInfoMap, "Write_to_Windows_event_log", "windows");
         addNote(taskInfoMap, "Zumkeller_numbers", DYNAMIC_MEMORY);
@@ -267,14 +272,13 @@ public final class Program {
 
         // C
         solAddMap.put("Cyclotomic_Polynomial", "C");
-        solAddMap.put("Lucky_and_even_lucky_numbers", "C");
-        solAddMap.put("Solve_the_no_connection_puzzle", "C");
+        solAddMap.put("Particle_Swarm_Optimization", "C");
+        solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C");
         //solAddMap.put("", "C");
         // C++
-        solAddMap.put("Angles_(geometric),_normalization_and_conversion", "C++");
-        solAddMap.put("Remove_vowels_from_a_string", "C++");
+        solAddMap.put("Chat_server", "C++");
         solAddMap.put("Truth_table", "C++");
-        //solAddMap.put("UPC", "C++");
+        solAddMap.put("Variable-length_quantity", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Birthday_problem", "C#");
@@ -285,15 +289,15 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Brace_expansion", "Visual Basic .NET");
-        solAddMap.put("Mersenne_primes", "Visual Basic .NET");
         solAddMap.put("Transportation_problem", "Visual Basic .NET");
+        solAddMap.put("Zumkeller_numbers", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "D");
+        solAddMap.put("Show_Ascii_table", "D");
+        solAddMap.put("Square_Root_by_Hand", "D");
         solAddMap.put("XXXX_redacted", "D");
-        solAddMap.put("Yellowstone_sequence", "D");
         //solAddMap.put("", "D");
         // LLVM
         //solAddMap.put("", "LLVM");
@@ -302,7 +306,7 @@ public final class Program {
         // Lua
         solAddMap.put("Chemical_Calculator", "Lua");
         solAddMap.put("Decision_tables", "Lua");
-        solAddMap.put("Weird_numbers", "Lua");
+        solAddMap.put("Type_detection", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -312,7 +316,7 @@ public final class Program {
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
         solAddMap.put("Eertree", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("The_Name_Game", "Ruby");
+        solAddMap.put("Weird_numbers", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
@@ -320,20 +324,17 @@ public final class Program {
         solAddMap.put("Cramer's_rule", "Groovy");
         solAddMap.put("Euler's_sum_of_powers_conjecture", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
-        solAddMap.put("Find_the_intersection_of_a_line_with_a_plane", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Esthetic_numbers", "Java");
-        solAddMap.put("Length_of_an_arc_between_two_angles", "Java");
         solAddMap.put("List_rooted_trees", "Java");
+        solAddMap.put("Logistic_Curve_Fitting_in_Epidemiology", "Java");
         solAddMap.put("Multiple_regression", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        //solAddMap.put("Remove_vowels_from_a_string", "Kotlin");
+        solAddMap.put("Isqrt_(integer_square_root)_of_X", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
-        solAddMap.put("Rosetta_Code/Tasks_without_examples", "Kotlin");
-        solAddMap.put("UPC", "Kotlin");
-        solAddMap.put("Weather_Routing", "Kotlin");
+        solAddMap.put("Three_word_location", "Kotlin");
+        //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
         // Scala
         //solAddMap.put("", "Scala");
@@ -352,15 +353,15 @@ public final class Program {
         };
 
         Map<String, Double> solCatMap = new HashMap<>();
+        solCatMap.put("Lua", incFunc.getAsDouble());                  //np
+        solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
+        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
+        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
         solCatMap.put("C", incFunc.getAsDouble());                    //vs (*)
         solCatMap.put("Kotlin", incFunc.getAsDouble());               //id
         solCatMap.put("D", incFunc.getAsDouble());                    //np
         solCatMap.put("C++", incFunc.getAsDouble());                  //vs
         solCatMap.put("Java", incFunc.getAsDouble());                 //id
-        solCatMap.put("Lua", incFunc.getAsDouble());                  //np
-        solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
-        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
-        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
 
         //solCatMap.put("Perl", incFunc.getAsDouble());                 //np
         //solCatMap.put("C#", incFunc.getAsDouble());                   //vs
