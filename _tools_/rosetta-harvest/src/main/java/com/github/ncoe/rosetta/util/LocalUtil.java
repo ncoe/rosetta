@@ -119,6 +119,9 @@ public final class LocalUtil {
             case "Sailors_coconuts_and_a_monkey_problem":
                 name = "Sailors,_coconuts_and_a_monkey_problem";
                 break;
+            case "Sequence_nth_number_with_exactly_n_divisors":
+                name = "Sequence:_nth_number_with_exactly_n_divisors";
+                break;
             default:
                 name = directory;
         }
@@ -204,7 +207,7 @@ public final class LocalUtil {
 
         // Known directories and files that do not need to be considered for tracking metrics
         if (StringUtils.containsAny(fullPathStr,
-            ".gitignore", ".gitattributes", "LICENSE", "submit.template", "template.fthl")
+            ".gitignore", ".gitattributes", "LICENSE", "submit.template", "template.fthl", "_fix_")
         ) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Saw the path {} and ignored it", value("filePath", fullPathStr));
