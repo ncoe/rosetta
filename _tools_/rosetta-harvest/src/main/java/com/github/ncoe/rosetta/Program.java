@@ -272,16 +272,16 @@ public final class Program {
 
         // C
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
+        solAddMap.put("Numbers_with_prime_digits_whose_sum_is_13", "C");
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
-        //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
         solAddMap.put("Pseudo-random_numbers/PCG32", "C");
         solAddMap.put("Pseudo-random_numbers/Xorshift_star", "C");
-        solAddMap.put("Yellowstone_sequence", "C");
+        //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Chat_server", "C++");
+        solAddMap.put("Cistercian_numerals", "C++");
         solAddMap.put("Truth_table", "C++");
-        solAddMap.put("Yin_and_yang", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Birthday_problem", "C#");
@@ -298,7 +298,7 @@ public final class Program {
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Remove_vowels_from_a_string", "D");
+        solAddMap.put("Rosetta_Code/Tasks_without_examples", "D");
         solAddMap.put("Show_Ascii_table", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -307,9 +307,9 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
-        solAddMap.put("Chemical_Calculator", "Lua");
+        solAddMap.put("Chemical_calculator", "Lua");
+        solAddMap.put("Cut_a_rectangle", "Lua");
         solAddMap.put("Decision_tables", "Lua");
-        solAddMap.put("Length_of_an_arc_between_two_angles", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
