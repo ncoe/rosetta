@@ -299,6 +299,7 @@ public final class LocalUtil {
         }
 
         var taskNameCorrected = directoryToTask(taskName.toString());
+        LOG.trace("Identified solved task `{}` for language {}", taskNameCorrected, language);
         return Pair.of(taskNameCorrected, language);
     }
 
