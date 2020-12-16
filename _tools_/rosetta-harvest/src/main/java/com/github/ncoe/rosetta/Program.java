@@ -271,10 +271,10 @@ public final class Program {
         //Powerful_numbers (there seems to be something missing from the description to properly show the set)
 
         // C
+        solAddMap.put("Cistercian_numerals", "C");
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Pisano_period", "C");
-        solAddMap.put("Pseudo-random_numbers/PCG32", "C");
         solAddMap.put("Pseudo-random_numbers/Xorshift_star", "C");
         //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
         //solAddMap.put("", "C");
@@ -319,22 +319,22 @@ public final class Program {
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
         solAddMap.put("Eertree", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("Recaman's_sequence", "Ruby");
+        solAddMap.put("Stirling_numbers_of_the_first_kind", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
         solAddMap.put("Cramer's_rule", "Groovy");
-        solAddMap.put("Determine_if_a_string_has_all_unique_characters", "Groovy");
+        solAddMap.put("Determine_if_a_string_is_collapsible", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("List_rooted_trees", "Java");
+        solAddMap.put("Find_if_a_point_is_within_a_triangle", "Java");
         solAddMap.put("Multiple_regression", "Java");
         solAddMap.put("Self_numbers", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
+        solAddMap.put("Numbers_with_prime_digits_whose_sum_is_13", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
-        solAddMap.put("Square_root_by_hand", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
