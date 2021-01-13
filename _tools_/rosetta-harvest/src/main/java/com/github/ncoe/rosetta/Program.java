@@ -273,7 +273,7 @@ public final class Program {
 
         // C
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
-        solAddMap.put("Isqrt_(integer_square_root)_of_X", "C");
+        solAddMap.put("Getting_the_number_of_decimals", "C");
         solAddMap.put("Longest_common_suffix", "C");
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Pisano_period", "C");
@@ -281,7 +281,7 @@ public final class Program {
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Find_if_a_point_is_within_a_triangle", "C++");
+        solAddMap.put("Pseudo-random_numbers/Xorshift_star", "C++");
         solAddMap.put("Truth_table", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -293,14 +293,14 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Longest_common_prefix", "Visual Basic .NET");
+        solAddMap.put("Kosaraju", "Visual Basic .NET");
         solAddMap.put("Zumkeller_numbers", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
         solAddMap.put("Finite_state_machine", "D");
-        solAddMap.put("Pseudo-random_numbers/PCG32", "D");
+        solAddMap.put("Pancake_numbers", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
         // LLVM
@@ -310,7 +310,7 @@ public final class Program {
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
         solAddMap.put("Cut_a_rectangle", "Lua");
-        solAddMap.put("Decision_tables", "Lua");
+        solAddMap.put("Esthetic_numbers", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -318,23 +318,23 @@ public final class Program {
         //solAddMap.put("", "Perl");
         // Ruby
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
+        solAddMap.put("De_Bruijn_sequences", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("List_rooted_trees", "Ruby");
         solAddMap.put("Stirling_numbers_of_the_first_kind", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Determine_if_a_string_is_collapsible", "Groovy");
         solAddMap.put("Determine_if_a_string_is_squeezable", "Groovy");
+        solAddMap.put("Diversity_prediction_theorem", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Extra_primes", "Java");
         solAddMap.put("Multiple_regression", "Java");
+        solAddMap.put("Pseudo-random_numbers/PCG32", "Java");
         solAddMap.put("Self_numbers", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Getting_the_number_of_decimals", "Kotlin");
+        solAddMap.put("Find_if_a_point_is_within_a_triangle", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
