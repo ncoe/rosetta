@@ -20,8 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSortCondition;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSortState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,12 +86,10 @@ public final class SpreadsheetWriter {
         Row header = sheet.createRow(rowNum++);
 
         // category header
-        int categoryCol = colNum;
         cell = header.createCell(colNum++);
         cell.setCellValue("Category");
 
         // task name header
-        int taskNameCol = colNum;
         cell = header.createCell(colNum++);
         cell.setCellValue("Task Name");
 
@@ -110,12 +106,10 @@ public final class SpreadsheetWriter {
         cell.setCellValue("Next Step");
 
         // last modified header
-        int lastModifiedCol = colNum;
         cell = header.createCell(colNum++);
         cell.setCellValue("Last modified");
 
         int maxCol = colNum;
-        configureSortState(sheet, categoryCol, taskNameCol, lastModifiedCol, taskList.size());
 
         // Fill in the task info as additional rows
         for (var info : taskList) {
@@ -192,33 +186,6 @@ public final class SpreadsheetWriter {
         IntStream.range(0, maxCol).forEach(sheet::autoSizeColumn);
 
         sheet.createFreezePane(0, 1);
-    }
-
-    private static void configureSortState(XSSFSheet sheet, int categoryCol, int taskNameCol, int lastModifiedCol, int numTasks) {
-        var ctWorksheet = sheet.getCTWorksheet();
-
-        CTSortState sortState;
-        CTSortCondition ctSortCondition;
-        CellRangeAddress rangeAddress;
-
-        int minCol = NumberUtils.min(categoryCol, taskNameCol, lastModifiedCol);
-        int maxCol = NumberUtils.max(categoryCol, taskNameCol, lastModifiedCol);
-
-        rangeAddress = new CellRangeAddress(1, numTasks, minCol, maxCol);
-        sortState = ctWorksheet.addNewSortState();
-        sortState.setRef(rangeAddress.formatAsString());
-
-        rangeAddress = new CellRangeAddress(1, numTasks, categoryCol, categoryCol);
-        ctSortCondition = sortState.addNewSortCondition();
-        ctSortCondition.setRef(rangeAddress.formatAsString());
-
-        rangeAddress = new CellRangeAddress(1, numTasks, lastModifiedCol, lastModifiedCol);
-        ctSortCondition = sortState.addNewSortCondition();
-        ctSortCondition.setRef(rangeAddress.formatAsString());
-
-        rangeAddress = new CellRangeAddress(1, numTasks, taskNameCol, taskNameCol);
-        ctSortCondition = sortState.addNewSortCondition();
-        ctSortCondition.setRef(rangeAddress.formatAsString());
     }
 
     private static void insertChart(
