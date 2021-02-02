@@ -269,6 +269,7 @@ public final class Program {
         Map<String, String> solAddMap = new HashMap<>();
         //solAddMap.put("", "");
 
+        //Arithmetic_coding/*
         //Powerful_numbers (there seems to be something missing from the description to properly show the set)
 
         // C
@@ -277,11 +278,11 @@ public final class Program {
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Pisano_period", "C");
         //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
-        solAddMap.put("World_Cup_group_stage", "C");
+        solAddMap.put("Two_bullet_roulette", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Chat_server", "C++");
-        solAddMap.put("List_rooted_trees", "C++");
+        solAddMap.put("Getting_the_number_of_decimals", "C++");
         solAddMap.put("Truth_table", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -293,14 +294,14 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Line_circle_intersection", "Visual Basic .NET");
+        solAddMap.put("Test_integerness", "Visual Basic .NET");
         solAddMap.put("Zumkeller_numbers", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
         solAddMap.put("Finite_state_machine", "D");
-        solAddMap.put("Isqrt_(integer_square_root)_of_X", "D");
+        solAddMap.put("Primality_by_Wilson's_theorem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
         // LLVM
@@ -310,7 +311,7 @@ public final class Program {
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
         solAddMap.put("Cut_a_rectangle", "Lua");
-        solAddMap.put("Find_if_a_point_is_within_a_triangle", "Lua");
+        solAddMap.put("World_Cup_group_stage", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -320,21 +321,21 @@ public final class Program {
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
         solAddMap.put("De_Bruijn_sequences", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("Stirling_numbers_of_the_first_kind", "Ruby");
+        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Diversity_prediction_theorem", "Groovy");
         solAddMap.put("Eban_numbers", "Groovy");
+        solAddMap.put("Faulhaber's_formula", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
+        solAddMap.put("Cistercian_numerals", "Java");
         solAddMap.put("Multiple_regression", "Java");
         solAddMap.put("Self_numbers", "Java");
-        solAddMap.put("Pancake_numbers", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Cistercian_numerals", "Kotlin");
+        solAddMap.put("Extra_primes", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...

@@ -117,7 +117,7 @@ public final class LanguageUtil {
      */
     public static String extensionToLanguage(String ext) {
         if (StringUtils.equalsAnyIgnoreCase(ext,
-            "", "css", "htm", "json", "md", "png", "xml", "yml")
+            "", "css", "htm", "json", "md", "png", "txt", "xml", "yml")
         ) {
             return null;
         }
