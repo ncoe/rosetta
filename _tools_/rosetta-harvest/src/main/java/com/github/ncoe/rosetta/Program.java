@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
@@ -107,7 +108,7 @@ public final class Program {
                 int cat = MiscUtil.choice(langSet.size() > 1, 2, langSet.size());
                 info = new TaskInfo(cat, entry.getKey());
                 taskInfoMap.put(entry.getKey(), info);
-            } else if (LOG.isWarnEnabled()) {
+            } else {
                 LOG.warn("Unexpected task re-definition: {}", value("taskName", entry.getKey()));
             }
         }
@@ -115,8 +116,8 @@ public final class Program {
         // Gather remote data for the target languages
         Map<String, Set<String>> langByTask = new HashMap<>();
         LanguageUtil.rosettaSet().parallelStream().forEach(language -> {
+            var taskLang = LanguageUtil.rosettaToLanguage(language);
             try {
-                var taskLang = LanguageUtil.rosettaToLanguage(language);
                 var langSet = RemoteUtil.harvest(language);
 
                 // Incorporate the tasks that could be implemented with this language
@@ -131,8 +132,10 @@ public final class Program {
                         langSet.add(taskLang);
                     }
                 }
+            } catch (CompletionException e) {
+                LOG.error("Failed to complete task for: " + taskLang, e);
             } catch (Exception e) {
-                LOG.error("", e);
+                LOG.error("Unexpected error encountered fetching data for: " + taskLang, e);
             }
         });
 
@@ -166,7 +169,7 @@ public final class Program {
                     info.setNext(langTime.getLeft());
                     info.setLastModified(langTime.getRight());
                 }
-            } else if (LOG.isErrorEnabled()) {
+            } else {
                 LOG.error("Failed to retrieve data about pending task: {}", value("task", entry.getKey()));
             }
         }
@@ -257,9 +260,7 @@ public final class Program {
     private static void addNote(Map<String, TaskInfo> taskInfoMap, String taskName, String note) {
         var info = taskInfoMap.get(taskName);
         if (null == info) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error("Unknown task [{}] for adding a note", value("taskName", taskName));
-            }
+            LOG.error("Unknown task [{}] for adding a note", value("taskName", taskName));
         } else {
             info.setNote(note);
         }
@@ -278,11 +279,11 @@ public final class Program {
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Pisano_period", "C");
         //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
-        solAddMap.put("Two_bullet_roulette", "C");
+        solAddMap.put("Tau_number", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Getting_the_number_of_decimals", "C++");
+        solAddMap.put("Taxicab_numbers", "C++");
         solAddMap.put("Truth_table", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -294,14 +295,14 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Test_integerness", "Visual Basic .NET");
-        solAddMap.put("Zumkeller_numbers", "Visual Basic .NET");
+        solAddMap.put("Successive_prime_differences", "Visual Basic .NET");
+        solAddMap.put("Text_between", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
+        solAddMap.put("Find_if_a_point_is_within_a_triangle", "D");
         solAddMap.put("Finite_state_machine", "D");
-        solAddMap.put("Primality_by_Wilson's_theorem", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
         // LLVM
@@ -311,7 +312,7 @@ public final class Program {
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
         solAddMap.put("Cut_a_rectangle", "Lua");
-        solAddMap.put("World_Cup_group_stage", "Lua");
+        solAddMap.put("Pancake_numbers", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -321,24 +322,24 @@ public final class Program {
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
         solAddMap.put("De_Bruijn_sequences", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Ruby");
+        solAddMap.put("Numbers_with_prime_digits_whose_sum_is_13", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Eban_numbers", "Groovy");
         solAddMap.put("Faulhaber's_formula", "Groovy");
+        solAddMap.put("Faulhaber's_triangle", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Cistercian_numerals", "Java");
         solAddMap.put("Multiple_regression", "Java");
+        solAddMap.put("Pseudo-random_numbers/Xorshift_star", "Java");
         solAddMap.put("Self_numbers", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Extra_primes", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
+        solAddMap.put("Two_bullet_roulette", "Kotlin");
         //solAddMap.put("", "Kotlin");
         // Scala
         //solAddMap.put("", "Scala");
@@ -412,16 +413,14 @@ public final class Program {
                             }
                             data.setNext("try with " + language);
                         }
-                    } else if (LOG.isWarnEnabled()) {
+                    } else {
                         LOG.warn(
                             "No longer need to provide a solution to task [{}] using {}",
                             value("taskName", taskName), value("language", language)
                         );
                     }
                 } else if (0 < data.getCategory() && data.getCategory() < 3) {
-                    if (LOG.isWarnEnabled()) {
-                        LOG.warn("No longer need to process task [{}]", value("taskName", taskName));
-                    }
+                    LOG.warn("No longer need to process task [{}]", value("taskName", taskName));
                 }
             });
     }

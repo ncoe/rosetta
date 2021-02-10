@@ -313,17 +313,13 @@ public final class SpreadsheetWriter {
             cumulative += entry.getValue();
             var startIndex = startList.get(startList.size() - 1);
             double ratio = 100.0 * entry.getValue() / cumulative;
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(
-                    "Relative abundance of {} is {}",
-                    value("language", entry.getKey()),
-                    value("ratio", ratio)
-                );
-            }
+            LOG.debug(
+                "Relative abundance of {} is {}",
+                value("language", entry.getKey()),
+                value("ratio", ratio)
+            );
             if (ratio < CUTOFF_RATIO) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Resetting {} to 100%", value("language", entry.getKey()));
-                }
+                LOG.debug("Resetting {} to 100%", value("language", entry.getKey()));
 
                 langCell.setCellStyle(boldStyle);
                 sizeCell.setCellStyle(boldStyle);

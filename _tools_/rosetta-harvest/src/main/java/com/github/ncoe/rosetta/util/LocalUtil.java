@@ -111,6 +111,7 @@ public final class LocalUtil {
                 name = "Pell's_equation";
                 break;
             case "Primalty_by_Wilsons_theorem":
+                //http://rosettacode.org/wiki/Primality_by_Wilson%27s_theorem#D
                 name = "Primalty_by_Wilson's_theorem";
                 break;
             case "Recamans_sequence":
@@ -209,9 +210,7 @@ public final class LocalUtil {
         if (StringUtils.containsAny(fullPathStr,
             ".gitignore", ".gitattributes", "LICENSE", "submit.template", "template.fthl", "_fix_")
         ) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Saw the path {} and ignored it", value("filePath", fullPathStr));
-            }
+            LOG.debug("Saw the path {} and ignored it", value("filePath", fullPathStr));
             return;
         }
 
@@ -292,9 +291,7 @@ public final class LocalUtil {
 
         // A new language has been added, or something is non-standard and needs to be corrected
         if (null == language) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error("Unknown language for {} (was null)", value("taskName", taskName));
-            }
+            LOG.error("Unknown language for {} (was null)", value("taskName", taskName));
             return null;
         }
 
@@ -327,10 +324,9 @@ public final class LocalUtil {
             uncommittedSet.removeAll(status.getMissing());
             uncommittedSet.removeAll(status.getRemoved());
             uncommittedSet.removeAll(status.getModified());
-            if (LOG.isDebugEnabled()) {
-                var setStr = StringUtils.join(uncommittedSet, ", ");
-                LOG.debug(Markers.append("finalSet", uncommittedSet), "The final set considered is: [{}]", setStr);
-            }
+
+            var setStr = StringUtils.join(uncommittedSet, ", ");
+            LOG.debug(Markers.append("finalSet", uncommittedSet), "The final set considered is: [{}]", setStr);
 
             for (var changePathStr : uncommittedSet) {
                 var changePath = Path.of(changePathStr);
@@ -346,7 +342,7 @@ public final class LocalUtil {
                         langSizeMap.merge(solution.getValue(), fileSize, Long::sum);
                         // taskName -> (language, modificationTime)
                         taskMap.put(solution.getKey(), Pair.of(solution.getValue(), lastModifiedTime));
-                    } else if (LOG.isInfoEnabled()) {
+                    } else {
                         LOG.info(
                             "There are multiple solutions for [{}], additionally, {} (Previously saw {})",
                             value("taskName", solution.getKey()),

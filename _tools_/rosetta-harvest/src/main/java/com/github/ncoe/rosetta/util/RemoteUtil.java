@@ -26,6 +26,9 @@ public final class RemoteUtil {
     private static final Pattern HEAD_PATTERN = Pattern.compile("<span class=\"mw-headline\" id=\"([^\"]+)\">[^<]+</span>");
     private static final Pattern TASK_PATTERN = Pattern.compile("<li><a href=\"/wiki/([^\"]+)\" title=\"[^\"]+\">[^<]+</a></li>");
 
+    private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(20);
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(30);
+
     private RemoteUtil() {
         throw new AssertionError("No instance for you!");
     }
@@ -38,7 +41,7 @@ public final class RemoteUtil {
         var client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .followRedirects(HttpClient.Redirect.NORMAL)
-            .connectTimeout(Duration.ofSeconds(5))
+            .connectTimeout(CONNECT_TIMEOUT)
             .build();
 
         var uri = buildUri("Reports:Tasks_not_implemented_in_" + language);
@@ -47,19 +50,17 @@ public final class RemoteUtil {
         // prepare the request to the server
         var request = HttpRequest.newBuilder(uri)
             .GET()
-            .timeout(Duration.ofSeconds(5))
+            .timeout(REQUEST_TIMEOUT)
             .build();
 
         // send the request and process the response
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofLines()).thenApply(response -> {
-            if (LOG.isInfoEnabled()) {
-                int statusCode = response.statusCode();
-                LOG.info(
-                    "Status code for {}: {}",
-                    value("language", language),
-                    value("statusCode", statusCode)
-                );
-            }
+            int statusCode = response.statusCode();
+            LOG.info(
+                "Status code for {}: {}",
+                value("language", language),
+                value("statusCode", statusCode)
+            );
 
             Set<String> taskSet = new HashSet<>();
             response.body().forEach(new Consumer<>() {
@@ -98,9 +99,7 @@ public final class RemoteUtil {
                     nextSection = SectionEnum.EndOfList;
                     break;
                 default:
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Unknown section: {}", value("headline", head));
-                    }
+                    LOG.debug("Unknown section: {}", value("headline", head));
                 case "Examples":
                 case "Other_pages":
                     nextSection = SectionEnum.None;
@@ -129,7 +128,7 @@ public final class RemoteUtil {
     static void validateTaskName(String taskName) {
         var client = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
-            .connectTimeout(Duration.ofSeconds(5))
+            .connectTimeout(CONNECT_TIMEOUT)
             .build();
 
         var uri = buildUri(taskName);
@@ -138,12 +137,12 @@ public final class RemoteUtil {
         var request = HttpRequest.newBuilder()
             .uri(uri)
             .method(HEAD, HttpRequest.BodyPublishers.noBody())
-            .timeout(Duration.ofSeconds(5))
+            .timeout(REQUEST_TIMEOUT)
             .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(response -> {
             var statusCode = response.statusCode();
-            if (LOG.isErrorEnabled() && statusCode != 200) {
+            if (statusCode != 200) {
                 LOG.error(
                     "Unknown status ({}) for task name: {}",
                     value("statusCode", statusCode),
