@@ -275,16 +275,16 @@ public final class Program {
 
         // C
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
-        solAddMap.put("Longest_common_suffix", "C");
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Pisano_period", "C");
         //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
-        solAddMap.put("Tau_number", "C");
+        solAddMap.put("Tau_function", "C");
+        solAddMap.put("Words_containing_\"the\"_substring", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Taxicab_numbers", "C++");
         solAddMap.put("Truth_table", "C++");
+        solAddMap.put("Untouchable_numbers", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Birthday_problem", "C#");
@@ -295,13 +295,13 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Successive_prime_differences", "Visual Basic .NET");
+        solAddMap.put("Super-d_numbers", "Visual Basic .NET");
         solAddMap.put("Text_between", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
+        solAddMap.put("Cistercian_numerals", "D");
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Find_if_a_point_is_within_a_triangle", "D");
         solAddMap.put("Finite_state_machine", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -311,8 +311,8 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
-        solAddMap.put("Cut_a_rectangle", "Lua");
-        solAddMap.put("Pancake_numbers", "Lua");
+        solAddMap.put("Extra_primes", "Lua");
+        solAddMap.put("Rare_numbers", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -322,24 +322,25 @@ public final class Program {
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
         solAddMap.put("De_Bruijn_sequences", "Ruby");
         solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
-        solAddMap.put("Numbers_with_prime_digits_whose_sum_is_13", "Ruby");
+        solAddMap.put("Peaceful_chess_queen_armies", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Faulhaber's_formula", "Groovy");
         solAddMap.put("Faulhaber's_triangle", "Groovy");
         solAddMap.put("Feigenbaum_constant_calculation", "Groovy");
+        solAddMap.put("Yellowstone_sequence", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
         solAddMap.put("Multiple_regression", "Java");
-        solAddMap.put("Pseudo-random_numbers/Xorshift_star", "Java");
         solAddMap.put("Self_numbers", "Java");
+        solAddMap.put("Strange_numbers", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
+//        solAddMap.put("Pseudo-random_numbers/Xorshift_star", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
+        solAddMap.put("Strange_plus_numbers", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
-        solAddMap.put("Two_bullet_roulette", "Kotlin");
         //solAddMap.put("", "Kotlin");
         // Scala
         //solAddMap.put("", "Scala");
@@ -358,15 +359,15 @@ public final class Program {
         };
 
         Map<String, Double> solCatMap = new HashMap<>();
+        solCatMap.put("Lua", incFunc.getAsDouble());                  //np
+        solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
+        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
+        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
         solCatMap.put("C", incFunc.getAsDouble());                    //vs (*)
         solCatMap.put("Kotlin", incFunc.getAsDouble());               //id
         solCatMap.put("D", incFunc.getAsDouble());                    //np
         solCatMap.put("C++", incFunc.getAsDouble());                  //vs
         solCatMap.put("Java", incFunc.getAsDouble());                 //id
-        solCatMap.put("Lua", incFunc.getAsDouble());                  //np
-        solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
-        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
-        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
 
         //solCatMap.put("Perl", incFunc.getAsDouble());                 //np
         //solCatMap.put("C#", incFunc.getAsDouble());                   //vs
