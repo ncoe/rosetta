@@ -277,14 +277,13 @@ public final class Program {
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Pisano_period", "C");
-        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "C");
-        //solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C"); // needs big int plus every optimization
+        solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C");
         solAddMap.put("Words_containing_\"the\"_substring", "C");
         //solAddMap.put("", "C");
         // C++
         solAddMap.put("Chat_server", "C++");
         solAddMap.put("Longest_common_suffix", "C++");
-        solAddMap.put("Visualize_a_tree", "C++");
+        solAddMap.put("Self_numbers", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Birthday_problem", "C#");
@@ -311,7 +310,7 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
-        solAddMap.put("Isqrt_(integer_square_root)_of_X", "Lua");
+        solAddMap.put("Möbius_function", "Lua");
         solAddMap.put("Rare_numbers", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
@@ -328,12 +327,12 @@ public final class Program {
         // Groovy
         solAddMap.put("Find_the_intersection_of_two_lines", "Groovy");
         solAddMap.put("Fivenum", "Groovy");
-        solAddMap.put("Yellowstone_sequence", "Groovy");
+        solAddMap.put("Fraction_reduction", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
         solAddMap.put("Multiple_regression", "Java");
         solAddMap.put("Strange_numbers", "Java");
-        solAddMap.put("Sum_of_divisors", "Java");
+        solAddMap.put("Two_bullet_roulette", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
         solAddMap.put("Pseudo-random_numbers/Xorshift_star", "Kotlin");
@@ -358,6 +357,8 @@ public final class Program {
         };
 
         Map<String, Double> solCatMap = new HashMap<>();
+        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
+        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
         solCatMap.put("C", incFunc.getAsDouble());                    //vs (*)
         solCatMap.put("Kotlin", incFunc.getAsDouble());               //id
         solCatMap.put("D", incFunc.getAsDouble());                    //np
@@ -365,8 +366,6 @@ public final class Program {
         solCatMap.put("Java", incFunc.getAsDouble());                 //id
         solCatMap.put("Lua", incFunc.getAsDouble());                  //np
         solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
-        solCatMap.put("Groovy", incFunc.getAsDouble());               //id
-        solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
 
         //solCatMap.put("Perl", incFunc.getAsDouble());                 //np
         //solCatMap.put("C#", incFunc.getAsDouble());                   //vs

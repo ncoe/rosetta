@@ -30,7 +30,7 @@
         <freemarker.version>2.3.31</freemarker.version>
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.6</logstash.version>
-        <org.eclipse.jgit.version>5.10.0.202012080955-r</org.eclipse.jgit.version>
+        <org.eclipse.jgit.version>5.11.0.202103091610-r</org.eclipse.jgit.version>
         <!-- todo cannot have the project use modules as using this version breaks the ability to run.
          Also breaks the ability to pre-populate sorting on the sheet. -->
         <poi-ooxml.version>5.0.0</poi-ooxml.version>
