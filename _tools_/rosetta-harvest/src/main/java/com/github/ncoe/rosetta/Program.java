@@ -70,7 +70,7 @@ public final class Program {
         if (Files.exists(outPath)) {
             var openPath = outPath.resolve("~$" + SpreadsheetWriter.FILENAME);
             if (Files.exists(openPath)) {
-                throw new IllegalStateException("First close " + openPath.toString());
+                throw new IllegalStateException("First close " + openPath);
             }
         } else {
             Failable.accept(Files::createDirectory, outPath);
@@ -276,14 +276,14 @@ public final class Program {
         // C
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
-        solAddMap.put("Product_of_divisors", "C");
+        solAddMap.put("Primes_which_sum_of_digits_is_25", "C");
+        solAddMap.put("Smallest_square_that_begins_with_n", "C");
         solAddMap.put("Strange_unique_prime_triplets", "C");
-        solAddMap.put("Sum_of_divisors", "C");
         //solAddMap.put("", "C");
         // C++
         //solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Longest_common_suffix", "C++");
-        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "C++");
+        solAddMap.put("Multiple_regression", "C++");
+        solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C++");
         solAddMap.put("Strange_plus_numbers", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -295,14 +295,14 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Modular_arithmetic", "Visual Basic .NET");
+        solAddMap.put("Multiplicative_order", "Visual Basic .NET");
         solAddMap.put("Text_between", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
         solAddMap.put("Extra_primes", "D");
-        solAddMap.put("Finite_state_machine", "D");
+        solAddMap.put("Nice_primes", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
         // LLVM
@@ -311,7 +311,7 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
-        solAddMap.put("Möbius_function", "Lua");
+        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Lua");
         solAddMap.put("Rare_numbers", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
@@ -320,9 +320,9 @@ public final class Program {
         //solAddMap.put("", "Perl");
         // Ruby
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
-        solAddMap.put("Latin_Squares_in_reduced_form", "Ruby");
         solAddMap.put("Peaceful_chess_queen_armies", "Ruby");
         solAddMap.put("Self_numbers", "Ruby");
+        solAddMap.put("Strange_numbers", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
@@ -331,13 +331,13 @@ public final class Program {
         solAddMap.put("Fraction_reduction", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Multiple_regression", "Java");
-        solAddMap.put("Tau_function", "Java");
+        solAddMap.put("Product_of_divisors", "Java");
+        solAddMap.put("Tau_number", "Java");
         solAddMap.put("Two_bullet_roulette", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
+        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
-        solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
@@ -380,7 +380,7 @@ public final class Program {
             .filter(entry -> {
                 var key = entry.getKey();
                 return StringUtils.startsWithAny(key,
-                    "Arithmetic_coding"
+                    "Arithmetic_coding", "Sorting_algorithms"
                 ) && !StringUtils.equalsAny(key,
                     "Arithmetic_coding/As_a_generalized_change_of_radix"
                 ) || solAddMap.containsKey(key);
