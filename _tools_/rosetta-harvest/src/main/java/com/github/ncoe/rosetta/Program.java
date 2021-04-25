@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.DoubleSupplier;
@@ -100,7 +101,7 @@ public final class Program {
         }
 
         // Aggregate local data into task information
-        Map<String, TaskInfo> taskInfoMap = new HashMap<>();
+        Map<String, TaskInfo> taskInfoMap = new TreeMap<>();
         for (var entry : localTaskMap.entrySet()) {
             var info = taskInfoMap.get(entry.getKey());
             if (null == info) {
@@ -267,7 +268,7 @@ public final class Program {
     }
 
     private static void adjustPriority(Map<String, TaskInfo> taskInfoMap, Map<String, Pair<String, FileTime>> pendingMap) {
-        Map<String, String> solAddMap = new HashMap<>();
+        Map<String, String> solAddMap = new TreeMap<>();
         //solAddMap.put("", "");
 
         //Arithmetic_coding/*
@@ -276,15 +277,15 @@ public final class Program {
         // C
         //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
         //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
-        solAddMap.put("Primes_which_sum_of_digits_is_25", "C");
         solAddMap.put("Smallest_square_that_begins_with_n", "C");
+        solAddMap.put("Special_factorials", "C");
         solAddMap.put("Strange_unique_prime_triplets", "C");
         //solAddMap.put("", "C");
         // C++
         //solAddMap.put("Chat_server", "C++");
         solAddMap.put("Multiple_regression", "C++");
         solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C++");
-        solAddMap.put("Strange_plus_numbers", "C++");
+        solAddMap.put("Superpermutation_minimisation", "C++");
         //solAddMap.put("", "C++");
         // C#
         //solAddMap.put("Birthday_problem", "C#");
@@ -295,14 +296,14 @@ public final class Program {
         // Visual Basic .NET
         //solAddMap.put("Birthday_problem", "Visual Basic .NET");
         solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Multiplicative_order", "Visual Basic .NET");
         solAddMap.put("Text_between", "Visual Basic .NET");
+        solAddMap.put("Visualize_a_tree", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Extra_primes", "D");
         solAddMap.put("Nice_primes", "D");
+        solAddMap.put("Sum_of_divisors", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
         // LLVM
@@ -311,8 +312,8 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         // Lua
         solAddMap.put("Brace_expansion", "Lua");
-        solAddMap.put("Minimum_positive_multiple_in_base_10_using_only_0_and_1", "Lua");
         solAddMap.put("Rare_numbers", "Lua");
+        solAddMap.put("Tau_function", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
         //solAddMap.put("", "Perl");
@@ -320,29 +321,33 @@ public final class Program {
         //solAddMap.put("", "Perl");
         // Ruby
         //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
+        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Ruby");
         solAddMap.put("Peaceful_chess_queen_armies", "Ruby");
         solAddMap.put("Self_numbers", "Ruby");
-        solAddMap.put("Strange_numbers", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
+        solAddMap.put("De_Bruijn_sequences", "Groovy");
         solAddMap.put("Floyd-Warshall_algorithm", "Groovy");
-        solAddMap.put("Floyd's_triangle", "Groovy");
         solAddMap.put("Fraction_reduction", "Groovy");
+        solAddMap.put("Sorting_algorithms/Cycle_sort", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Product_of_divisors", "Java");
+        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "Java");
         solAddMap.put("Tau_number", "Java");
         solAddMap.put("Two_bullet_roulette", "Java");
+        solAddMap.put("Two_identical_strings", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "Kotlin");
         solAddMap.put("Rosetta_Code/Find_bare_lang_tags", "Kotlin");
+        solAddMap.put("Sum_of_the_digits_of_n_is_substring_of_n", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
         // Scala
         //solAddMap.put("", "Scala");
+
+        //Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a
 
         var incFunc = new DoubleSupplier() {
             private final AtomicInteger nextCat = new AtomicInteger(170);
@@ -380,7 +385,7 @@ public final class Program {
             .filter(entry -> {
                 var key = entry.getKey();
                 return StringUtils.startsWithAny(key,
-                    "Arithmetic_coding", "Sorting_algorithms"
+                    "Arithmetic_coding"
                 ) && !StringUtils.equalsAny(key,
                     "Arithmetic_coding/As_a_generalized_change_of_radix"
                 ) || solAddMap.containsKey(key);

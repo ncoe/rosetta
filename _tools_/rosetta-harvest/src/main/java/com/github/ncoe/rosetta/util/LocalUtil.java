@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -307,8 +308,8 @@ public final class LocalUtil {
     public Pair<Map<String, Pair<String, FileTime>>, Map<String, Long>> pendingSolutions(Repository repository) {
         var baseDirStr = repository.getWorkTree().toString();
         var basePath = Path.of(baseDirStr);
-        Map<String, Pair<String, FileTime>> taskMap = new HashMap<>();
-        Map<String, Long> langSizeMap = new HashMap<>();
+        Map<String, Pair<String, FileTime>> taskMap = new TreeMap<>();
+        Map<String, Long> langSizeMap = new TreeMap<>();
 
         try (Git git = new Git(repository)) {
             var status = git.status().call();
