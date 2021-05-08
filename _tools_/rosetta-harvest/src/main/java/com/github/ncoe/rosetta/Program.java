@@ -275,16 +275,14 @@ public final class Program {
         //Powerful_numbers (there seems to be something missing from the description to properly show the set)
 
         // C
-        //solAddMap.put("Cyclotomic_Polynomial", "C");       todo maybe later
-        //solAddMap.put("Particle_Swarm_Optimization", "C"); maybe later
         solAddMap.put("Smallest_square_that_begins_with_n", "C");
-        solAddMap.put("Special_factorials", "C");
+        solAddMap.put("Strange_numbers", "C");
         solAddMap.put("Strange_unique_prime_triplets", "C");
         //solAddMap.put("", "C");
         // C++
         //solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Multiple_regression", "C++");
         solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C++");
+        solAddMap.put("Summarize_primes", "C++");
         solAddMap.put("Superpermutation_minimisation", "C++");
         //solAddMap.put("", "C++");
         // C#
@@ -294,15 +292,14 @@ public final class Program {
         //solAddMap.put("Super-d_numbers", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
-        //solAddMap.put("Birthday_problem", "Visual Basic .NET");
-        solAddMap.put("Circular_primes", "Visual Basic .NET");
-        solAddMap.put("Text_between", "Visual Basic .NET");
+        solAddMap.put("Latin_Squares_in_reduced_form", "Visual Basic .NET");
+        solAddMap.put("Morse_code", "Visual Basic .NET");
         solAddMap.put("Visualize_a_tree", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Nice_primes", "D");
+        solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "D");
         solAddMap.put("Sum_of_divisors", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
@@ -320,8 +317,7 @@ public final class Program {
         //solAddMap.put("", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
-        //solAddMap.put("Cyclotomic_Polynomial", "Ruby");
-        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Ruby");
+        solAddMap.put("Mersenne_primes", "Ruby");
         solAddMap.put("Peaceful_chess_queen_armies", "Ruby");
         solAddMap.put("Self_numbers", "Ruby");
         //solAddMap.put("", "Ruby");
@@ -330,10 +326,8 @@ public final class Program {
         solAddMap.put("De_Bruijn_sequences", "Groovy");
         solAddMap.put("Floyd-Warshall_algorithm", "Groovy");
         solAddMap.put("Fraction_reduction", "Groovy");
-        solAddMap.put("Sorting_algorithms/Cycle_sort", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "Java");
         solAddMap.put("Tau_number", "Java");
         solAddMap.put("Two_bullet_roulette", "Java");
         solAddMap.put("Two_identical_strings", "Java");
