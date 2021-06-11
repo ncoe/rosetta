@@ -25,12 +25,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <commons-io.version>2.8.0</commons-io.version>
+        <commons-io.version>2.9.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <freemarker.version>2.3.31</freemarker.version>
         <logback.version>1.2.3</logback.version>
         <logstash.version>6.6</logstash.version>
-        <org.eclipse.jgit.version>5.11.1.202105131744-r</org.eclipse.jgit.version>
+        <org.eclipse.jgit.version>5.12.0.202106070339-r</org.eclipse.jgit.version>
         <!-- todo cannot have the project use modules as using this version breaks the ability to run.
          Also breaks the ability to pre-populate sorting on the sheet. -->
         <poi-ooxml.version>5.0.0</poi-ooxml.version>

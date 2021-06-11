@@ -275,72 +275,66 @@ public final class Program {
         //Powerful_numbers (there seems to be something missing from the description to properly show the set)
 
         // C
-        solAddMap.put("Smallest_square_that_begins_with_n", "C");
-        solAddMap.put("Strange_unique_prime_triplets", "C");
+        solAddMap.put("Latin_Squares_in_reduced_form", "C");
+        solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C");
         solAddMap.put("Unique_characters_in_each_string", "C");
         //solAddMap.put("", "C");
         // C++
         //solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Special_factorials", "C++");
-        solAddMap.put("Summarize_primes", "C++");
+        solAddMap.put("Smallest_square_that_begins_with_n", "C++");
         solAddMap.put("Superpermutation_minimisation", "C++");
+        solAddMap.put("Triplet_of_three_numbers", "C++");
         //solAddMap.put("", "C++");
         // C#
-        //solAddMap.put("Birthday_problem", "C#");
-        //solAddMap.put("Casting_out_nines", "C#");
-        //solAddMap.put("Square-free_integers", "C#");
+        solAddMap.put("Casting_out_nines", "C#");
+        solAddMap.put("Circular_primes", "C#");
+        solAddMap.put("Cistercian_numerals", "C#");
         //solAddMap.put("", "C#");
-        // Visual Basic .NET (exhaust)
-        solAddMap.put("Multiple_regression", "Visual Basic .NET");
-        solAddMap.put("Visualize_a_tree", "Visual Basic .NET");
+        // Visual Basic .NET
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
+        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "D");
         solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "D");
-        solAddMap.put("Sum_of_divisors", "D");
         solAddMap.put("XXXX_redacted", "D");
         //solAddMap.put("", "D");
         // LLVM
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
-        // Lua (exhaust)
-        solAddMap.put("Brace_expansion", "Lua");
-        solAddMap.put("Nice_primes", "Lua");
-        solAddMap.put("Rare_numbers", "Lua");
+        // Lua
         //solAddMap.put("", "Lua");
         // Perl
-        //solAddMap.put("Cistercian_numerals", "Perl");
-        //solAddMap.put("Sleeping_Beauty_problem", "Perl");
-        //solAddMap.put("Vogel's_approximation_method", "Perl");
+        solAddMap.put("Transportation_problem", "Perl");
+        solAddMap.put("Non-transitive_dice", "Perl");
+        solAddMap.put("Vogel's_approximation_method", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
-        solAddMap.put("Mersenne_primes", "Ruby");
         solAddMap.put("Peaceful_chess_queen_armies", "Ruby");
+        solAddMap.put("Primes_which_sum_of_digits_is_25", "Ruby");
         solAddMap.put("Self_numbers", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Fraction_reduction", "Groovy");
         solAddMap.put("Fusc_sequence", "Groovy");
         solAddMap.put("Gapful_numbers", "Groovy");
+        solAddMap.put("Hilbert_curve", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Primes_which_sum_of_digits_is_25", "Java");
+        solAddMap.put("Nice_primes", "Java");
         solAddMap.put("Two_bullet_roulette", "Java");
         solAddMap.put("Two_identical_strings", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
-        solAddMap.put("Product_of_divisors", "Kotlin");
+        //solAddMap.put("Smallest_square_that_begins_with_n", "Kotlin");
+        solAddMap.put("Strange_numbers", "Kotlin");
         solAddMap.put("Sum_of_the_digits_of_n_is_substring_of_n", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
         // Scala
         //solAddMap.put("", "Scala");
-
-        //Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a
 
         var incFunc = new DoubleSupplier() {
             private final AtomicInteger nextCat = new AtomicInteger(170);
@@ -361,13 +355,13 @@ public final class Program {
         solCatMap.put("D", incFunc.getAsDouble());                    //np
         solCatMap.put("C++", incFunc.getAsDouble());                  //vs
         solCatMap.put("Java", incFunc.getAsDouble());                 //id
-        solCatMap.put("Lua", incFunc.getAsDouble());                  //np todo replace with perl
-        solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs todo replace with c#
+        solCatMap.put("Perl", incFunc.getAsDouble());                 //np
+        solCatMap.put("C#", incFunc.getAsDouble());                   //vs
         solCatMap.put("Groovy", incFunc.getAsDouble());               //id
         solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
 
-        //solCatMap.put("Perl", incFunc.getAsDouble());                 //np todo swap out lua
-        //solCatMap.put("C#", incFunc.getAsDouble());                   //vs todo swap out vbnet
+        //solCatMap.put("Lua", incFunc.getAsDouble());                  //np
+        //solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
         //solCatMap.put("Scala", incFunc.getAsDouble());                //id
 
         //solCatMap.put("LLVM", incFunc.getAsDouble());                 //np
