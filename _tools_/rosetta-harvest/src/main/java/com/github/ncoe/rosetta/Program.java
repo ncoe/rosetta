@@ -276,19 +276,19 @@ public final class Program {
 
         // C
         solAddMap.put("Latin_Squares_in_reduced_form", "C");
-        solAddMap.put("Sequence:_nth_number_with_exactly_n_divisors", "C");
-        solAddMap.put("Unique_characters_in_each_string", "C");
+        solAddMap.put("Summarize_primes", "C");
+        solAddMap.put("Wieferich_primes", "C");
         //solAddMap.put("", "C");
         // C++
         //solAddMap.put("Chat_server", "C++");
         solAddMap.put("Smallest_square_that_begins_with_n", "C++");
-        solAddMap.put("Superpermutation_minimisation", "C++");
         solAddMap.put("Triplet_of_three_numbers", "C++");
+        solAddMap.put("Unique_characters_in_each_string", "C++");
         //solAddMap.put("", "C++");
         // C#
-        solAddMap.put("Casting_out_nines", "C#");
         solAddMap.put("Circular_primes", "C#");
         solAddMap.put("Cistercian_numerals", "C#");
+        solAddMap.put("Cut_a_rectangle", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
         //solAddMap.put("", "Visual Basic .NET");
@@ -297,7 +297,7 @@ public final class Program {
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
         solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "D");
         solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "D");
-        solAddMap.put("XXXX_redacted", "D");
+        solAddMap.put("Special_factorials", "D");
         //solAddMap.put("", "D");
         // LLVM
         //solAddMap.put("", "LLVM");
@@ -306,30 +306,30 @@ public final class Program {
         // Lua
         //solAddMap.put("", "Lua");
         // Perl
+        solAddMap.put("Rare_numbers", "Perl");
         solAddMap.put("Transportation_problem", "Perl");
-        solAddMap.put("Non-transitive_dice", "Perl");
         solAddMap.put("Vogel's_approximation_method", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
-        solAddMap.put("Peaceful_chess_queen_armies", "Ruby");
+        solAddMap.put("Kosaraju", "Ruby");
         solAddMap.put("Primes_which_sum_of_digits_is_25", "Ruby");
         solAddMap.put("Self_numbers", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Fusc_sequence", "Groovy");
         solAddMap.put("Gapful_numbers", "Groovy");
         solAddMap.put("Hilbert_curve", "Groovy");
+        solAddMap.put("Humble_numbers", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
         solAddMap.put("Nice_primes", "Java");
+        solAddMap.put("Non-transitive_dice", "Java");
         solAddMap.put("Two_bullet_roulette", "Java");
-        solAddMap.put("Two_identical_strings", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
         //solAddMap.put("Smallest_square_that_begins_with_n", "Kotlin");
         solAddMap.put("Strange_numbers", "Kotlin");
-        solAddMap.put("Sum_of_the_digits_of_n_is_substring_of_n", "Kotlin");
+        solAddMap.put("Strange_unique_prime_triplets", "Kotlin");
         solAddMap.put("Three_word_location", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
