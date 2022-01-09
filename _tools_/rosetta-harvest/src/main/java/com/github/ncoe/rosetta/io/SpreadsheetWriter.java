@@ -292,22 +292,18 @@ public final class SpreadsheetWriter {
             // directionality
             var dirCell = row.createCell(4);
             var langOpt = LanguageUtil.find(entry.getKey());
-            int direction = langOpt.map(LanguageInfo::getHarvest).orElse(0);
+            int direction = langOpt.map(LanguageInfo::harvest).orElse(0);
             switch (direction) {
-                case -1:
+                case -1 -> {
                     dirCell.setCellValue("V");
                     dirCell.setCellStyle(decStyle);
-                    break;
-                case 0:
-                    dirCell.setCellValue("-");
-                    break;
-                case 1:
+                }
+                case 0 -> dirCell.setCellValue("-");
+                case 1 -> {
                     dirCell.setCellValue("^");
                     dirCell.setCellStyle(incStyle);
-                    break;
-                default:
-                    dirCell.setCellValue("error");
-                    break;
+                }
+                default -> dirCell.setCellValue("error");
             }
 
             cumulative += entry.getValue();

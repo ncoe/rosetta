@@ -70,63 +70,27 @@ public final class LocalUtil {
      */
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
     private String directoryToTask(String directory) {
-        String name;
-        switch (directory) {
-            case "Abbreviations_automatic":
-                name = "Abbreviations,_automatic";
-                break;
-            case "Abundant_deficient_and_perfect_number_classifications":
-                name = "Abundant,_deficient_and_perfect_number_classifications";
-                break;
-            case "Cheryls_Birthday":
-                name = "Cheryl's_Birthday";
-                break;
-            case "Cipollas_algorithm":
-                name = "Cipolla's_algorithm";
-                break;
-            case "Cramers_rule":
-                name = "Cramer's_rule";
-                break;
-            case "Eulers_sum_of_powers_conjecture":
-                name = "Euler's_sum_of_powers_conjecture";
-                break;
-            case "Faulhabers_formula":
-                name = "Faulhaber's_formula";
-                break;
-            case "Faulhabers_triangle":
-                name = "Faulhaber's_triangle";
-                break;
-            case "Floyds_triangle":
-                name = "Floyd's_triangle";
-                break;
-            case "Horners_rule_for_polynomial_evaluation":
-                name = "Horner's_rule_for_polynomial_evaluation";
-                break;
-            case "Knuths_power_tree":
-                name = "Knuth's_power_tree";
-                break;
-            case "Pascals_triangle":
-                name = "Pascal's_triangle";
-                break;
-            case "Pells_equation":
-                name = "Pell's_equation";
-                break;
-            case "Primalty_by_Wilsons_theorem":
-                //http://rosettacode.org/wiki/Primality_by_Wilson%27s_theorem#D
-                name = "Primalty_by_Wilson's_theorem";
-                break;
-            case "Recamans_sequence":
-                name = "Recaman's_sequence";
-                break;
-            case "Sailors_coconuts_and_a_monkey_problem":
-                name = "Sailors,_coconuts_and_a_monkey_problem";
-                break;
-            case "Sequence_nth_number_with_exactly_n_divisors":
-                name = "Sequence:_nth_number_with_exactly_n_divisors";
-                break;
-            default:
-                name = directory;
-        }
+        String name = switch (directory) {
+            case "Abbreviations_automatic" -> "Abbreviations,_automatic";
+            case "Abundant_deficient_and_perfect_number_classifications" -> "Abundant,_deficient_and_perfect_number_classifications";
+            case "Cheryls_Birthday" -> "Cheryl's_Birthday";
+            case "Cipollas_algorithm" -> "Cipolla's_algorithm";
+            case "Cramers_rule" -> "Cramer's_rule";
+            case "Eulers_sum_of_powers_conjecture" -> "Euler's_sum_of_powers_conjecture";
+            case "Faulhabers_formula" -> "Faulhaber's_formula";
+            case "Faulhabers_triangle" -> "Faulhaber's_triangle";
+            case "Floyds_triangle" -> "Floyd's_triangle";
+            case "Horners_rule_for_polynomial_evaluation" -> "Horner's_rule_for_polynomial_evaluation";
+            case "Knuths_power_tree" -> "Knuth's_power_tree";
+            case "Pascals_triangle" -> "Pascal's_triangle";
+            case "Pells_equation" -> "Pell's_equation";
+            //http://rosettacode.org/wiki/Primality_by_Wilson%27s_theorem#D
+            case "Primalty_by_Wilsons_theorem" -> "Primalty_by_Wilson's_theorem";
+            case "Recamans_sequence" -> "Recaman's_sequence";
+            case "Sailors_coconuts_and_a_monkey_problem" -> "Sailors,_coconuts_and_a_monkey_problem";
+            case "Sequence_nth_number_with_exactly_n_divisors" -> "Sequence:_nth_number_with_exactly_n_divisors";
+            default -> directory;
+        };
 
         // Optional extra check that the task name is now valid (good for verifying solutions for new tasks)
         if (this.checkTaskName) {

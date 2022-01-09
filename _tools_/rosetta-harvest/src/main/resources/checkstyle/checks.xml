@@ -98,7 +98,7 @@
 
         <!-- Checks for Javadoc comments in public methods/variables only -->
         <module name="JavadocMethod">
-            <property name="scope" value="public"/>
+            <property name="accessModifiers" value="public"/>
         </module>
         <module name="JavadocType">
             <property name="scope" value="public"/>

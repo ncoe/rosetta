@@ -70,7 +70,7 @@ public final class LanguageUtil {
      */
     public static Optional<LanguageInfo> find(String lang) {
         return LANG_INFO.stream()
-            .filter(info -> StringUtils.equals(info.getLanguage(), lang))
+            .filter(info -> StringUtils.equals(info.language(), lang))
             .findFirst();
     }
 
@@ -79,8 +79,8 @@ public final class LanguageUtil {
      */
     public static Set<String> rosettaSet() {
         return LANG_INFO.stream()
-            .filter(d -> d.getHarvest() > 0)
-            .map(LanguageInfo::getRosetta)
+            .filter(d -> d.harvest() > 0)
+            .map(LanguageInfo::rosetta)
             .collect(Collectors.toSet());
     }
 
@@ -90,7 +90,7 @@ public final class LanguageUtil {
      */
     public static boolean isLanguageDirectory(String name) {
         return LANG_INFO.stream()
-            .anyMatch(li -> StringUtils.equals(li.getDirectoryName(), name));
+            .anyMatch(li -> StringUtils.equals(li.directoryName(), name));
     }
 
     /**
@@ -99,8 +99,8 @@ public final class LanguageUtil {
      */
     public static String directoryToLanguage(String name) {
         var langOpt = LANG_INFO.stream()
-            .filter(li -> StringUtils.equals(li.getDirectoryName(), name))
-            .map(LanguageInfo::getLanguage)
+            .filter(li -> StringUtils.equals(li.directoryName(), name))
+            .map(LanguageInfo::language)
             .findAny();
 
         if (langOpt.isPresent()) {
@@ -123,8 +123,8 @@ public final class LanguageUtil {
         }
 
         var langOpt = LANG_INFO.stream()
-            .filter(li -> StringUtils.equalsIgnoreCase(li.getFileExtension(), ext))
-            .map(LanguageInfo::getLanguage)
+            .filter(li -> StringUtils.equalsIgnoreCase(li.fileExtension(), ext))
+            .map(LanguageInfo::language)
             .findAny();
 
         if (langOpt.isPresent()) {
@@ -141,8 +141,8 @@ public final class LanguageUtil {
      */
     public static String rosettaToLanguage(String language) {
         return LANG_INFO.stream()
-            .filter(li -> StringUtils.equals(li.getRosetta(), language))
-            .map(LanguageInfo::getLanguage)
+            .filter(li -> StringUtils.equals(li.rosetta(), language))
+            .map(LanguageInfo::language)
             .findFirst()
             .orElse(language);
     }
@@ -153,10 +153,10 @@ public final class LanguageUtil {
     public static Map<String, String> mapLanguageToClass() {
         return LanguageUtil.LANG_INFO
             .stream()
-            .filter(lang -> lang.getHarvest() > 0)
+            .filter(lang -> lang.harvest() > 0)
             .collect(Collectors.toMap(
-                LanguageInfo::getLanguage,
-                LanguageInfo::getClassName,
+                LanguageInfo::language,
+                LanguageInfo::className,
                 (e1, e2) -> e2,
                 LinkedHashMap::new
             ));

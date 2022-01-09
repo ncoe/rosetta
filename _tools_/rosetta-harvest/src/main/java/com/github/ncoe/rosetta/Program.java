@@ -276,26 +276,20 @@ public final class Program {
 
         // C
         solAddMap.put("Latin_Squares_in_reduced_form", "C");
-        solAddMap.put("Summarize_primes", "C");
-        solAddMap.put("Wieferich_primes", "C");
         //solAddMap.put("", "C");
         // C++
-        //solAddMap.put("Chat_server", "C++");
-        solAddMap.put("Smallest_square_that_begins_with_n", "C++");
-        solAddMap.put("Triplet_of_three_numbers", "C++");
-        solAddMap.put("Unique_characters_in_each_string", "C++");
+        solAddMap.put("Chat_server", "C++");
         //solAddMap.put("", "C++");
         // C#
-        solAddMap.put("Circular_primes", "C#");
         solAddMap.put("Cistercian_numerals", "C#");
         solAddMap.put("Cut_a_rectangle", "C#");
         //solAddMap.put("", "C#");
         // Visual Basic .NET
+        solAddMap.put("Triplet_of_three_numbers", "Visual Basic .NET");
         //solAddMap.put("", "Visual Basic .NET");
 
         // D
         //solAddMap.put("Fermat_numbers", "D"); todo need to figure out what is going wrong
-        solAddMap.put("Pseudo-random_numbers/Combined_recursive_generator_MRG32k3a", "D");
         solAddMap.put("Sorting_algorithms/Cocktail_sort_with_shifting_bounds", "D");
         solAddMap.put("Special_factorials", "D");
         //solAddMap.put("", "D");
@@ -304,33 +298,29 @@ public final class Program {
         //solAddMap.put("", "LLVM");
         //solAddMap.put("", "LLVM");
         // Lua
+        solAddMap.put("First_power_of_2_that_has_leading_decimal_digits_of_12", "Lua");
+        solAddMap.put("Lucky_and_even_lucky_numbers", "Lua");
+        solAddMap.put("Multiple_regression", "Lua");
         //solAddMap.put("", "Lua");
         // Perl
-        solAddMap.put("Rare_numbers", "Perl");
         solAddMap.put("Transportation_problem", "Perl");
-        solAddMap.put("Vogel's_approximation_method", "Perl");
         //solAddMap.put("", "Perl");
         // Ruby
         solAddMap.put("Kosaraju", "Ruby");
-        solAddMap.put("Primes_which_sum_of_digits_is_25", "Ruby");
-        solAddMap.put("Self_numbers", "Ruby");
+        solAddMap.put("Mersenne_primes", "Ruby");
+        solAddMap.put("Nice_primes", "Ruby");
         //solAddMap.put("", "Ruby");
 
         // Groovy
-        solAddMap.put("Gapful_numbers", "Groovy");
-        solAddMap.put("Hilbert_curve", "Groovy");
-        solAddMap.put("Humble_numbers", "Groovy");
         //solAddMap.put("", "Groovy");
         // Java
-        solAddMap.put("Nice_primes", "Java");
-        solAddMap.put("Non-transitive_dice", "Java");
         solAddMap.put("Two_bullet_roulette", "Java");
+        solAddMap.put("Smallest_square_that_begins_with_n", "Java");
         //solAddMap.put("", "Java");
         // Kotlin
         //solAddMap.put("Smallest_square_that_begins_with_n", "Kotlin");
-        solAddMap.put("Strange_numbers", "Kotlin");
         solAddMap.put("Strange_unique_prime_triplets", "Kotlin");
-        solAddMap.put("Three_word_location", "Kotlin");
+        solAddMap.put("Tau_function", "Kotlin");
         //solAddMap.put("Weather_Routing", "Kotlin"); //todo not quite working...
         //solAddMap.put("", "Kotlin");
         // Scala
@@ -355,12 +345,12 @@ public final class Program {
         solCatMap.put("D", incFunc.getAsDouble());                    //np
         solCatMap.put("C++", incFunc.getAsDouble());                  //vs
         solCatMap.put("Java", incFunc.getAsDouble());                 //id
-        solCatMap.put("Perl", incFunc.getAsDouble());                 //np
+        solCatMap.put("Lua", incFunc.getAsDouble());                  //np
         solCatMap.put("C#", incFunc.getAsDouble());                   //vs
         solCatMap.put("Groovy", incFunc.getAsDouble());               //id
         solCatMap.put("Ruby", incFunc.getAsDouble());                 //np
 
-        //solCatMap.put("Lua", incFunc.getAsDouble());                  //np
+        //solCatMap.put("Perl", incFunc.getAsDouble());                 //np
         //solCatMap.put("Visual Basic .NET", incFunc.getAsDouble());    //vs
         //solCatMap.put("Scala", incFunc.getAsDouble());                //id
 

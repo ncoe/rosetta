@@ -1,20 +1,18 @@
 module rosetta {
     requires java.net.http;
 
-    requires com.fasterxml.jackson.databind;
+    requires freemarker;
     requires logstash.logback.encoder;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
     requires org.apache.poi.ooxml;
+    requires org.apache.poi.poi;
     requires org.eclipse.jgit;
+    requires org.slf4j;
 
     //todo these dependencies need to declare a module name, or add a module info file
-    //batik-all             -> depended on by org.apache.poi:poi-ooxml
     //commons-math3         -> depended on by org.apache.poi:poi
-    requires freemarker;
-    requires slf4j.api;
     //SparseBitSet          -> depended on by org.apache.poi:poi
-    //xmlgraphics-commons   -> depended on by org.apache.xmlgraphics:batik-all
 
     exports com.github.ncoe.rosetta.dto to freemarker;
 }
