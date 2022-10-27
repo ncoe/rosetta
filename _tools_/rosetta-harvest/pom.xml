@@ -28,13 +28,12 @@
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <freemarker.version>2.3.31</freemarker.version>
-        <log4j-to-slf4j.version>2.17.1</log4j-to-slf4j.version>
-        <logback.version>1.2.10</logback.version>
-        <logstash.version>7.0.1</logstash.version>
-        <org.eclipse.jgit.version>6.0.0.202111291000-r</org.eclipse.jgit.version>
-        <!-- todo cannot have the project use modules as using this version breaks the ability to run.
-         Also breaks the ability to pre-populate sorting on the sheet. -->
-        <poi-ooxml.version>5.1.0</poi-ooxml.version>
+        <log4j-to-slf4j.version>2.19.0</log4j-to-slf4j.version>
+        <logback.version>1.4.4</logback.version>
+        <logstash.version>7.2</logstash.version>
+        <org.eclipse.jgit.version>6.3.0.202209071007-r</org.eclipse.jgit.version>
+        <!-- Breaks the ability to pre-populate sorting on the sheet. -->
+        <poi-ooxml.version>5.2.3</poi-ooxml.version>
     </properties>
 
     <build>
@@ -58,7 +57,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>9.2.1</version>
+                            <version>10.3.4</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -137,9 +136,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!-- todo checks currently run on module-info are not configured because 'module' and 'record' are not recognized as a keywords -->
-                    <excludes>**/module-info.java</excludes>
-
                     <failsOnError>true</failsOnError>
                     <consoleOutput>true</consoleOutput>
                     <configLocation>src/main/resources/checkstyle/checks.xml</configLocation>
