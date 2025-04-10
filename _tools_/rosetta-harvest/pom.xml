@@ -33,7 +33,7 @@
         <logstash.version>7.2</logstash.version>
         <org.eclipse.jgit.version>6.6.1.202309021850-r</org.eclipse.jgit.version>
         <!-- Breaks the ability to pre-populate sorting on the sheet. -->
-        <poi-ooxml.version>5.2.3</poi-ooxml.version>
+        <poi-ooxml.version>5.4.0</poi-ooxml.version>
     </properties>
 
     <build>
