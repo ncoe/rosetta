@@ -31,7 +31,7 @@
         <log4j-to-slf4j.version>2.19.0</log4j-to-slf4j.version>
         <logback.version>1.4.12</logback.version>
         <logstash.version>7.2</logstash.version>
-        <org.eclipse.jgit.version>6.6.1.202309021850-r</org.eclipse.jgit.version>
+        <org.eclipse.jgit.version>7.2.1.202505142326-r</org.eclipse.jgit.version>
         <!-- Breaks the ability to pre-populate sorting on the sheet. -->
         <poi-ooxml.version>5.4.0</poi-ooxml.version>
     </properties>
